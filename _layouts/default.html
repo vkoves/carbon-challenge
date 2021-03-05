@@ -11,7 +11,7 @@
 
     <!-- Pull in main CSS & JS -->
     <link href="./css/main.css" rel="stylesheet">
-    <script src="./{% ministamp _assets/main.js _assets/main.js %}" defer></script>
+    <script src="./js/main.js" defer></script>
 
     <!-- List stylesheets specified for each page -->
     {% for stylesheet in page.stylesheets %}
@@ -20,13 +20,7 @@
 
     <!-- Mark all page specific JS deferred since they shouldn't block render -->
     {% for script in page.scripts %}
-    {% if stylesheet contains "http" %}
-      <!-- If a full URL, just use it as is -->
       <script src="{{ script }}" defer></script>
-    {% else %}
-      <!-- If a local CSS file, run through ministamp for asset fingerprinting -->
-       <script src="./{% ministamp { source_path: '_assets/{{ script }}', destination_path: '_assets/{{ script }}' } %}" defer></script>
-    {% endif %}
     {% endfor %}
   </head>
   <body>
