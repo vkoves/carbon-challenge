@@ -1,0 +1,19 @@
+---
+---
+
+@import 'colors';
+@import 'spacing';
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $large;
+  min-height: 40vh;
+
+  &:first-of-type {
+    background: linear-gradient($dark-blue, $blue);
+    color: $white;
+    text-align: center;
+  }
+}
