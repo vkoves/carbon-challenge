@@ -1,37 +1,30 @@
 # The Carbon Challenge
 
-The Carbon Challenge interactive simulator. This site is powered by
-[Jekyll](https://jekyllrb.com/).
+The Carbon challenge interactive simulator/game. Powered by [Vue.js 3][vue].
 
-## Installation
-
-You'll need to have Ruby on Rails installed, but then just go into the directory
-and run:
-
+## Project setup
 ```
-gem install bundler jekyll  # Globally install Jekyll
-bundle install              # Install plugins
+yarn install
 ```
 
-## Runing Locally
-
-In this directory, simply run:
-
+### Compiles and hot-reloads for development
 ```
-jeykll serve                # Serve the site at localhost:4000
+yarn serve
 ```
 
-## Deploying
-
-In this directory, run:
-
+### Compiles and minifies for production
 ```
-jekyll build
+yarn build
 ```
 
-Then copy the contents of the `/_site` directory - this is the actual built
-site!
+### Lints and fixes files
+```
+yarn lint
+```
 
-**Note:** Anything in the `/assets` directory uses fingerprinting and has a hash
-attached to the end of it based on the file contents. This means that users will
-always see the latest version via cache busting.
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+<!-- Link declarations-->
+[vue]: https://v3.vuejs.org/
