@@ -38,7 +38,7 @@ import { AppViews } from '../constants';
 @Options({
   name: 'Intro',
   emits: {
-    changeView(newView: string): void { return newView; },
+    changeView(newView: AppViews): AppViews { return newView; },
   },
   methods: {
     goToGame(): void {
