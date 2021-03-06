@@ -11,7 +11,7 @@
           So we have to go even bigger.
         </p>
 
-        <button @click="$emit('changeView', 'game')">
+        <button @click="goToGame()">
           Play
         </button>
       </div>
@@ -31,12 +31,25 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import { AppViews } from '../constants';
+
+@Options({
   name: 'Intro',
-  emits: [ 'changeView' ]
-}
+  emits: {
+    changeView(newView: string): void { return newView; },
+  },
+  methods: {
+    goToGame(): void {
+      this.$emit('changeView', AppViews.Game);
+    }
+  }
+})
+
+export default class Intro extends Vue { }
 </script>
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">

@@ -2,17 +2,29 @@
   <div>
     <h1>Game</h1>
 
-    <button @click="$emit('changeView', 'intro')">
+    <button @click="goToIntro()">
       Back to Intro
     </button>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component';
+import { AppViews } from '../constants';
+
+@Options({
   name: 'Game',
-  emits: [ 'changeView' ]
-}
+  emits: {
+    changeView(newView: string): void { return newView; },
+  },
+  methods: {
+    goToIntro(): void {
+      this.$emit('changeView', AppViews.Intro);
+    }
+  }
+})
+
+export default class Game extends Vue { }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

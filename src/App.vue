@@ -1,26 +1,32 @@
 <template>
   <transition name="fade" mode="out-in">
-    <Intro v-if="currView === 'intro'"
+    <Intro v-if="currView === AppViews.Intro"
       @change-view="currView = $event"/>
-    <Game v-else-if="currView === 'game'"
+    <Game v-else-if="currView === AppViews.Game"
       @change-view="currView = $event"/>
   </transition>
 </template>
 
-<script>
+<script lang="ts">
 import Intro from './components/Intro.vue'
 import Game from './components/Game.vue'
 
-export default {
+import { AppViews } from './constants';
+import { Options, Vue } from 'vue-class-component';
+
+@Options({
   name: 'App',
   components: {
     Game,
     Intro,
   },
   data: () => ({
-    currView: 'intro',
+    AppViews: AppViews,
+    currView: AppViews.Intro,
   })
-}
+})
+
+export default class App extends Vue { }
 </script>
 
 <style lang="scss">
