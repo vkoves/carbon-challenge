@@ -1,0 +1,48 @@
+/**
+ * A main SCSS file for any global styles. This should not declare any variables
+ */
+
+// Imported CSS files we want to globally share
+@import 'reset';
+@import 'animations';
+
+// Variables
+@import 'variables/colors';
+@import 'variables/spacing';
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.25;
+  color: $text-grey;
+}
+
+// Headings
+h1, h2, h3 { font-weight: bold; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.1rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.8rem; }
+
+p {
+  margin-top: $standard;
+  max-width: 37.5rem; // about 600px
+}
+
+// Font size helper classes
+.huge-text { font-size: 4rem; }
+.larger-text { font-size: 2rem; }
+.big-text { font-size: 1.5rem; }
+
+button {
+  cursor: pointer;
+  background: $dark-blue;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  margin-top: 1rem;
+  color: white;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+}

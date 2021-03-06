@@ -1,0 +1,19 @@
+/**
+ * Global animations, often for <transtion> elements. Document each with a clear
+ * doc block.
+ */
+
+
+/**
+ * Fade animation for transitioning between elements, typically with something
+ * like: `<transition name="fade" mode="out-in">`
+ */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

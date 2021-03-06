@@ -1,45 +1,28 @@
 <template>
-  <Intro/>
+  <transition name="fade" mode="out-in">
+    <Intro v-if="currView === 'intro'"
+      @change-view="currView = $event"/>
+    <Game v-else-if="currView === 'game'"
+      @change-view="currView = $event"/>
+  </transition>
 </template>
 
 <script>
 import Intro from './components/Intro.vue'
+import Game from './components/Game.vue'
 
 export default {
   name: 'App',
   components: {
-    Intro
-  }
+    Game,
+    Intro,
+  },
+  data: () => ({
+    currView: 'intro',
+  })
 }
 </script>
 
 <style lang="scss">
-@import './styles/colors';
-@import './styles/reset';
-@import './styles/spacing';
-
-body {
-  font-family: 'Roboto', sans-serif;
-  line-height: 1.25;
-  color: $text-grey;
-}
-
-// Headings
-h1, h2, h3 { font-weight: bold; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.25rem; }
-h4 { font-size: 1.1rem; }
-h5 { font-size: 1rem; }
-h6 { font-size: 0.8rem; }
-
-p {
-  margin-top: $standard;
-  max-width: 37.5rem; // about 600px
-}
-
-// Font Sizes
-.huge-text { font-size: 4rem; }
-.larger-text { font-size: 2rem; }
-.big-text { font-size: 1.5rem; }
+@import './styles/main';
 </style>
