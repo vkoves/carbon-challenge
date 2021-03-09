@@ -17,6 +17,12 @@ yarn serve
 yarn build
 ```
 
+### Running Tests (Unit Only)
+
+```
+yarn test:unit
+```
+
 ### Lints and fixes files
 ```
 yarn lint

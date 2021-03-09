@@ -21,8 +21,6 @@ export class Simulator {
       tiles.push({ id: i });
     }
 
-    console.log('tiles', tiles);
-
     return tiles;
   }
 }
