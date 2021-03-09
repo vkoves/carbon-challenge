@@ -86,7 +86,7 @@ export default class Game extends Vue { }
     align-items: center;
     justify-content: center;
     transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
-    border: solid 5px #4caf50;
+    border: solid 5px lighten($ground-green, 5%);
     margin: 1px;
 
     // Fix weird flicker in Chrome
@@ -95,7 +95,7 @@ export default class Game extends Vue { }
     &:hover, &:focus {
       outline: none;
       transform: translate(-10px, -10px);
-      box-shadow: 5px 5px 5px rgb(0 0 0 / 50%);
+      box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
       border: solid 5px $white;
     }
 
