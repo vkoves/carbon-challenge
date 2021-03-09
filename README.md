@@ -1,4 +1,5 @@
-# The Carbon Challenge [![Netlify Status](https://api.netlify.com/api/v1/badges/59e1b698-b856-4584-af4d-171d326b44ea/deploy-status)](https://app.netlify.com/sites/carbon-challenge/deploys)
+# The Carbon Challenge [![Netlify Status](https://api.netlify.com/api/v1/badges/59e1b698-b856-4584-af4d-171d326b44ea/deploy-status)](https://app.netlify.com/sites/carbon-challenge/deploys) ![GitHub Action status](https://github.com/vkoves/carbon-challenge/actions/workflows/tests.yml/badge.svg)
+
 
 The Carbon challenge interactive simulator/game. Powered by [Vue.js 3][vue].
 
