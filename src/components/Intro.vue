@@ -31,18 +31,9 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { AppViews } from '../constants';
 
 @Options({
-  name: 'Intro',
-  emits: {
-    changeView(newView: AppViews): AppViews { return newView; },
-  },
-  methods: {
-    goToGame(): void {
-      this.$emit('changeView', AppViews.Game);
-    }
-  }
+  name: 'Intro'
 })
 
 export default class Intro extends Vue { }

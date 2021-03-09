@@ -1,0 +1,11 @@
+/**
+ * Variables used rendering the simulator board
+ */
+
+// The width of our square grid, in tiles. Must match the GridWith from
+// constants.ts as otherwise Vue won't generate the proper number of tiles
+$grid-width: 4;
+
+// We rotate the board 45deg to give an isometric view
+$boardRotation: 45deg;
+$skewDeg: -10deg;
