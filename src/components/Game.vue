@@ -2,7 +2,7 @@
   <div class="inner">
     <h1>Carbon Challenge</h1>
 
-    <button @click="goToIntro()">
+    <button @click="goToIntro()" class="btn">
       Back to Intro
     </button>
 
@@ -81,21 +81,34 @@ export default class Game extends Vue { }
   }
 
   .tile {
+    $ground-green: #4caf50;
+
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0;
-    padding: 0;
-    background-color: rgba(0,0,0,0.25);
+    transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+    border: solid 5px #4caf50;
+    margin: 1px;
+
+    // Fix weird flicker in Chrome
+    -webkit-transform: translate3d(0, 0, 0);
+
+    &:hover, &:focus {
+      outline: none;
+      transform: translate(-10px, -10px);
+      box-shadow: 5px 5px 5px rgb(0 0 0 / 50%);
+      border: solid 5px $white;
+    }
 
     .ground {
-      border: solid 2px $white;
       width: 100%;
       height: 100%;
       position: absolute;
       top: 0;
       left: 0;
+      box-sizing: border-box;
+      background: $ground-green;
     }
 
     // Reverse the game board rotation and skew to straighten above ground

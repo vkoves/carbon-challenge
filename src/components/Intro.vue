@@ -11,7 +11,7 @@
           So we have to go even bigger.
         </p>
 
-        <button @click="goToGame()">
+        <button @click="goToGame()" class="btn">
           Play
         </button>
       </div>
