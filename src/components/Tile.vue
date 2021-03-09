@@ -2,7 +2,9 @@
   <button class="tile" @click="emitTile()">
     <div class="ground"></div>
     <div class="above-ground">
-      <img src="@/assets/test.svg">
+      <span v-if="tile.type !== TileType.Empty">
+        {{ tile.type }}
+      </span>
     </div>
   </button>
 </template>
@@ -11,13 +13,17 @@
 import { Options, Vue } from 'vue-class-component';
 
 // eslint-disable-next-line
-import { ITile } from '../simulator';
+import { ITile, TileType } from '../simulator';
 
 @Options({
   name: 'Game',
   props: {
     tile: {} as ITile,
   },
+  data: () => ({
+    // Expose TileType enum to template
+    TileType: TileType,
+  }),
   emits: {
     dataUpdated(newTile: ITile): ITile { return newTile; },
   },

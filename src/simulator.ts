@@ -4,7 +4,8 @@
 import { GridWidth } from './constants';
 
 /**
- * The available types of tiles
+ * The available types of tiles - the enum value is used for accessibility and
+ * display.
  */
 export enum TileType {
   Power = 'power',
@@ -25,6 +26,17 @@ export interface ITile {
 }
 
 /**
+ * The default layout of board tile types
+ * @type {Array<TileType>}
+ */
+const DefaultBoardLayout: Array<TileType> = [
+    TileType.Empty, TileType.Farm, TileType.Empty, TileType.Empty,
+    TileType.Empty, TileType.House, TileType.Office, TileType.Empty,
+    TileType.Empty, TileType.Power, TileType.Factory, TileType.Empty,
+    TileType.Empty, TileType.Empty, TileType.Empty, TileType.Empty,
+]
+
+/**
  * The core simulator class, which handles all of the calculation and data \
  * processing for the game board.
  */
@@ -40,7 +52,7 @@ export class Simulator {
     for (var i = 0; i < tilesCount; i++) {
       const newTile: ITile = {
         id: i,
-        type: TileType.Empty,
+        type: DefaultBoardLayout[i],
       };
 
       tiles.push(newTile);
