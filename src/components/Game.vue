@@ -2,8 +2,6 @@
   <div class="inner">
     <h1>Carbon Challenge</h1>
 
-    <router-link to="/" class="btn">Back to Intro</router-link>
-
     <div class="main-cont">
       <div class="thermometer">
         <div class="stem">
@@ -65,10 +63,8 @@ export default class Game extends Vue { }
 @import './styles/variables/spacing';
 
 .inner {
-  background: linear-gradient($dark-blue, $blue);
   padding: 100px;
   color: $white;
-  min-height: 100vh;
 }
 
 .main-cont {
