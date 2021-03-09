@@ -13,7 +13,7 @@
         <div class="bulb"></div>
 
         <div class="text">
-          <p class="temp">{{ avgTempRise.toFixed(2) }}° F</p>
+          <p class="temp">{{ avgTempRise.toFixed(2) }} °C</p>
           <p class="label">Avg. Global Temperature Increase</p>
         </div>
       </div>
