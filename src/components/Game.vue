@@ -2,9 +2,7 @@
   <div class="inner">
     <h1>Carbon Challenge</h1>
 
-    <button @click="goToIntro()" class="btn">
-      Back to Intro
-    </button>
+    <router-link to="/" class="btn">Back to Intro</router-link>
 
     <div class="boards-cont">
       <div class="game-board -main">

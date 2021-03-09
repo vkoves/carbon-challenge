@@ -1,10 +1,15 @@
 <template>
-  <transition name="fade" mode="out-in">
-    <Intro v-if="currView === AppViews.Intro"
-      @change-view="currView = $event"/>
-    <Game v-else-if="currView === AppViews.Game"
-      @change-view="currView = $event"/>
-  </transition>
+  <header>
+    <router-link to="/" class="btn">Home</router-link>
+    <router-link to="/simulator" class="btn">Simulator</router-link>
+  </header>
+  <main>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+  </main>
 </template>
 
 <script lang="ts">
@@ -31,4 +36,23 @@ export default class App extends Vue { }
 
 <style lang="scss">
 @import './styles/main';
+
+header {
+  background-color: transparent;
+  padding: 1rem 2rem;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  box-sizing: border-box;
+
+  a.btn {
+    margin: 0;
+    font-size: 1rem;
+    background-color: $white;
+    border: solid 2px $dark-blue;
+    color: $dark-blue;
+
+    + a { margin-left: 1rem; }
+  }
+}
 </style>
