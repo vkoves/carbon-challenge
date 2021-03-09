@@ -11,7 +11,14 @@ export interface ITile {
   id: number;
 }
 
+/**
+ * The core simulator class, which handles all of the calculation and data \
+ * processing for the game board.
+ */
 export class Simulator {
+  /**
+   * Generate the starting tiles for the game board.
+   */
   public static generateTiles(): Array<ITile> {
     const tilesCount = Math.pow(GridWidth, 2);
 
