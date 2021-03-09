@@ -11,9 +11,7 @@
           So we have to go even bigger.
         </p>
 
-        <button @click="goToGame()" class="btn">
-          Play
-        </button>
+        <router-link to="/simulator" class="btn">Enter</router-link>
       </div>
     </div>
 
@@ -62,6 +60,7 @@ export default class Intro extends Vue { }
   justify-content: center;
   padding: $large;
   min-height: 40vh;
+  background-color: $white;
 
   &:first-of-type {
     background: linear-gradient($dark-blue, $blue);
