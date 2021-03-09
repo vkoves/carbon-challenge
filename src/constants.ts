@@ -3,3 +3,4 @@ export enum AppViews {
   Game,
 }
 
+export const GridWidth = 4;
