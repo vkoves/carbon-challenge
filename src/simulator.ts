@@ -8,12 +8,12 @@ import { GridWidth } from './constants';
  * display.
  */
 export enum TileType {
-  Power = 'power',
+  Empty = 'empty',
+  Factory = 'factory',
   Farm = 'farm',
   House = 'house',
   Office = 'office',
-  Factory = 'factory',
-  Empty = 'empty',
+  Power = 'power',
 }
 
 
@@ -22,8 +22,8 @@ export interface IOption {
   current: number;
   /** A percentage expressed as a decimal */
   target: number;
-  /** A full year (e..g '2020') */
-  targetYear: string;
+  /** A full year (e.g. 2020) */
+  targetYear: number;
 }
 
 /**
@@ -50,19 +50,52 @@ export interface IOption {
  * buttons for "100% Renewable by 2050", "50% Renewable by 2040", etc.
  */
 export interface IOptions {
-  [TileType.Power]: {
-    renewableShare: IOption;
-  }
+  [ optKey: string ]: IOption;
 }
+
+const EmptyOption: IOption = {
+  current: 0,
+  target: 1,
+  targetYear: 2050,
+};
+
+export const DefaultTileOptions: { [ type: string ]: IOptions } = {
+  [TileType.Factory]: {
+    renewableShare: EmptyOption,
+  },
+
+  [TileType.Farm]: {
+    deforestation: EmptyOption,
+  },
+
+  [TileType.House]: {
+    electricCarShare: EmptyOption,
+    electricHeating: EmptyOption,
+  },
+
+  [TileType.Office]: {
+    electricHeating: EmptyOption,
+  },
+
+  [TileType.Power]: {
+    renewableShare: EmptyOption,
+  },
+};
 
 /**
  * A tile object, which contains all the info needed for rendering this tile
  * plus any of it's impacts on the total emissions
  */
-export interface ITile {
+export class TileObj {
   id: number;
   type: TileType;
-  options?: IOptions;
+  options: IOptions | null; // empty tiles don't have options
+
+  constructor(id: number, type: TileType) {
+    this.id = id;
+    this.type = type;
+    this.options = DefaultTileOptions[type];
+  }
 }
 
 /**
@@ -83,16 +116,13 @@ export class Simulator {
   /**
    * Generate the starting tiles for the game board.
    */
-  public static generateTiles(): Array<ITile> {
+  public static generateTiles(): Array<TileObj> {
     const tilesCount = Math.pow(GridWidth, 2);
 
-    const tiles: Array<ITile> = [];
+    const tiles: Array<TileObj> = [];
 
     for (var i = 0; i < tilesCount; i++) {
-      const newTile: ITile = {
-        id: i,
-        type: DefaultBoardLayout[i],
-      };
+      const newTile: TileObj = new TileObj(i, DefaultBoardLayout[i]);
 
       tiles.push(newTile);
     }
@@ -105,7 +135,7 @@ export class Simulator {
    * typically be in the range of 1 - 3.
    */
   public static getThermometerDegrees(
-    currentTiles: Array<ITile>
+    currentTiles: Array<TileObj>
   ): number {
     // TODO: Make this use the current tiles to calculate stuff
     return 1 + 2 * Math.random();

@@ -24,6 +24,16 @@ export const AllLanguageData = {
     },
     simulator: {
       avgTempLabel: 'Average Global Temperature Increase',
+      close: 'Close',
+      // Should include all value from the TileType enum
+      tileTypes: {
+        power: 'Power Plant',
+        farm: 'Farm',
+        house: 'House',
+        office: 'Office',
+        factory: 'Factory',
+        empty: 'Empty',
+      }
     }
   },
   // NOTE: Spanish translations are work in progress, and mostly for testing
@@ -42,6 +52,16 @@ export const AllLanguageData = {
     },
     simulator: {
       avgTempLabel: 'Aumento de la temperatura global promedio',
+      close: 'Cerrar',
+      // Should include all value from the TileType enum
+      tileTypes: {
+        power: 'Planta de energía',
+        farm: 'Granja',
+        house: 'Casa',
+        office: 'Oficina',
+        factory: 'Fábrica',
+        empty: 'Vacío',
+      }
     }
   }
 };

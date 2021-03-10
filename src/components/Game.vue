@@ -20,16 +20,36 @@
         <div class="game-board -main">
           <Tile v-for="tile in tiles" v-bind:key="tile.id"
             :tile="tile"
-            @data-updated="recalculateTemps()" />
+            @data-updated="selectTile(tile)" />
         </div>
       </div>
+    </div>
+
+    <div @click="clearSelectedTile()"
+      class="overlay" :class="{ '-open': showingTileMenu }">
+      <transition name="slide-fade">
+        <div class="sidebar" v-if="showingTileMenu">
+          <button @click="clearSelectedTile()" class="btn">
+            {{ $t('simulator.close') }}
+          </button>
+          <h2>{{ $t(`simulator.tileTypes.${selectedTile.type}`) }}</h2>
+
+          <ul v-for="(option, key) in selectedTile.options" :key="key">
+            <li>
+              {{ key }}
+              {{ option }}
+            </li>
+          </ul>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import { Simulator } from '../simulator';
+// eslint-disable-next-line no-unused-vars
+import { Simulator, TileObj } from '../simulator';
 import Tile from './Tile.vue';
 
 @Options({
@@ -39,6 +59,8 @@ import Tile from './Tile.vue';
   },
   data: () => ({
     tiles: Simulator.generateTiles(),
+    selectedTile: null,
+    showingTileMenu: false,
     avgTempRise: 0,
     avgTempAdjusted: 0,
     MaxTempRise: 3,
@@ -49,6 +71,17 @@ import Tile from './Tile.vue';
 
       // Convert decimal temperature rise to a %
       this.avgTempAdjusted = (this.avgTempRise / this.MaxTempRise) * 100;
+    },
+
+    selectTile(tile: TileObj) {
+      this.selectedTile = tile;
+      this.showingTileMenu = true;
+
+      this.recalculateTemps();
+    },
+
+    clearSelectedTile() {
+      this.showingTileMenu = false;
     }
   }
 })
@@ -151,5 +184,46 @@ export default class Game extends Vue { }
   width: $boardSize;
   height: $boardSize;
   margin: auto;
+}
+
+.overlay {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  transition: background-color 0.3s;
+  background-color: rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+
+  &:not(.-open) {
+    background-color: transparent;
+    pointer-events: none;
+  }
+
+  &.-open .sidebar {
+    // right: 0;
+  }
+
+  &:not(.-open) .sidebar {
+    // right: -40%;
+  }
+
+  .sidebar {
+    // position: absolute;
+    // transition: right 0.5s;
+    padding: 50px;
+    height: 100%;
+    width: 40%;
+    box-sizing: border-box;
+    backdrop-filter: brightness(0.5) blur(10px);
+
+    h2 {
+      margin-top: 1rem;
+    }
+  }
 }
 </style>
