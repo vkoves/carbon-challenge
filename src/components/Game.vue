@@ -34,12 +34,24 @@
           </button>
           <h2>{{ $t(`simulator.tileTypes.${selectedTile.type}`) }}</h2>
 
-          <ul v-for="(option, key) in selectedTile.options" :key="key">
-            <li>
-              {{ key }}
-              {{ option }}
-            </li>
-          </ul>
+          <div v-for="(option, key) in selectedTile.options" :key="key">
+              <h3>{{ $t(`simulator.tileOptions.${key}`) }}</h3>
+
+              <ul>
+                <li>
+                  {{ $t('simulator.tileOverlay.current') }}:
+                  {{ option.current * 100 + '%' }}
+                </li>
+                <li>
+                  {{ $t('simulator.tileOverlay.target') }}:
+                  {{ option.target * 100 + '%' }}
+                </li>
+                <li>
+                  {{ $t('simulator.tileOverlay.targetYear') }}:
+                  {{ option.targetYear }}
+                </li>
+              </ul>
+          </div>
         </div>
       </transition>
     </div>
@@ -221,9 +233,7 @@ export default class Game extends Vue { }
     box-sizing: border-box;
     backdrop-filter: brightness(0.5) blur(10px);
 
-    h2 {
-      margin-top: 1rem;
-    }
+    h2, h3 { margin-top: 1rem; }
   }
 }
 </style>

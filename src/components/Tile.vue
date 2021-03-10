@@ -2,7 +2,9 @@
   <button class="tile" :disabled="tile.type === TileType.Empty"
     @click="emitTile()">
     <div class="above-ground">
-      <span v-if="tile.type !== TileType.Empty">
+      <img v-if="tile.type === TileType.House" src="@/assets/House.svg"
+        :alt="$t(`simulator.tileTypes.${tile.type}`)">
+      <span v-else-if="tile.type !== TileType.Empty">
         {{ $t(`simulator.tileTypes.${tile.type}`) }}
       </span>
     </div>
