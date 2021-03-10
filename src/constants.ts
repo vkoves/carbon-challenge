@@ -25,7 +25,12 @@ export const AllLanguageData = {
     simulator: {
       avgTempLabel: 'Average Global Temperature Increase',
       close: 'Close',
-      // Should include all value from the TileType enum
+      tileOverlay: {
+        current: 'Current',
+        target: 'Target',
+        targetYear: 'Target Year',
+      },
+      // Should include all values from the TileType enum
       tileTypes: {
         power: 'Power Plant',
         farm: 'Farm',
@@ -33,6 +38,13 @@ export const AllLanguageData = {
         office: 'Office',
         factory: 'Factory',
         empty: 'Empty',
+      },
+      // Should include all values from the TileOption enum
+      tileOptions: {
+        deforestation: 'Deforestation',
+        electricCarShare: 'Share of Electric Cars',
+        electricHeating: 'Share of Electric Heating',
+        renewableShare: 'Share of Renewables',
       }
     }
   },
@@ -53,7 +65,12 @@ export const AllLanguageData = {
     simulator: {
       avgTempLabel: 'Aumento de la temperatura global promedio',
       close: 'Cerrar',
-      // Should include all value from the TileType enum
+      tileOverlay: {
+        current: 'Actual',
+        target: 'Objetivo',
+        targetYear: 'Año objetivo',
+      },
+      // Should include all values from the TileType enum
       tileTypes: {
         power: 'Planta de energía',
         farm: 'Granja',
@@ -61,6 +78,13 @@ export const AllLanguageData = {
         office: 'Oficina',
         factory: 'Fábrica',
         empty: 'Vacío',
+      },
+      // Should include all values from the TileOption enum
+      tileOptions: {
+        deforestation: 'Deforestación',
+        electricCarShare: 'Cuota de coches eléctricos',
+        electricHeating: 'Cuota de calefacción eléctrica',
+        renewableShare: 'Cuota de renovables',
       }
     }
   }

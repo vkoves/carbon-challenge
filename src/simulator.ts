@@ -6,6 +6,10 @@ import { GridWidth } from './constants';
 /**
  * The available types of tiles - the enum value is used for accessibility and
  * display.
+ *
+ * NOTE: Each of these values are rendered via i18n plugin using the
+ * `AllLanguageData` constant, in [locale].simulator.tileOptions. Make sure to
+ * keep that in sync with this enum!
  */
 export enum TileType {
   Empty = 'empty',
@@ -16,7 +20,25 @@ export enum TileType {
   Power = 'power',
 }
 
+/**
+ * All of the possible options for any tile, so we can have internationalization
+ * for each of these. Note that some of these may be unique to a single tile
+ * type, some may apply to many!
+ *
+ * NOTE: Each of these values are rendered via i18n plugin using the
+ * `AllLanguageData` constant, in [locale].simulator.tileOptions. Make sure to
+ * keep that in sync with this enum!
+ */
+export enum TileOption {
+  Deforestation = 'deforestation',
+  ElectricCarShare = 'electricCarShare',
+  ElectricHeating = 'electricHeating',
+  RenewableShare = 'renewableShare',
+}
 
+/**
+ * A single tile option configuration, usually wrapped in IOptions.
+ */
 export interface IOption {
   /** A percentage expressed as a decimal */
   current: number;
@@ -61,24 +83,24 @@ const EmptyOption: IOption = {
 
 export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   [TileType.Factory]: {
-    renewableShare: EmptyOption,
+    [TileOption.RenewableShare]: EmptyOption,
   },
 
   [TileType.Farm]: {
-    deforestation: EmptyOption,
+    [TileOption.Deforestation]: EmptyOption,
   },
 
   [TileType.House]: {
-    electricCarShare: EmptyOption,
-    electricHeating: EmptyOption,
+    [TileOption.ElectricCarShare]: EmptyOption,
+    [TileOption.ElectricHeating]: EmptyOption,
   },
 
   [TileType.Office]: {
-    electricHeating: EmptyOption,
+    [TileOption.ElectricHeating]: EmptyOption,
   },
 
   [TileType.Power]: {
-    renewableShare: EmptyOption,
+    [TileOption.RenewableShare]: EmptyOption,
   },
 };
 
