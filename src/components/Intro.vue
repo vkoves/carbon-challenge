@@ -3,20 +3,23 @@
     <div class="hero">
       <div class="hero-inner">
         <h1 class="huge-text">
-          The Carbon Challenge
+          {{ $t('title') }}
         </h1>
 
         <p class="tagline big-text">
-          Climate change is big. <br>
-          So we have to go even bigger.
+          {{ $t('intro.slogan1') }} <br>
+          {{ $t('intro.slogan2') }}
         </p>
 
-        <router-link to="/simulator" class="btn">Enter</router-link>
+        <router-link to="/simulator" class="btn">
+          {{ $t('intro.startBtn') }}
+        </router-link>
       </div>
     </div>
 
     <div class="hero">
       <div class="hero-inner">
+        <!-- TODO: Move into i18n text -->
         <h2 class="larger-text">Try your hand at solving climate change</h2>
 
         <p>
@@ -58,5 +61,10 @@ export default class Intro extends Vue { }
     color: $white;
     text-align: center;
   }
+}
+
+.tagline {
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

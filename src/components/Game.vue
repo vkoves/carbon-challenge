@@ -1,6 +1,6 @@
 <template>
   <div class="inner">
-    <h1>Carbon Challenge</h1>
+    <h1>{{ $t('title') }}</h1>
 
     <div class="main-cont">
       <div class="thermometer">
@@ -12,7 +12,7 @@
 
         <div class="text">
           <p class="temp">{{ avgTempRise.toFixed(2) }} °C</p>
-          <p class="label">Avg. Global Temperature Increase</p>
+          <p class="label">{{ $t('simulator.avgTempLabel') }}</p>
         </div>
       </div>
 
