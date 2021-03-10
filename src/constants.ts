@@ -27,7 +27,7 @@ export const AllLanguageData = {
       close: 'Close',
       // Should include all value from the TileType enum
       tileTypes: {
-        power: 'Power',
+        power: 'Power Plant',
         farm: 'Farm',
         house: 'House',
         office: 'Office',
@@ -55,12 +55,12 @@ export const AllLanguageData = {
       close: 'Cerrar',
       // Should include all value from the TileType enum
       tileTypes: {
-        power: 'Power',
-        farm: 'Farm',
-        house: 'House',
-        office: 'Office',
-        factory: 'Factory',
-        empty: 'Empty',
+        power: 'Planta de energía',
+        farm: 'Granja',
+        house: 'Casa',
+        office: 'Oficina',
+        factory: 'Fábrica',
+        empty: 'Vacío',
       }
     }
   }

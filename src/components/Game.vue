@@ -27,14 +27,19 @@
 
     <div @click="clearSelectedTile()"
       class="overlay" :class="{ '-open': showingTileMenu }">
-      <transition name="slide-fade" v-show="selectedTile">
-        <div class="sidebar" v-show="showingTileMenu">
+      <transition name="slide-fade">
+        <div class="sidebar" v-if="showingTileMenu">
           <button @click="clearSelectedTile()" class="btn">
             {{ $t('simulator.close') }}
           </button>
-          <div v-if="selectedTile">
-            <h2>{{ $t(`simulator.tileTypes.${selectedTile.type}`) }}</h2>
-          </div>
+          <h2>{{ $t(`simulator.tileTypes.${selectedTile.type}`) }}</h2>
+
+          <ul v-for="(option, key) in selectedTile.options" :key="key">
+            <li>
+              {{ key }}
+              {{ option }}
+            </li>
+          </ul>
         </div>
       </transition>
     </div>
@@ -44,7 +49,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 // eslint-disable-next-line no-unused-vars
-import { Simulator, ITile } from '../simulator';
+import { Simulator, TileObj } from '../simulator';
 import Tile from './Tile.vue';
 
 @Options({
@@ -68,7 +73,7 @@ import Tile from './Tile.vue';
       this.avgTempAdjusted = (this.avgTempRise / this.MaxTempRise) * 100;
     },
 
-    selectTile(tile: ITile) {
+    selectTile(tile: TileObj) {
       this.selectedTile = tile;
       this.showingTileMenu = true;
 

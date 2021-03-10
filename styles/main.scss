@@ -49,6 +49,8 @@ p {
 .focus-elem {
   opacity: 0;
 
+  &:not(:focus) { pointer-events: none; }
+
   &:focus { opacity: 1; }
 }
 

@@ -13,19 +13,19 @@
 import { Options, Vue } from 'vue-class-component';
 
 // eslint-disable-next-line
-import { ITile, TileType } from '../simulator';
+import { TileObj, TileType } from '../simulator';
 
 @Options({
   name: 'Game',
   props: {
-    tile: {} as ITile,
+    tile: {} as TileObj,
   },
   data: () => ({
     // Expose TileType enum to template
     TileType: TileType,
   }),
   emits: {
-    dataUpdated(newTile: ITile): ITile { return newTile; },
+    dataUpdated(newTile: TileObj): TileObj { return newTile; },
   },
   methods: {
     emitTile(): void {
