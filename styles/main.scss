@@ -11,10 +11,13 @@
 @import 'variables/spacing';
 
 body {
+  background: linear-gradient($dark-blue, $blue);
+}
+
+body, select, button {
   font-family: 'Roboto', sans-serif;
   line-height: 1.25;
   color: $text-grey;
-  background: linear-gradient($dark-blue, $blue);
 }
 
 body, html, #app, main {
@@ -40,6 +43,15 @@ p {
 .larger-text { font-size: 2rem; }
 .big-text { font-size: 1.5rem; }
 
+/**
+ * A CSS class for buttons and links that only show on focus
+ */
+.focus-elem {
+  opacity: 0;
+
+  &:focus { opacity: 1; }
+}
+
 button, a.btn {
   display: inline-block;
   cursor: pointer;
@@ -51,11 +63,26 @@ button, a.btn {
   background: $dark-blue;
   padding: 0.5rem 1.5rem;
   margin-top: 1rem;
-  color: white;
+  color: $white;
   border-radius: 0.25rem;
   font-weight: bold;
   font-size: 1.5rem;
-  transition: box-shadow 0.3s;
+
+  &:hover, &:focus {
+    outline: none;
+    box-shadow: 0px 0px 2px 5px rgba(255, 255, 255);
+  }
+
+  &.-small { font-size: 1rem; }
+}
+
+select {
+  background-color: $white;
+  border-radius: 0.25rem;
+}
+
+select, .btn {
+  transition: box-shadow 0.3s, opacity 0.3s;
 
   &:hover, &:focus {
     outline: none;
