@@ -54,9 +54,10 @@ p {
 
 button, a.btn {
   display: inline-block;
-  cursor: pointer;
   border: none;
   text-decoration: none;
+
+  &:not(:disabled) { cursor: pointer; }
 }
 
 .btn {

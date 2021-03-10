@@ -1,9 +1,9 @@
 <template>
-  <button class="tile" @click="emitTile()">
-    <div class="ground"></div>
+  <button class="tile" :disabled="tile.type === TileType.Empty"
+    @click="emitTile()">
     <div class="above-ground">
       <span v-if="tile.type !== TileType.Empty">
-        {{ tile.type }}
+        {{ $t(`simulator.tileTypes.${tile.type}`) }}
       </span>
     </div>
   </button>
@@ -51,27 +51,19 @@ export default class Game extends Vue { }
   align-items: center;
   justify-content: center;
   transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+  background: $ground-green;
   border: solid 5px lighten($ground-green, 5%);
   margin: 1px;
 
   // Fix weird flicker in Chrome
   -webkit-transform: translate3d(0, 0, 0);
 
-  &:hover, &:focus {
+  // Show a prominent effect on non-empty tiles being hovered or focused
+  &:not(:disabled):hover, &:focus {
     outline: none;
-    transform: translate(-10px, -10px);
+    transform: translate(-0.6rem, -0.6rem);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-    border: solid 5px $white;
-  }
-
-  .ground {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-    background: $ground-green;
+    border-color: $white;
   }
 
   // Reverse the game board rotation and skew to straighten above ground
