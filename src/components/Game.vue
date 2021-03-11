@@ -18,9 +18,10 @@
 
       <div class="boards-cont">
         <div class="game-board -main">
-          <Tile v-for="tile in tiles"
+          <Tile v-for="(tile, index) in tiles"
             v-bind:key="tile.id"
             :tile="tile"
+            :tileNum="index"
             :class="{ '-active': tile.id === selectedTile?.id }"
             @selected="selectTile(tile)" />
         </div>

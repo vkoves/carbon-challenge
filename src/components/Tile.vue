@@ -1,6 +1,8 @@
 <template>
   <!-- Show tile as a <div> if it's empty, <button> if not -->
-  <button v-if="tile.type !== TileType.Empty" class="tile" @click="tileSelected()">
+  <button v-if="tile.type !== TileType.Empty" class="tile"
+    @click="tileSelected()"
+    v-bind:style="{ 'animation-delay': animDelay }">
     <div class="above-ground">
       <img v-if="tile.type === TileType.House"
         src="@/assets/House.svg"
@@ -12,7 +14,8 @@
     </div>
   </button>
 
-  <div class="tile -empty" v-else></div>
+  <div v-else class="tile -empty"
+    v-bind:style="{ 'animation-delay': animDelay }"></div>
 </template>
 
 <script lang="ts">
@@ -25,6 +28,7 @@ import { TileObj, TileType } from '../simulator';
   name: 'Game',
   props: {
     tile: {} as TileObj,
+    tileNum: 0,
   },
   data: () => ({
     // Expose TileType enum to template
@@ -36,6 +40,14 @@ import { TileObj, TileType } from '../simulator';
   methods: {
     tileSelected(): void {
       this.$emit('selected', this.tile);
+    }
+  },
+  computed: {
+    animDelay() {
+      // The delay in seconds between each fall animation starting
+      const AnimationOffsetMs = 100;
+
+      return this.tileNum * (AnimationOffsetMs / 1000) + 's';
     }
   }
 })
@@ -61,13 +73,19 @@ export default class Game extends Vue { }
   border: solid 0.25rem lighten($ground-green, 5%);
   margin: 0rem;
 
+  // Default the tiles to hidden, and have them fall onto the game board
+  opacity: 0;
+  animation: 0.2s ease-in fadeIn, 0.4s linear fallIn;
+  // Ensure opacity persists after the fadeIn is done
+  animation-fill-mode: forwards, none;
+
   // Fix weird flicker in Chrome
   -webkit-transform: translate3d(0, 0, 0);
 
   // Show a prominent effect on non-empty tiles being hovered or focused
   &:not(.-empty):hover, &:focus, &.-active {
     outline: none;
-    transform: translate(-0.6rem, -0.6rem);
+    transform: translate(-10%, -10%);
     box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
     border-color: $white;
   }
