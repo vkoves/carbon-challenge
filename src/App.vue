@@ -80,7 +80,7 @@ header {
     margin: 0;
     font-size: 1rem;
     background-color: $white;
-    border: solid 2px $dark-blue;
+    border: solid 0.125rem $dark-blue;
     color: $dark-blue;
 
     + a { margin-left: 1rem; }

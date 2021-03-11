@@ -20,6 +20,9 @@
     <!-- TODO: Move all hero copy into i18n text -->
     <div class="hero">
       <div class="hero-inner">
+        <div class="img-cont">
+        </div>
+
         <div class="text-cont">
           <h2 class="larger-text">
             Try Out Policies to <br>
@@ -32,17 +35,11 @@
             climate.
           </p>
         </div>
-
-        <div class="img-cont">
-        </div>
       </div>
     </div>
 
     <div class="hero -blue">
       <div class="hero-inner">
-        <div class="img-cont">
-        </div>
-
         <div class="text-cont">
           <h2 class="larger-text">
             Learn How You Can <br>
@@ -53,6 +50,9 @@
             Look at the impact of changes you can make in your home, like
             composting, installing solar panels, or driving less.
           </p>
+        </div>
+
+        <div class="img-cont">
         </div>
       </div>
     </div>
@@ -120,5 +120,15 @@ export default class Intro extends Vue { }
 .tagline {
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (max-width: $mobile-max-width) {
+  .hero:not(.primary) .hero-inner {
+    flex-direction: column;
+
+    > div:last-of-type {
+      margin-top: $x-large;
+    }
+  }
 }
 </style>

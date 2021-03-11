@@ -120,22 +120,14 @@ export default class TileOverlay extends Vue { }
     pointer-events: none;
   }
 
-  &.-open .sidebar {
-    // right: 0;
-  }
-
-  &:not(.-open) .sidebar {
-    // right: -40%;
-  }
 
   .sidebar {
-    // position: absolute;
-    // transition: right 0.5s;
-    padding: 50px;
+    padding: 3rem 5rem;
     height: 100%;
     width: 40%;
     box-sizing: border-box;
-    backdrop-filter: brightness(0.5) blur(10px);
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(0.2rem);
 
     h2, h3 { margin-top: 1rem; }
   }

@@ -84,7 +84,7 @@ export default class Game extends Vue { }
 @import './styles/variables/spacing';
 
 .inner {
-  padding: 100px;
+  padding: 6rem;
   color: $white;
 }
 
@@ -94,9 +94,9 @@ export default class Game extends Vue { }
 }
 
 .thermometer {
-  $thermometer-width: 80px;
-  $inner-width: 30px;
-  $border-width: 6px;
+  $thermometer-width: 5rem;
+  $inner-width: 1.875rem;
+  $border-width: 0.375rem;
 
   position: relative;
   width: $thermometer-width;
@@ -124,15 +124,15 @@ export default class Game extends Vue { }
     background-color: $red;
     width: $inner-width;
     position: absolute;
-    height: 40px;
+    height: 2.5rem;
     z-index: 2;
     margin: auto;
     left: 0;
     right: 0;
-    bottom: 0px;
+    bottom: 0;
     height: 0;
     transition: height 1s;
-    border-bottom: solid 35px $red;
+    border-bottom: solid 2.1875rem $red;
   }
 
   .bulb {
