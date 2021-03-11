@@ -18,43 +18,19 @@
 
       <div class="boards-cont">
         <div class="game-board -main">
-          <Tile v-for="tile in tiles" v-bind:key="tile.id"
+          <Tile v-for="tile in tiles"
+            v-bind:key="tile.id"
             :tile="tile"
-            @data-updated="selectTile(tile)" />
+            :class="{ '-active': tile.id === selectedTile?.id }"
+            @selected="selectTile(tile)" />
         </div>
       </div>
     </div>
 
-    <div @click="clearSelectedTile()"
-      class="overlay" :class="{ '-open': showingTileMenu }">
-      <transition name="slide-fade">
-        <div class="sidebar" v-if="showingTileMenu">
-          <button @click="clearSelectedTile()" class="btn">
-            {{ $t('simulator.close') }}
-          </button>
-          <h2>{{ $t(`simulator.tileTypes.${selectedTile.type}`) }}</h2>
-
-          <div v-for="(option, key) in selectedTile.options" :key="key">
-              <h3>{{ $t(`simulator.tileOptions.${key}`) }}</h3>
-
-              <ul>
-                <li>
-                  {{ $t('simulator.tileOverlay.current') }}:
-                  {{ option.current * 100 + '%' }}
-                </li>
-                <li>
-                  {{ $t('simulator.tileOverlay.target') }}:
-                  {{ option.target * 100 + '%' }}
-                </li>
-                <li>
-                  {{ $t('simulator.tileOverlay.targetYear') }}:
-                  {{ option.targetYear }}
-                </li>
-              </ul>
-          </div>
-        </div>
-      </transition>
-    </div>
+    <TileOverlay
+      :tile="selectedTile"
+      @closed="tileOverlayClosed()"
+      @tile-updated="tileUpdated(tile)"></TileOverlay>
   </div>
 </template>
 
@@ -63,11 +39,13 @@ import { Options, Vue } from 'vue-class-component';
 // eslint-disable-next-line no-unused-vars
 import { Simulator, TileObj } from '../simulator';
 import Tile from './Tile.vue';
+import TileOverlay from './TileOverlay.vue';
 
 @Options({
   name: 'Game',
   components: {
     Tile,
+    TileOverlay,
   },
   data: () => ({
     tiles: Simulator.generateTiles(),
@@ -87,13 +65,15 @@ import Tile from './Tile.vue';
 
     selectTile(tile: TileObj) {
       this.selectedTile = tile;
-      this.showingTileMenu = true;
+    },
 
+    // Takes in a TileObj, but we don't use that at the moment
+    tileUpdated() {
       this.recalculateTemps();
     },
 
-    clearSelectedTile() {
-      this.showingTileMenu = false;
+    tileOverlayClosed() {
+      this.selectedTile = null;
     }
   }
 })
@@ -108,7 +88,7 @@ export default class Game extends Vue { }
 @import './styles/variables/spacing';
 
 .inner {
-  padding: 100px;
+  padding: 6rem;
   color: $white;
 }
 
@@ -118,9 +98,9 @@ export default class Game extends Vue { }
 }
 
 .thermometer {
-  $thermometer-width: 80px;
-  $inner-width: 30px;
-  $border-width: 6px;
+  $thermometer-width: 5rem;
+  $inner-width: 1.875rem;
+  $border-width: 0.375rem;
 
   position: relative;
   width: $thermometer-width;
@@ -148,15 +128,15 @@ export default class Game extends Vue { }
     background-color: $red;
     width: $inner-width;
     position: absolute;
-    height: 40px;
+    height: 2.5rem;
     z-index: 2;
     margin: auto;
     left: 0;
     right: 0;
-    bottom: 0px;
+    bottom: 0;
     height: 0;
     transition: height 1s;
-    border-bottom: solid 35px $red;
+    border-bottom: solid 2.1875rem $red;
   }
 
   .bulb {
@@ -196,44 +176,5 @@ export default class Game extends Vue { }
   width: $boardSize;
   height: $boardSize;
   margin: auto;
-}
-
-.overlay {
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  right: 0;
-  z-index: 2;
-  transition: background-color 0.3s;
-  background-color: rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-
-  &:not(.-open) {
-    background-color: transparent;
-    pointer-events: none;
-  }
-
-  &.-open .sidebar {
-    // right: 0;
-  }
-
-  &:not(.-open) .sidebar {
-    // right: -40%;
-  }
-
-  .sidebar {
-    // position: absolute;
-    // transition: right 0.5s;
-    padding: 50px;
-    height: 100%;
-    width: 40%;
-    box-sizing: border-box;
-    backdrop-filter: brightness(0.5) blur(10px);
-
-    h2, h3 { margin-top: 1rem; }
-  }
 }
 </style>

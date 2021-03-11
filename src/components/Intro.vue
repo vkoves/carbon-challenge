@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hero">
+    <div class="hero -primary">
       <div class="hero-inner">
         <h1 class="huge-text">
           {{ $t('title') }}
@@ -17,16 +17,43 @@
       </div>
     </div>
 
+    <!-- TODO: Move all hero copy into i18n text -->
     <div class="hero">
       <div class="hero-inner">
-        <!-- TODO: Move into i18n text -->
-        <h2 class="larger-text">Try your hand at solving climate change</h2>
+        <div class="img-cont">
+        </div>
 
-        <p>
-          Climate change isn't going to be solved over night, and we also know there's
-          a limit to individual responsibility. But to advocate for policies, you need
-          to know the impact. Try out policies in the Carbon Challenge simulation.
-        </p>
+        <div class="text-cont">
+          <h2 class="larger-text">
+            Try Out Policies to <br>
+            Combat Climate Change
+          </h2>
+
+          <p>
+            Test out policies from moving to renewable energy, transitioning to
+            electric cars, and even geo-engineering, and see how they impact our
+            climate.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero -blue">
+      <div class="hero-inner">
+        <div class="text-cont">
+          <h2 class="larger-text">
+            Learn How You Can <br>
+            Reduce Your Impact
+          </h2>
+
+          <p>
+            Look at the impact of changes you can make in your home, like
+            composting, installing solar panels, or driving less.
+          </p>
+        </div>
+
+        <div class="img-cont">
+        </div>
       </div>
     </div>
   </div>
@@ -52,19 +79,56 @@ export default class Intro extends Vue { }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $large;
-  min-height: 40vh;
+  padding: 10rem $large;
   background-color: $white;
 
-  &:first-of-type {
+  &.-primary {
     background: linear-gradient($dark-blue, $blue);
     color: $white;
     text-align: center;
+    padding: 15rem $large;
+  }
+
+  &:not(.-primary) .hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 75rem;
+    margin: auto;
+  }
+
+  &.-blue {
+    background-color: $dark-blue;
+    color: $white;
+
+    .img-cont { background-color: $white; }
+  }
+
+  .img-cont {
+    background-color: $blue;
+    width: 25%;
+    border-radius: 10rem;
+    padding: 9rem 0;
+  }
+
+  .text-cont {
+    max-width: 31.25rem;
   }
 }
 
 .tagline {
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (max-width: $mobile-max-width) {
+  .hero:not(.primary) .hero-inner {
+    flex-direction: column;
+
+    > div:last-of-type {
+      margin-top: $x-large;
+    }
+  }
 }
 </style>

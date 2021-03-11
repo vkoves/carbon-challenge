@@ -1,14 +1,18 @@
 <template>
-  <button class="tile" :disabled="tile.type === TileType.Empty"
-    @click="emitTile()">
+  <!-- Show tile as a <div> if it's empty, <button> if not -->
+  <button v-if="tile.type !== TileType.Empty" class="tile" @click="tileSelected()">
     <div class="above-ground">
-      <img v-if="tile.type === TileType.House" src="@/assets/House.svg"
+      <img v-if="tile.type === TileType.House"
+        src="@/assets/House.svg"
         :alt="$t(`simulator.tileTypes.${tile.type}`)">
-      <span v-else-if="tile.type !== TileType.Empty">
+      <!-- TODO: Move all non empty tiles to images -->
+      <span v-else>
         {{ $t(`simulator.tileTypes.${tile.type}`) }}
       </span>
     </div>
   </button>
+
+  <div class="tile -empty" v-else></div>
 </template>
 
 <script lang="ts">
@@ -27,11 +31,11 @@ import { TileObj, TileType } from '../simulator';
     TileType: TileType,
   }),
   emits: {
-    dataUpdated(newTile: TileObj): TileObj { return newTile; },
+    selected(newTile: TileObj): TileObj { return newTile; },
   },
   methods: {
-    emitTile(): void {
-      this.$emit('dataUpdated', this.tile);
+    tileSelected(): void {
+      this.$emit('selected', this.tile);
     }
   }
 })
@@ -54,17 +58,17 @@ export default class Game extends Vue { }
   justify-content: center;
   transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
   background: $ground-green;
-  border: solid 5px lighten($ground-green, 5%);
-  margin: 1px;
+  border: solid 0.25rem lighten($ground-green, 5%);
+  margin: 0rem;
 
   // Fix weird flicker in Chrome
   -webkit-transform: translate3d(0, 0, 0);
 
   // Show a prominent effect on non-empty tiles being hovered or focused
-  &:not(:disabled):hover, &:focus {
+  &:not(.-empty):hover, &:focus, &.-active {
     outline: none;
     transform: translate(-0.6rem, -0.6rem);
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
     border-color: $white;
   }
 

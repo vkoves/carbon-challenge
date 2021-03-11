@@ -17,7 +17,7 @@
         {{ $t('header.language') }}
         <img src="@/assets/earth.svg" alt="">
       </label>
-      <select v-model="$i18n.locale">
+      <select v-model="$i18n.locale" id="lang-select">
         <option v-for="langObj in AvailableLanguages"
           :key="`${langObj.locale}`"
           :value="langObj.locale">
@@ -69,8 +69,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: transparent;
-  padding: 1rem 2rem;
+  background-color: $dark-blue;
+  padding: 0.75rem 2rem;
   position: absolute;
   width: 100%;
   z-index: 1;
@@ -80,7 +80,7 @@ header {
     margin: 0;
     font-size: 1rem;
     background-color: $white;
-    border: solid 2px $dark-blue;
+    border: solid 0.125rem $dark-blue;
     color: $dark-blue;
 
     + a { margin-left: 1rem; }

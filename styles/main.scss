@@ -73,10 +73,15 @@ button, a.btn {
 
   &:hover, &:focus {
     outline: none;
-    box-shadow: 0px 0px 2px 5px rgba(255, 255, 255);
+    box-shadow: 0 0 0.125rem 0.3rem $white;
   }
 
   &.-small { font-size: 1rem; }
+
+  &.-grey {
+    background-color: $light-grey;
+    color: $text-grey;
+  }
 }
 
 select {
@@ -89,6 +94,6 @@ select, .btn {
 
   &:hover, &:focus {
     outline: none;
-    box-shadow: 0px 0px 2px 5px rgba(255, 255, 255);
+    box-shadow: 0 0 0.125rem 0.3rem $white;
   }
 }
