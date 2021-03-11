@@ -52,7 +52,7 @@ export default class Intro extends Vue { }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $large;
+  padding: $x-large $large;
   min-height: 40vh;
   background-color: $white;
 

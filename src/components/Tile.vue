@@ -1,14 +1,18 @@
 <template>
-  <button class="tile" :disabled="tile.type === TileType.Empty"
-    @click="emitTile()">
+  <!-- Show tile as a <div> if it's empty, <button> if not -->
+  <button v-if="tile.type !== TileType.Empty" class="tile" @click="emitTile()">
     <div class="above-ground">
-      <img v-if="tile.type === TileType.House" src="@/assets/House.svg"
+      <img v-if="tile.type === TileType.House"
+        src="@/assets/House.svg"
         :alt="$t(`simulator.tileTypes.${tile.type}`)">
-      <span v-else-if="tile.type !== TileType.Empty">
+      <!-- TODO: Move all non empty tiles to images -->
+      <span v-else>
         {{ $t(`simulator.tileTypes.${tile.type}`) }}
       </span>
     </div>
   </button>
+
+  <div class="tile" v-else></div>
 </template>
 
 <script lang="ts">
