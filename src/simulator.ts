@@ -40,11 +40,23 @@ export enum TileOption {
  * A single tile option configuration, usually wrapped in IOptions.
  */
 export interface IOption {
-  /** A percentage expressed as a decimal */
+  /*
+    A percentage (0 - 100) representing the current value of this option.
+    This should come from real data and is only editable in magic mode (since
+    no policy instantly has an impact).
+   */
   current: number;
-  /** A percentage expressed as a decimal */
+
+  /**
+   * A percentage (0 - 100) representing the value this option will reach at the
+   * target year.
+   */
   target: number;
-  /** A full year (e.g. 2020) */
+
+  /**
+   * The year we reach our target policy goal, after which this value is
+   * maintained. Expressed as a full number (e.g. `2021`)
+   */
   targetYear: number;
 }
 
@@ -58,8 +70,8 @@ export interface IOption {
  * For example, the power tile may have renewable options like so:
  *
  * renewable: {
- *   current: 0,
- *   target: 1, // 100% as a decimal
+ *   current: 5,
+ *   target: 100,
  *   targetYear: 2050,
  * }
  *
@@ -77,30 +89,30 @@ export interface IOptions {
 
 const EmptyOption: IOption = {
   current: 0,
-  target: 1,
+  target: 100,
   targetYear: 2050,
 };
 
 export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   [TileType.Factory]: {
-    [TileOption.RenewableShare]: EmptyOption,
+    [TileOption.RenewableShare]: Object.assign({}, EmptyOption),
   },
 
   [TileType.Farm]: {
-    [TileOption.Deforestation]: EmptyOption,
+    [TileOption.Deforestation]: Object.assign({}, EmptyOption),
   },
 
   [TileType.House]: {
-    [TileOption.ElectricCarShare]: EmptyOption,
-    [TileOption.ElectricHeating]: EmptyOption,
+    [TileOption.ElectricCarShare]: Object.assign({}, EmptyOption),
+    [TileOption.ElectricHeating]: Object.assign({}, EmptyOption),
   },
 
   [TileType.Office]: {
-    [TileOption.ElectricHeating]: EmptyOption,
+    [TileOption.ElectricHeating]: Object.assign({}, EmptyOption),
   },
 
   [TileType.Power]: {
-    [TileOption.RenewableShare]: EmptyOption,
+    [TileOption.RenewableShare]: Object.assign({}, EmptyOption),
   },
 };
 

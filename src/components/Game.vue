@@ -22,14 +22,15 @@
             v-bind:key="tile.id"
             :tile="tile"
             :class="{ '-active': tile.id === selectedTile?.id }"
-            @data-updated="selectTile(tile)" />
+            @selected="selectTile(tile)" />
         </div>
       </div>
     </div>
 
     <TileOverlay
       :tile="selectedTile"
-      @closed="tileOverlayClosed()"></TileOverlay>
+      @closed="tileOverlayClosed()"
+      @tile-updated="tileUpdated(tile)"></TileOverlay>
   </div>
 </template>
 
@@ -64,7 +65,10 @@ import TileOverlay from './TileOverlay.vue';
 
     selectTile(tile: TileObj) {
       this.selectedTile = tile;
+    },
 
+    // Takes in a TileObj, but we don't use that at the moment
+    tileUpdated() {
       this.recalculateTemps();
     },
 

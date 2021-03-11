@@ -1,6 +1,6 @@
 <template>
   <!-- Show tile as a <div> if it's empty, <button> if not -->
-  <button v-if="tile.type !== TileType.Empty" class="tile" @click="emitTile()">
+  <button v-if="tile.type !== TileType.Empty" class="tile" @click="tileSelected()">
     <div class="above-ground">
       <img v-if="tile.type === TileType.House"
         src="@/assets/House.svg"
@@ -12,7 +12,7 @@
     </div>
   </button>
 
-  <div class="tile" v-else></div>
+  <div class="tile -empty" v-else></div>
 </template>
 
 <script lang="ts">
@@ -31,11 +31,11 @@ import { TileObj, TileType } from '../simulator';
     TileType: TileType,
   }),
   emits: {
-    dataUpdated(newTile: TileObj): TileObj { return newTile; },
+    selected(newTile: TileObj): TileObj { return newTile; },
   },
   methods: {
-    emitTile(): void {
-      this.$emit('dataUpdated', this.tile);
+    tileSelected(): void {
+      this.$emit('selected', this.tile);
     }
   }
 })
@@ -65,7 +65,7 @@ export default class Game extends Vue { }
   -webkit-transform: translate3d(0, 0, 0);
 
   // Show a prominent effect on non-empty tiles being hovered or focused
-  &:not(:disabled):hover, &:focus, &.-active {
+  &:not(.-empty):hover, &:focus, &.-active {
     outline: none;
     transform: translate(-0.6rem, -0.6rem);
     box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);

@@ -94,7 +94,7 @@ export default class Intro extends Vue { }
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 1200px;
+    max-width: 75rem;
     margin: auto;
   }
 

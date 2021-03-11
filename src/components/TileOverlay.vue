@@ -1,34 +1,72 @@
 <template>
-    <div @click="clearSelectedTile()"
+    <div @click="closeOverlay()"
       class="overlay" :class="{ '-open': showingTileMenu }">
       <transition name="slide-fade">
         <section class="sidebar" v-show="showingTileMenu"
           @click="handleSidebarClick">
-          <button @click="clearSelectedTile()" class="btn" ref="closeBtn">
+          <button @click="closeOverlay()" class="btn -small" ref="closeBtn">
             {{ $t('simulator.close') }}
           </button>
 
           <div v-if="tile">
               <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
 
-              <div v-for="(option, key) in tile.options" :key="key">
-                  <h3>{{ $t(`simulator.tileOptions.${key}`) }}</h3>
+              <form @submit="submitOptions">
+                <div v-for="(option, key) in tile.options" :key="key">
+                    <h3>{{ $t(`simulator.tileOptions.${key}`) }}</h3>
 
-                  <ul>
-                    <li>
+                    <!--
+                      Render the current value (which is only editable in magic
+                      mode, otherwise it comes from real data) and then allow
+                      editing of the target value and year
+                    -->
+                    <label :for="`${key}-current-val`">
                       {{ $t('simulator.tileOverlay.current') }}:
-                      {{ option.current * 100 + '%' }}
-                    </li>
-                    <li>
+                    </label>
+                    <input type="range"
+                      v-model="option.current"
+                      :id="`${key}-current-val`"
+                      name="current-val"
+                      min="0" max="100" step="1" disabled>
+                    <output class="output" :for="`${key}-current-val`">
+                      {{ option.current }}%
+                    </output>
+
+                    <label :for="`${key}-target-val`">
                       {{ $t('simulator.tileOverlay.target') }}:
-                      {{ option.target * 100 + '%' }}
-                    </li>
-                    <li>
+                    </label>
+                    <input type="range"
+                      v-model="option.target"
+                      :id="`${key}-target-val`"
+                      name="target-val"
+                      min="0" max="100" step="1">
+                    <output class="output" :for="`${key}-target-val`">
+                      {{ option.target }}%
+                    </output>
+
+                    <label :for="`${key}-target-year-val`">
                       {{ $t('simulator.tileOverlay.targetYear') }}:
+                    </label>
+                    <input type="range"
+                      v-model="option.targetYear"
+                      :id="`${key}-target-year-val`"
+                      name="target-year-val"
+                      min="2025" max="2100" step="1">
+                    <output class="output" :for="`${key}-target-year-val`">
                       {{ option.targetYear }}
-                    </li>
-                  </ul>
-              </div>
+                    </output>
+                </div>
+
+                <div class="btns">
+                  <button type="button" @click="closeOverlay()"
+                    class="btn -grey -small">
+                    Cancel
+                  </button>
+                  <button type="submit" class="btn -small">
+                    Update
+                  </button>
+                </div>
+              </form>
           </div>
         </section>
       </transition>
@@ -53,9 +91,10 @@ const AnimDurationMs = 300;
   }),
   emits: {
     closed(): void { },
+    tileUpdated(newTile: TileObj): TileObj { return newTile; },
   },
   methods: {
-    clearSelectedTile() {
+    closeOverlay() {
       this.showingTileMenu = false;
 
       // On close of the overlay, refocus the last element
@@ -72,6 +111,16 @@ const AnimDurationMs = 300;
     handleSidebarClick(clickEvent: MouseEvent) {
       clickEvent.stopPropagation();
     },
+
+    submitOptions(submitEvent: Event) {
+      submitEvent.preventDefault();
+
+      console.log('Tile updated! New options:',
+        JSON.stringify(this.tile.options));
+
+      this.$emit('tileUpdated', this.tile);
+      this.closeOverlay();
+    }
   },
   watch: {
     // On tile changed
@@ -120,7 +169,6 @@ export default class TileOverlay extends Vue { }
     pointer-events: none;
   }
 
-
   .sidebar {
     padding: 3rem 5rem;
     height: 100%;
@@ -129,7 +177,22 @@ export default class TileOverlay extends Vue { }
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(0.2rem);
 
-    h2, h3 { margin-top: 1rem; }
+    h2, h3 { margin-top: 2rem; }
+  }
+
+  form {
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+  }
+
+  .btns {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+
+    > button:first-of-type { margin-right: 1rem; }
   }
 }
 </style>
