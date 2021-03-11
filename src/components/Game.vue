@@ -28,7 +28,8 @@
     <div @click="clearSelectedTile()"
       class="overlay" :class="{ '-open': showingTileMenu }">
       <transition name="slide-fade">
-        <div class="sidebar" v-if="showingTileMenu">
+        <section class="sidebar" v-if="showingTileMenu"
+          @click="handleSidebarClick">
           <button @click="clearSelectedTile()" class="btn" ref="closeBtn">
             {{ $t('simulator.close') }}
           </button>
@@ -53,7 +54,7 @@
                 </li>
               </ul>
           </div>
-        </div>
+        </section>
       </transition>
     </div>
   </div>
@@ -99,6 +100,10 @@ import Tile from './Tile.vue';
 
         this.$refs.closeBtn.focus();
       });
+    },
+
+    handleSidebarClick(clickEvent: MouseEvent) {
+      clickEvent.stopPropagation();
     },
 
     clearSelectedTile() {
