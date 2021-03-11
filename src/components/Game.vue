@@ -29,9 +29,10 @@
       class="overlay" :class="{ '-open': showingTileMenu }">
       <transition name="slide-fade">
         <div class="sidebar" v-if="showingTileMenu">
-          <button @click="clearSelectedTile()" class="btn">
+          <button @click="clearSelectedTile()" class="btn" ref="closeBtn">
             {{ $t('simulator.close') }}
           </button>
+
           <h2>{{ $t(`simulator.tileTypes.${selectedTile.type}`) }}</h2>
 
           <div v-for="(option, key) in selectedTile.options" :key="key">
@@ -90,10 +91,25 @@ import Tile from './Tile.vue';
       this.showingTileMenu = true;
 
       this.recalculateTemps();
+
+      // Focus the first focusable element in the overlay - the close button
+      // TODO: Make the overlay trap focus
+      setTimeout(() => {
+        this.lastFocusedElem = document.activeElement;
+
+        this.$refs.closeBtn.focus();
+      });
     },
 
     clearSelectedTile() {
       this.showingTileMenu = false;
+
+      // On close of the overlay, refocus the last element
+      setTimeout(() => {
+        if (this.lastFocusedElem) {
+          this.lastFocusedElem.focus();
+        }
+      });
     }
   }
 })
