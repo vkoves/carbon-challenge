@@ -1,11 +1,13 @@
 <template>
   <!-- Show tile as a <div> if it's empty, <button> if not -->
-  <button v-if="tile.type !== TileType.Empty" class="tile"
+  <button v-if="tile.type !== TileType.Empty && tile.type !== TileType.Forest"
+    class="tile"
     @click="tileSelected()"
     v-bind:style="{ 'animation-delay': animDelay }">
     <div class="above-ground">
-      <img v-if="tile.type === TileType.House"
-        src="@/assets/House.svg"
+      <img v-if="tileImg"
+        :class="tile.type"
+        :src="require('@/assets/' + tileImg)"
         :alt="$t(`simulator.tileTypes.${tile.type}`)">
       <!-- TODO: Move all non empty tiles to images -->
       <span v-else>
@@ -15,7 +17,13 @@
   </button>
 
   <div v-else class="tile -empty"
-    v-bind:style="{ 'animation-delay': animDelay }"></div>
+    v-bind:style="{ 'animation-delay': animDelay }">
+    <div class="above-ground">
+      <img v-if="tileImg"
+        :src="require('@/assets/' + tileImg)"
+        :alt="$t(`simulator.tileTypes.${tile.type}`)">
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -43,11 +51,22 @@ import { TileObj, TileType } from '../simulator';
     }
   },
   computed: {
-    animDelay() {
+    animDelay(): string {
       // The delay in seconds between each fall animation starting
       const AnimationOffsetMs = 100;
 
       return this.tileNum * (AnimationOffsetMs / 1000) + 's';
+    },
+
+    tileImg(): string | null {
+      if (this.tile.type === TileType.House) {
+        return 'House.svg';
+      }
+      else if (this.tile.type == TileType.Forest) {
+        return 'Forest.svg';
+      }
+
+      return null;
     }
   }
 })
@@ -97,6 +116,14 @@ export default class Game extends Vue { }
     width: 85%;
   }
 
-  img { width: 100%; }
+  img {
+    width: 100%;
+
+    &.forest {
+        position: relative;
+        width: 160%;
+        left: -35%;
+    }
+  }
 }
 </style>
