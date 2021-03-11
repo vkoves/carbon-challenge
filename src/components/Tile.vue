@@ -61,7 +61,7 @@ export default class Game extends Vue { }
   -webkit-transform: translate3d(0, 0, 0);
 
   // Show a prominent effect on non-empty tiles being hovered or focused
-  &:not(:disabled):hover, &:focus {
+  &:not(:disabled):hover, &:focus, &.-active {
     outline: none;
     transform: translate(-0.6rem, -0.6rem);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);

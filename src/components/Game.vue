@@ -18,45 +18,18 @@
 
       <div class="boards-cont">
         <div class="game-board -main">
-          <Tile v-for="tile in tiles" v-bind:key="tile.id"
+          <Tile v-for="tile in tiles"
+            v-bind:key="tile.id"
             :tile="tile"
+            :class="{ '-active': tile.id === selectedTile?.id }"
             @data-updated="selectTile(tile)" />
         </div>
       </div>
     </div>
 
-    <div @click="clearSelectedTile()"
-      class="overlay" :class="{ '-open': showingTileMenu }">
-      <transition name="slide-fade">
-        <section class="sidebar" v-if="showingTileMenu"
-          @click="handleSidebarClick">
-          <button @click="clearSelectedTile()" class="btn" ref="closeBtn">
-            {{ $t('simulator.close') }}
-          </button>
-
-          <h2>{{ $t(`simulator.tileTypes.${selectedTile.type}`) }}</h2>
-
-          <div v-for="(option, key) in selectedTile.options" :key="key">
-              <h3>{{ $t(`simulator.tileOptions.${key}`) }}</h3>
-
-              <ul>
-                <li>
-                  {{ $t('simulator.tileOverlay.current') }}:
-                  {{ option.current * 100 + '%' }}
-                </li>
-                <li>
-                  {{ $t('simulator.tileOverlay.target') }}:
-                  {{ option.target * 100 + '%' }}
-                </li>
-                <li>
-                  {{ $t('simulator.tileOverlay.targetYear') }}:
-                  {{ option.targetYear }}
-                </li>
-              </ul>
-          </div>
-        </section>
-      </transition>
-    </div>
+    <TileOverlay
+      :tile="selectedTile"
+      @closed="tileOverlayClosed()"></TileOverlay>
   </div>
 </template>
 
@@ -65,11 +38,13 @@ import { Options, Vue } from 'vue-class-component';
 // eslint-disable-next-line no-unused-vars
 import { Simulator, TileObj } from '../simulator';
 import Tile from './Tile.vue';
+import TileOverlay from './TileOverlay.vue';
 
 @Options({
   name: 'Game',
   components: {
     Tile,
+    TileOverlay,
   },
   data: () => ({
     tiles: Simulator.generateTiles(),
@@ -89,32 +64,12 @@ import Tile from './Tile.vue';
 
     selectTile(tile: TileObj) {
       this.selectedTile = tile;
-      this.showingTileMenu = true;
 
       this.recalculateTemps();
-
-      // Focus the first focusable element in the overlay - the close button
-      // TODO: Make the overlay trap focus
-      setTimeout(() => {
-        this.lastFocusedElem = document.activeElement;
-
-        this.$refs.closeBtn.focus();
-      });
     },
 
-    handleSidebarClick(clickEvent: MouseEvent) {
-      clickEvent.stopPropagation();
-    },
-
-    clearSelectedTile() {
-      this.showingTileMenu = false;
-
-      // On close of the overlay, refocus the last element
-      setTimeout(() => {
-        if (this.lastFocusedElem) {
-          this.lastFocusedElem.focus();
-        }
-      });
+    tileOverlayClosed() {
+      this.selectedTile = null;
     }
   }
 })
@@ -217,44 +172,5 @@ export default class Game extends Vue { }
   width: $boardSize;
   height: $boardSize;
   margin: auto;
-}
-
-.overlay {
-  display: flex;
-  justify-content: flex-end;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  right: 0;
-  z-index: 2;
-  transition: background-color 0.3s;
-  background-color: rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-
-  &:not(.-open) {
-    background-color: transparent;
-    pointer-events: none;
-  }
-
-  &.-open .sidebar {
-    // right: 0;
-  }
-
-  &:not(.-open) .sidebar {
-    // right: -40%;
-  }
-
-  .sidebar {
-    // position: absolute;
-    // transition: right 0.5s;
-    padding: 50px;
-    height: 100%;
-    width: 40%;
-    box-sizing: border-box;
-    backdrop-filter: brightness(0.5) blur(10px);
-
-    h2, h3 { margin-top: 1rem; }
-  }
 }
 </style>
