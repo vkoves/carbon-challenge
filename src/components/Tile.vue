@@ -20,6 +20,7 @@
     v-bind:style="{ 'animation-delay': animDelay }">
     <div class="above-ground">
       <img v-if="tileImg"
+        :class="tile.type"
         :src="require('@/assets/' + tileImg)"
         :alt="$t(`simulator.tileTypes.${tile.type}`)">
     </div>
@@ -90,7 +91,6 @@ export default class Game extends Vue { }
   transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
   background: $ground-green;
   border: solid 0.25rem lighten($ground-green, 5%);
-  margin: 0rem;
 
   // Default the tiles to hidden, and have them fall onto the game board
   opacity: 0;
@@ -121,8 +121,8 @@ export default class Game extends Vue { }
 
     &.forest {
         position: relative;
-        width: 160%;
-        left: -35%;
+        width: 140%;
+        left: -20%;
     }
   }
 }
