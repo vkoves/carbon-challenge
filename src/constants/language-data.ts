@@ -1,6 +1,3 @@
-/** The width of our simulator grid */
-export const GridWidth = 4;
-
 export const AvailableLanguages = [{
   locale: 'en',
   name: 'English'

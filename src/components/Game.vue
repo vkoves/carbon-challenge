@@ -1,4 +1,4 @@
-<template>
+F<template>
   <div class="inner">
     <h1>{{ $t('title') }}</h1>
 
@@ -37,8 +37,10 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import { Simulator } from '../classes/simulator';
 // eslint-disable-next-line no-unused-vars
-import { Simulator, TileObj } from '../simulator';
+import { TileObj } from '../classes/tile-obj';
+
 import Tile from './Tile.vue';
 import TileOverlay from './TileOverlay.vue';
 
