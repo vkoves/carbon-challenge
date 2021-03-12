@@ -28,3 +28,24 @@
   transform: translateX(10rem);
   opacity: 0;
 }
+
+@keyframes fallIn {
+  0% {
+    transform: translate(-150%, -150%);
+  }
+
+  75% {
+    transform: translate(2%, 2%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+
+  to { opacity: 1; }
+}

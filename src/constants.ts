@@ -34,6 +34,7 @@ export const AllLanguageData = {
       tileTypes: {
         power: 'Power Plant',
         farm: 'Farm',
+        forest: 'Forest',
         house: 'House',
         office: 'Office',
         factory: 'Factory',
@@ -74,6 +75,7 @@ export const AllLanguageData = {
       tileTypes: {
         power: 'Planta de energía',
         farm: 'Granja',
+        forest: 'Bosque',
         house: 'Casa',
         office: 'Oficina',
         factory: 'Fábrica',

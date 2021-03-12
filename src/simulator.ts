@@ -13,6 +13,7 @@ import { GridWidth } from './constants';
  */
 export enum TileType {
   Empty = 'empty',
+  Forest = 'forest',
   Factory = 'factory',
   Farm = 'farm',
   House = 'house',
@@ -136,10 +137,10 @@ export class TileObj {
  * The default layout of board tile types
  */
 const DefaultBoardLayout: Array<TileType> = [
-    TileType.Empty, TileType.Farm, TileType.Empty, TileType.Empty,
-    TileType.Empty, TileType.House, TileType.Office, TileType.Empty,
+    TileType.Empty, TileType.Farm, TileType.Empty, TileType.Forest,
+    TileType.Forest, TileType.House, TileType.Office, TileType.Empty,
     TileType.Empty, TileType.Power, TileType.Factory, TileType.Empty,
-    TileType.Empty, TileType.Empty, TileType.Empty, TileType.Empty,
+    TileType.Empty, TileType.Empty, TileType.Forest, TileType.Forest,
 ]
 
 /**
