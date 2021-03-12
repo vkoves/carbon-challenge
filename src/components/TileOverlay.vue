@@ -76,7 +76,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 // eslint-disable-next-line no-unused-vars
-import { TileObj } from '../simulator';
+import { TileObj } from '../classes/tile-obj';
 
 const AnimDurationMs = 300;
 

@@ -1,6 +1,5 @@
 import { expect } from 'chai'
-import { Simulator } from '@/simulator';
-import { GridWidth } from '@/constants';
+import { Simulator, GridWidth } from '@/classes/simulator';
 
 describe('Simulator', () => {
   describe('generateTiles', () => {

@@ -38,7 +38,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
-import { AvailableLanguages } from './constants';
+import { AvailableLanguages } from './constants/language-data';
 
 @Options({
   name: 'App',

@@ -31,7 +31,8 @@
 import { Options, Vue } from 'vue-class-component';
 
 // eslint-disable-next-line
-import { TileObj, TileType } from '../simulator';
+import { TileObj } from '../classes/tile-obj';
+import { TileType } from '../interfaces/tile-interfaces';
 
 @Options({
   name: 'Game',
