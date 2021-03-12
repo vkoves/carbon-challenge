@@ -1,4 +1,4 @@
-F<template>
+<template>
   <div class="inner">
     <h1>{{ $t('title') }}</h1>
 
