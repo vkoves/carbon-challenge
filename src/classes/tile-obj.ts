@@ -15,4 +15,14 @@ export class TileObj {
     this.type = type;
     this.options = DefaultTileOptions[type];
   }
+
+  /**
+   * We have multiple scenery tiles with distinct types for rendering, so this
+   * makes sure those tiles aren't interactive
+   */
+  isScenery(): boolean {
+    return this.type === TileType.Empty
+      || this.type === TileType.Forest
+      || this.type === TileType.Lake;
+  }
 }

@@ -29,7 +29,9 @@
   opacity: 0;
 }
 
-@keyframes fallIn {
+// A skewed fall in animation for the board tiles - since it's rotated 45 degrees
+// this has to move on the X and Y axis
+@keyframes tileFallIn {
   0% {
     transform: translate(-150%, -150%);
   }
@@ -43,6 +45,19 @@
   }
 }
 
+@keyframes fallIn {
+  0% {
+    transform: translateY(-150%);
+  }
+
+  75% {
+    transform: translateY(2%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
 
 @keyframes fadeIn {
   from { opacity: 0; }

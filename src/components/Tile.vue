@@ -1,11 +1,12 @@
 <template>
-  <!-- Show tile as a <div> if it's empty, <button> if not -->
-  <button v-if="tile.type !== TileType.Empty && tile.type !== TileType.Forest"
+  <!-- Show tile as a <div> if it's scenery, <button> if interactive -->
+  <button v-if="!tile.isScenery()"
     class="tile"
     @click="tileSelected()"
-    v-bind:style="{ 'animation-delay': animDelay }">
-    <div class="above-ground">
+    :style="{ 'animation-delay': animDelay }">
+    <div class="above-ground -building">
       <img v-if="tileImg"
+        :style="{ 'animation-delay': imgAnimDelay }"
         :class="tile.type"
         :src="require('@/assets/' + tileImg)"
         :alt="$t(`simulator.tileTypes.${tile.type}`)">
@@ -17,12 +18,13 @@
   </button>
 
   <div v-else class="tile -empty"
-    v-bind:style="{ 'animation-delay': animDelay }">
+    :style="{ 'animation-delay': animDelay }">
     <div class="above-ground">
+      <!-- Scenery tiles are decorative, so no need for alt text - it'd just be
+        noise -->
       <img v-if="tileImg"
         :class="tile.type"
-        :src="require('@/assets/' + tileImg)"
-        :alt="$t(`simulator.tileTypes.${tile.type}`)">
+        :src="require('@/assets/' + tileImg)" alt="">
     </div>
   </div>
 </template>
@@ -31,8 +33,16 @@
 import { Options, Vue } from 'vue-class-component';
 
 // eslint-disable-next-line
-import { TileObj } from '../classes/tile-obj';
-import { TileType } from '../interfaces/tile-interfaces';
+import { TileObj } from '@/classes/tile-obj';
+import { TileType } from '@/interfaces/tile-interfaces';
+import { GridWidth } from '@/classes/simulator';
+
+// The delay in seconds between each fall animation starting
+const AnimationOffsetMs = 100;
+
+const AnimationOffsetSec = AnimationOffsetMs / 1000;
+
+const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
 
 @Options({
   name: 'Game',
@@ -54,10 +64,11 @@ import { TileType } from '../interfaces/tile-interfaces';
   },
   computed: {
     animDelay(): string {
-      // The delay in seconds between each fall animation starting
-      const AnimationOffsetMs = 100;
+      return this.tileNum * AnimationOffsetSec + 's';
+    },
 
-      return this.tileNum * (AnimationOffsetMs / 1000) + 's';
+    imgAnimDelay(): string {
+      return (this.tileNum * AnimationOffsetSec) + GridAnimDelaySec + 's';
     },
 
     tileImg(): string | null {
@@ -66,6 +77,9 @@ import { TileType } from '../interfaces/tile-interfaces';
       }
       else if (this.tile.type == TileType.Forest) {
         return 'Forest.svg';
+      }
+      else if (this.tile.type == TileType.Lake) {
+        return 'Lake.svg';
       }
 
       return null;
@@ -95,7 +109,7 @@ export default class Game extends Vue { }
 
   // Default the tiles to hidden, and have them fall onto the game board
   opacity: 0;
-  animation: 0.2s ease-in fadeIn, 0.4s linear fallIn;
+  animation: 0.2s ease-in fadeIn, 0.4s linear tileFallIn;
   // Ensure opacity persists after the fadeIn is done
   animation-fill-mode: forwards, none;
 
@@ -115,6 +129,15 @@ export default class Game extends Vue { }
   .above-ground {
     transform: skew(-$skewDeg, -$skewDeg) rotate(-$boardRotation);
     width: 85%;
+
+    // Default building images to invisible and have them fall onto the game
+    // board after the board animation completes
+    &.-building img {
+      opacity: 0;
+      animation: 0.2s ease-in fadeIn, 0.4s linear fallIn;
+      // Ensure animation effects persist after completion
+      animation-fill-mode: forwards;
+    }
   }
 
   img {
