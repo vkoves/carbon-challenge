@@ -72,7 +72,7 @@ button, a.btn {
   font-size: 1.5rem;
 
   &:hover, &:focus {
-    outline: none;
+    outline-color: transparent;
     box-shadow: 0 0 0.125rem 0.3rem $white;
   }
 
@@ -93,7 +93,7 @@ select, .btn {
   transition: box-shadow 0.3s, opacity 0.3s;
 
   &:hover, &:focus {
-    outline: none;
+    outline-color: transparent;
     box-shadow: 0 0 0.125rem 0.3rem $white;
   }
 }
