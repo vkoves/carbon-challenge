@@ -1,6 +1,6 @@
 <template>
-  <!-- Show tile as a <div> if it's empty, <button> if not -->
-  <button v-if="tile.type !== TileType.Empty && tile.type !== TileType.Forest"
+  <!-- Show tile as a <div> if it's scenery, <button> if interactive -->
+  <button v-if="!tile.isScenery()"
     class="tile"
     @click="tileSelected()"
     v-bind:style="{ 'animation-delay': animDelay }">
@@ -19,10 +19,11 @@
   <div v-else class="tile -empty"
     v-bind:style="{ 'animation-delay': animDelay }">
     <div class="above-ground">
+      <!-- Scenery tiles are decorative, so no need for alt text - it'd just be
+        noise -->
       <img v-if="tileImg"
         :class="tile.type"
-        :src="require('@/assets/' + tileImg)"
-        :alt="$t(`simulator.tileTypes.${tile.type}`)">
+        :src="require('@/assets/' + tileImg)" alt="">
     </div>
   </div>
 </template>
@@ -66,6 +67,9 @@ import { TileType } from '../interfaces/tile-interfaces';
       }
       else if (this.tile.type == TileType.Forest) {
         return 'Forest.svg';
+      }
+      else if (this.tile.type == TileType.Lake) {
+        return 'Lake.svg';
       }
 
       return null;

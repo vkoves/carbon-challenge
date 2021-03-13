@@ -11,10 +11,10 @@ export const GridWidth = 4;
  * The default layout of board tile types
  */
 const DefaultBoardLayout: Array<TileType> = [
-    TileType.Empty, TileType.Farm, TileType.Empty, TileType.Forest,
+    TileType.Forest, TileType.Farm, TileType.Empty, TileType.Forest,
     TileType.Forest, TileType.House, TileType.Office, TileType.Empty,
-    TileType.Empty, TileType.Power, TileType.Factory, TileType.Empty,
-    TileType.Empty, TileType.Empty, TileType.Forest, TileType.Forest,
+    TileType.Empty, TileType.Empty, TileType.Power, TileType.Lake,
+    TileType.Empty, TileType.Factory, TileType.Forest, TileType.Forest,
 ]
 
 /**

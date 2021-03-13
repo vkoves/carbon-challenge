@@ -7,8 +7,11 @@
  * keep that in sync with this enum!
  */
 export enum TileType {
+  // Scenery (non-interactive) tile types
   Empty = 'empty',
   Forest = 'forest',
+  Lake = 'lake',
+  // Actual interactive types
   Factory = 'factory',
   Farm = 'farm',
   House = 'house',
