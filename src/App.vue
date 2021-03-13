@@ -10,6 +10,12 @@
       <router-link to="/simulator" class="btn">
         {{ $t('header.simulator') }}
       </router-link>
+      <router-link to="/disclaimers" class="btn">
+        {{ $t('header.disclaimers') }}
+      </router-link>
+      <router-link to="/about" class="btn">
+        {{ $t('header.about') }}
+      </router-link>
     </div>
 
     <div class="lang-selector">
@@ -26,13 +32,12 @@
       </select>
     </div>
   </header>
-  <main id="main-content">
-    <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </router-view>
-  </main>
+
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 </template>
 
 <script lang="ts">

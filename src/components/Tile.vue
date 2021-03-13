@@ -118,7 +118,7 @@ export default class Game extends Vue { }
 
   // Show a prominent effect on non-empty tiles being hovered or focused
   &:not(.-empty):hover, &:focus, &.-active {
-    outline: none;
+    outline-color: transparent;
     transform: translate(-10%, -10%);
     box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
     border-color: $white;

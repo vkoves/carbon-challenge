@@ -13,6 +13,8 @@ export const AllLanguageData = {
       home: 'Home',
       simulator: 'Simulator',
       language: 'Language',
+      disclaimers: 'Disclaimers',
+      about: 'About',
     },
     intro: {
       slogan1: 'Climate change is big.',
@@ -54,6 +56,8 @@ export const AllLanguageData = {
       home: 'Hogar',
       simulator: 'Simulador',
       language: 'Lingua',
+      disclaimers: 'Advertencias',
+      about: 'Sobre',
     },
     intro: {
       slogan1: 'El cambio climático es grande.',

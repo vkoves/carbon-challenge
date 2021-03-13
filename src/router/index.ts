@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Intro from '../components/Intro.vue'
-import Game from '../components/Game.vue'
+import About from '@/views/About.vue'
+import Disclaimers from '@/views/Disclaimers.vue'
+import Game from '@/components/Game.vue'
+import Intro from '@/components/Intro.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,6 +15,16 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Game',
     component: Game
   },
+  {
+    path: '/disclaimers',
+    name: 'Disclaimers',
+    component: Disclaimers
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About
+  }
 ]
 
 const router = createRouter({
