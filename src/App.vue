@@ -3,34 +3,50 @@
     Skip to Main Content
   </a>
   <header>
-    <div>
-      <router-link to="/" class="btn">
-        {{ $t('header.home') }}
+    <div class="mobile-header" :class="{ '-open': mobileMenuOpen }">
+      <router-link to="/" @click="closeMenu()" class="btn -transparent">
+        {{ $t('title') }}
       </router-link>
-      <router-link to="/simulator" class="btn">
-        {{ $t('header.simulator') }}
-      </router-link>
-      <router-link to="/disclaimers" class="btn">
-        {{ $t('header.disclaimers') }}
-      </router-link>
-      <router-link to="/about" class="btn">
-        {{ $t('header.about') }}
-      </router-link>
+
+      <button class="btn -transparent"
+        :aria-expanded="mobileMenuOpen"
+        @click="mobileMenuOpen = !mobileMenuOpen">
+        <img src="@/assets/menu.svg" alt="Toggle Mobile Menu">
+      </button>
     </div>
 
-    <div class="lang-selector">
-      <label for="lang-select">
-        {{ $t('header.language') }}
-        <img src="@/assets/earth.svg" alt="">
-      </label>
-      <select v-model="$i18n.locale" id="lang-select">
-        <option v-for="langObj in AvailableLanguages"
-          :key="`${langObj.locale}`"
-          :value="langObj.locale">
-          {{ langObj.name }}
-        </option>
-      </select>
-    </div>
+    <transition name="vert-slide-fade">
+      <div class="menu-inner" v-show="mobileMenuOpen">
+        <div class="nav-links">
+          <router-link to="/" @click="closeMenu()" class="btn -transparent">
+            {{ $t('header.home') }}
+          </router-link>
+          <router-link to="/simulator" @click="closeMenu()" class="btn -transparent">
+            {{ $t('header.simulator') }}
+          </router-link>
+          <router-link to="/disclaimers" @click="closeMenu()" class="btn -transparent">
+            {{ $t('header.disclaimers') }}
+          </router-link>
+          <router-link to="/about" @click="closeMenu()" class="btn -transparent">
+            {{ $t('header.about') }}
+          </router-link>
+        </div>
+
+        <div class="lang-selector">
+          <label for="lang-select">
+            {{ $t('header.language') }}
+            <img src="@/assets/earth.svg" alt="">
+          </label>
+          <select v-model="$i18n.locale" id="lang-select">
+            <option v-for="langObj in AvailableLanguages"
+              :key="`${langObj.locale}`"
+              :value="langObj.locale">
+              {{ langObj.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </transition>
   </header>
 
   <router-view v-slot="{ Component }">
@@ -49,7 +65,13 @@ import { AvailableLanguages } from '@/constants/languages';
   name: 'App',
   data: () => ({
     AvailableLanguages: AvailableLanguages,
-  })
+    mobileMenuOpen: false,
+  }),
+  methods: {
+    closeMenu(): void {
+      this.mobileMenuOpen = false;
+    }
+  }
 })
 
 export default class App extends Vue { }
@@ -64,22 +86,45 @@ export default class App extends Vue { }
   left: 0;
   margin: 0;
   background: $dark-blue;
-  z-index: 10;
+  z-index: 11;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
 header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   background-color: $dark-blue;
   padding: 0.75rem 2rem;
   position: absolute;
   width: 100%;
-  z-index: 1;
+  z-index: 10;
   box-sizing: border-box;
+
+  .menu-inner, .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-header {
+    padding: 1rem;
+    background-color: $dark-blue;
+    transition: border 0.3s;
+    border-bottom: solid 0.125rem transparent;
+
+    &.-open {
+      border-color: white;
+    }
+
+    a.btn { padding-left: 1rem; }
+
+    button {
+      display: flex;
+      background: none;
+      margin-top: 0;
+      padding: 0.5rem;
+    }
+  }
 
   a.btn {
     margin: 0;
@@ -109,6 +154,53 @@ header {
       font-weight: bold;
       font-size: 1rem;
       padding: 0.25rem;
+    }
+  }
+
+  // Desktop styling - hide mobile specific UI
+  @media (min-width: $desktop-min-width) {
+    .mobile-header { display: none; }
+
+    // Always render the inner menu on desktop, overriding mobile closed state
+    .menu-inner { display: flex !important; }
+  }
+
+  // Mobile styling
+  @media (max-width: $mobile-max-width) {
+    // On mobile, the <header> is sticky and leaves padding to it's mobile child
+    position: fixed;
+    padding: 0;
+
+    .btn.-transparent { border: none; }
+
+    .menu-inner, .nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      a + a {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+    }
+
+    .nav-links a, .lang-selector { padding: 1rem; }
+
+    .menu-inner {
+      position: absolute;
+      background: $dark-blue;
+      width: 100%;
+      left: 0;
+      padding: 1rem;
+      box-sizing: border-box;
+      z-index: -1;
+    }
+
+    .lang-selector {
+      display: flex;
+      justify-content: space-between;
+
+      select { width: 40%; }
     }
   }
 }

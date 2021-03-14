@@ -86,7 +86,7 @@ export default class Intro extends Vue { }
     background: linear-gradient($dark-blue, $blue);
     color: $white;
     text-align: center;
-    padding: 15rem $large;
+    padding: 25vh $large;
   }
 
   &:not(.-primary) .hero-inner {

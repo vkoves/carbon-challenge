@@ -19,7 +19,7 @@
 }
 
 /**
- * Slide fade
+ * Slide Fade. Use with `<transition name="slide-fade">`
  */
 .slide-fade-enter-active, .slide-fade-leave-active {
   transition: all 0.5s ease;
@@ -28,6 +28,19 @@
   transform: translateX(10rem);
   opacity: 0;
 }
+
+/**
+ * Vertical Slide Fade. Use with `<transition name="vert-slide-fade">`
+ *
+ */
+.vert-slide-fade-enter-active, .vert-slide-fade-leave-active {
+  transition: all 0.5s ease;
+}
+.vert-slide-fade-enter-from, .vert-slide-fade-leave-to {
+  transform: translateY(-10rem);
+  opacity: 0;
+}
+
 
 // A skewed fall in animation for the board tiles - since it's rotated 45 degrees
 // this has to move on the X and Y axis

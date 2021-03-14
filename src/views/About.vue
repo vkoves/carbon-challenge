@@ -12,9 +12,7 @@
 
       <p>
         The Carbon Challenge is an open-source project, so if you want to help make the Carbon Challenge better, or just see how it works,
-        <a href="https://github.com/vkoves/carbon-challenge">
-          check it out on GitHub
-        </a>!
+        <a href="https://github.com/vkoves/carbon-challenge">check it out on GitHub</a>!
       </p>
 
       <h2>References</h2>

@@ -103,9 +103,9 @@ export default class Game extends Vue { }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, outline 0.3s;
   background: $ground-green;
-  border: solid 0.25rem lighten($ground-green, 5%);
+  outline: solid 0.25rem lighten($ground-green, 5%);
 
   // Default the tiles to hidden, and have them fall onto the game board
   opacity: 0;
@@ -121,7 +121,7 @@ export default class Game extends Vue { }
     outline-color: transparent;
     transform: translate(-10%, -10%);
     box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
-    border-color: $white;
+    outline-color: $white;
   }
 
   // Reverse the game board rotation and skew to straighten above ground
