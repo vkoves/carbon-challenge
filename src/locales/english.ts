@@ -5,9 +5,9 @@ export const EnglishLanguageData: ILanguageData = {
   header: {
     home: 'Home',
     simulator: 'Simulator',
-    language: 'Language',
     disclaimers: 'Disclaimers',
     about: 'About',
+    language: 'Language',
   },
   intro: {
     slogan1: 'Climate change is big.',

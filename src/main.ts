@@ -1,14 +1,8 @@
 import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import { AllLanguageData, Locales } from './constants/languages';
 
-import { createI18n } from 'vue-i18n'
-
-const i18n = createI18n({
-  locale: Locales.English,
-  messages: AllLanguageData,
-});
+import App from '@/App.vue'
+import router from '@/router'
+import { i18n } from '@/i18n-init';
 
 createApp(App)
   .use(router)

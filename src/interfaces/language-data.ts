@@ -6,12 +6,13 @@
  */
 export interface ILanguageData {
   title: string;
+  // These are also used for page titles
   header: {
     home: string;
     simulator: string;
-    language: string;
     disclaimers: string;
     about: string;
+    language: string;
   };
   intro: {
     slogan1: string;

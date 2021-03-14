@@ -5,9 +5,9 @@ export const SpanishLanguageData: ILanguageData = {
   header: {
     home: 'Hogar',
     simulator: 'Simulador',
-    language: 'Lingua',
     disclaimers: 'Advertencias',
     about: 'Sobre',
+    language: 'Lingua',
   },
   intro: {
     slogan1: 'El cambio climático es grande.',
