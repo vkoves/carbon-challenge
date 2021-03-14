@@ -11,7 +11,8 @@
       <button class="btn -transparent"
         :aria-expanded="mobileMenuOpen"
         @click="mobileMenuOpen = !mobileMenuOpen">
-        <img src="@/assets/menu.svg" alt="Toggle Mobile Menu">
+        <img src="@/assets/menu.svg" alt="Toggle Mobile Menu"
+          width="24" height="24">
       </button>
     </div>
 
@@ -35,7 +36,8 @@
         <div class="lang-selector">
           <label for="lang-select">
             {{ $t('header.language') }}
-            <img src="@/assets/earth.svg" alt="">
+            <img src="@/assets/earth.svg" alt=""
+              width="20" height="20">
           </label>
           <select v-model="$i18n.locale" id="lang-select">
             <option v-for="langObj in AvailableLanguages"
@@ -153,10 +155,7 @@ header {
       color: $white;
       font-weight: bold;
 
-      img {
-        height: 1.25rem;
-        margin-left: 0.5rem;
-      }
+      img { margin-left: 0.5rem; }
     }
 
     select {
