@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import { i18n } from '@/i18n-init';
 
+import App from '@/App.vue'
+
 import About from '@/views/About.vue'
 import Disclaimers from '@/views/Disclaimers.vue'
 import Game from '@/components/Game.vue'

@@ -4,7 +4,7 @@
   </a>
   <header>
     <div class="mobile-header" :class="{ '-open': mobileMenuOpen }">
-      <router-link to="/" @click="closeMenu()" class="btn -transparent">
+      <router-link to="/" class="btn -transparent">
         {{ $t('title') }}
       </router-link>
 
@@ -18,16 +18,16 @@
     <transition name="vert-slide-fade">
       <div class="menu-inner" v-show="mobileMenuOpen">
         <div class="nav-links">
-          <router-link to="/" @click="closeMenu()" class="btn -transparent">
+          <router-link to="/" class="btn -transparent">
             {{ $t('header.home') }}
           </router-link>
-          <router-link to="/simulator" @click="closeMenu()" class="btn -transparent">
+          <router-link to="/simulator" class="btn -transparent">
             {{ $t('header.simulator') }}
           </router-link>
-          <router-link to="/disclaimers" @click="closeMenu()" class="btn -transparent">
+          <router-link to="/disclaimers" class="btn -transparent">
             {{ $t('header.disclaimers') }}
           </router-link>
-          <router-link to="/about" @click="closeMenu()" class="btn -transparent">
+          <router-link to="/about" class="btn -transparent">
             {{ $t('header.about') }}
           </router-link>
         </div>
@@ -59,6 +59,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
+import router from '@/router'
 import { AvailableLanguages } from '@/constants/languages';
 
 @Options({
@@ -71,6 +72,15 @@ import { AvailableLanguages } from '@/constants/languages';
     closeMenu(): void {
       this.mobileMenuOpen = false;
     }
+  },
+  mounted() {
+    const closeMenuFunc = this.closeMenu;
+
+    // Watch for route changes and close the mobile menu
+    router.beforeEach((to, from, next) => {
+      closeMenuFunc();
+      next();
+    });
   }
 })
 
