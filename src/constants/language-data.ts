@@ -1,3 +1,6 @@
+import { EnglishLanguageData } from '@/locales/english';
+import { SpanishLanguageData } from '@/locales/spanish';
+
 export const AvailableLanguages = [{
   locale: 'en',
   name: 'English'
@@ -6,90 +9,69 @@ export const AvailableLanguages = [{
   name: 'Español'
 }];
 
+/**
+ * We need an interface for the configurations for each language to ensure that
+ * our translations our complete. If we add a new key, we need to make sure to
+ * add it in every language!
+ */
+export interface ILanguageData {
+  title: string;
+  header: {
+    home: string;
+    simulator: string;
+    language: string;
+    disclaimers: string;
+    about: string;
+  };
+  intro: {
+    slogan1: string;
+    slogan2: string;
+    startBtn: string;
+  };
+  simulator: {
+    avgTempLabel: string;
+    close: string;
+    tileOverlay: {
+      current: string;
+      target: string;
+      targetYear: string;
+    };
+    // Should include all values from the TileType enum
+    tileTypes: {
+      power: string;
+      farm: string;
+      forest: string;
+      house: string;
+      office: string;
+      factory: string;
+      empty: string;
+    };
+    // Should include all values from the TileOption enum
+    tileOptions: {
+      deforestation: string;
+      electricCarShare: string;
+      electricHeating: string;
+      renewableShare: string;
+    };
+  }
+}
+
+export interface IStringMap {
+  [key: string]: string;
+}
+
+interface IStringMapNested {
+  [key: string]: string | IStringMap;
+}
+
+/**
+ * Map our language data away from our strict interface so we can pass it into
+ * the internationalization library.
+ */
 export const AllLanguageData = {
-  en: {
-    title: 'The Carbon Challenge',
-    header: {
-      home: 'Home',
-      simulator: 'Simulator',
-      language: 'Language',
-      disclaimers: 'Disclaimers',
-      about: 'About',
-    },
-    intro: {
-      slogan1: 'Climate change is big.',
-      slogan2: 'So we have to go even bigger.',
-      startBtn: 'Let\'s Go'
-    },
-    simulator: {
-      avgTempLabel: 'Average Global Temperature Increase',
-      close: 'Close',
-      tileOverlay: {
-        current: 'Current',
-        target: 'Target',
-        targetYear: 'Target Year',
-      },
-      // Should include all values from the TileType enum
-      tileTypes: {
-        power: 'Power Plant',
-        farm: 'Farm',
-        forest: 'Forest',
-        house: 'House',
-        office: 'Office',
-        factory: 'Factory',
-        empty: 'Empty',
-      },
-      // Should include all values from the TileOption enum
-      tileOptions: {
-        deforestation: 'Deforestation',
-        electricCarShare: 'Share of Electric Cars',
-        electricHeating: 'Share of Electric Heating',
-        renewableShare: 'Share of Renewables',
-      }
-    }
-  },
+  en: EnglishLanguageData as unknown as IStringMapNested,
   // NOTE: Spanish translations are work in progress, and mostly for testing
   // internationalization
-  es: {
-    title: 'El Desafío Del Carbono',
-    header: {
-      home: 'Hogar',
-      simulator: 'Simulador',
-      language: 'Lingua',
-      disclaimers: 'Advertencias',
-      about: 'Sobre',
-    },
-    intro: {
-      slogan1: 'El cambio climático es grande.',
-      slogan2: 'Así que tenemos que ir aún más grandes.',
-      startBtn: 'Vamos'
-    },
-    simulator: {
-      avgTempLabel: 'Aumento de la temperatura global promedio',
-      close: 'Cerrar',
-      tileOverlay: {
-        current: 'Actual',
-        target: 'Objetivo',
-        targetYear: 'Año objetivo',
-      },
-      // Should include all values from the TileType enum
-      tileTypes: {
-        power: 'Planta de energía',
-        farm: 'Granja',
-        forest: 'Bosque',
-        house: 'Casa',
-        office: 'Oficina',
-        factory: 'Fábrica',
-        empty: 'Vacío',
-      },
-      // Should include all values from the TileOption enum
-      tileOptions: {
-        deforestation: 'Deforestación',
-        electricCarShare: 'Cuota de coches eléctricos',
-        electricHeating: 'Cuota de calefacción eléctrica',
-        renewableShare: 'Cuota de renovables',
-      }
-    }
-  }
+  es: SpanishLanguageData as unknown as IStringMapNested,
 };
 
