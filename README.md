@@ -4,9 +4,11 @@ The Carbon challenge interactive simulator/game. Powered by [Vue.js 3][vue].
 
 ## Language Support
 
-The Carbon Challenge supports multiple languages, which can easily be tweaked in
-the `constants.ts`. We welcome any help adding new languages or fixing
-translations!
+The Carbon Challenge supports multiple languages using [Vue i18n][vue-i18n]. To
+add a new language, add it in `src/constants/languages.ts` and then create a new
+language data in `src/locales`, modelled off of an existing one.
+
+We welcome any help adding new languages or fixing translations!
 
 ## Project Setup
 
@@ -50,4 +52,5 @@ yarn lint
 
 <!-- Link declarations-->
 [vue]: https://v3.vuejs.org
+[vue-i18n]: https://vue-i18n.intlify.dev/
 [yarn]: https://yarnpkg.com

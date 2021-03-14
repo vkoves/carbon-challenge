@@ -1,4 +1,4 @@
-import { ILanguageData } from '@/constants/language-data';
+import { ILanguageData } from '@/interfaces/language-data';
 
 export const SpanishLanguageData: ILanguageData = {
   title: 'El Desafío Del Carbono',
