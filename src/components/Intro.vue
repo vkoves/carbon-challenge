@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main id="main-content">
     <div class="hero -primary">
       <div class="hero-inner">
         <h1 class="huge-text">
@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -86,7 +86,7 @@ export default class Intro extends Vue { }
     background: linear-gradient($dark-blue, $blue);
     color: $white;
     text-align: center;
-    padding: 15rem $large;
+    padding: 25vh $large;
   }
 
   &:not(.-primary) .hero-inner {

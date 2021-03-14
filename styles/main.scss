@@ -21,8 +21,10 @@ body, select, button {
 }
 
 body, html, #app, main {
-  height: 100%;
+  min-height: 100%;
 }
+
+main { padding: 0; }
 
 // Headings
 h1, h2, h3 { font-weight: bold; }
@@ -33,15 +35,51 @@ h4 { font-size: 1.1rem; }
 h5 { font-size: 1rem; }
 h6 { font-size: 0.8rem; }
 
+// Mobile styling for headings
+@media (max-width: $mobile-max-width) {
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.3rem; }
+}
+
+a {
+  font-weight: bold;
+  color: $dark-blue;
+  text-decoration: none;
+  padding: 0.125rem;
+  margin: -0.125rem;
+  border: solid 0.125rem transparent;
+
+  &:hover, &:focus {
+    text-decoration: underline;
+    outline-color: transparent;
+  }
+
+  &:focus {
+    border-color: $dark-blue;
+    border-radius: 5px;
+  }
+}
+
 p {
   margin-top: $standard;
   max-width: 37.5rem; // about 600px
 }
 
+strong { font-weight: bold; }
+
+em { font-style: italic; }
+
 // Font size helper classes
 .huge-text { font-size: 4rem; }
 .larger-text { font-size: 2rem; }
 .big-text { font-size: 1.5rem; }
+
+// Mobile styling for font size helpers
+@media (max-width: $mobile-max-width) {
+  .huge-text { font-size: 2rem; }
+  .larger-text { font-size: 1.5rem; }
+  .big-text { font-size: 1.25rem; }
+}
 
 /**
  * A CSS class for buttons and links that only show on focus
@@ -72,11 +110,17 @@ button, a.btn {
   font-size: 1.5rem;
 
   &:hover, &:focus {
-    outline: none;
+    outline-color: transparent;
     box-shadow: 0 0 0.125rem 0.3rem $white;
   }
 
   &.-small { font-size: 1rem; }
+
+  &.-transparent {
+    background: none;
+    color: $white;
+    border-color: $white;
+  }
 
   &.-grey {
     background-color: $light-grey;
@@ -86,14 +130,37 @@ button, a.btn {
 
 select {
   background-color: $white;
+  border: solid 0.125rem $dark-blue;
   border-radius: 0.25rem;
+  outline-offset: 1px;
 }
 
 select, .btn {
   transition: box-shadow 0.3s, opacity 0.3s;
 
   &:hover, &:focus {
-    outline: none;
+    outline-color: transparent;
     box-shadow: 0 0 0.125rem 0.3rem $white;
+  }
+}
+
+.page {
+  padding: 8rem 5rem;
+
+  .page-inner {
+    background-color: $white;
+    border-radius: 0.5rem;
+    padding: 3rem;
+    max-width: 40rem;
+    margin: auto;
+  }
+
+  h2 { margin-top: 1.5rem; }
+
+  // Mobile styling
+  @media (max-width: $mobile-max-width) {
+    padding: 7rem 2rem;
+
+    .page-inner { padding: 2rem; }
   }
 }

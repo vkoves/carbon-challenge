@@ -1,5 +1,5 @@
 <template>
-  <div class="inner">
+  <main id="main-content" class="inner">
     <h1>{{ $t('title') }}</h1>
 
     <div class="main-cont">
@@ -32,7 +32,7 @@
       :tile="selectedTile"
       @closed="tileOverlayClosed()"
       @tile-updated="tileUpdated(tile)"></TileOverlay>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -90,7 +90,7 @@ export default class Game extends Vue { }
 @import './styles/variables/colors';
 @import './styles/variables/spacing';
 
-.inner {
+main {
   padding: 6rem;
   color: $white;
 }
