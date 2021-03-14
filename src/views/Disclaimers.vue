@@ -24,9 +24,7 @@
         With all that said, if you see something really wrong in our
         calculations, please help the Carbon Challenge improve by filing an
         issue on the
-        <a href="https://github.com/vkoves/carbon-challenge">
-          Carbon Challenge GitHub
-        </a>!
+        <a href="https://github.com/vkoves/carbon-challenge">Carbon Challenge GitHub</a>!
       </p>
     </div>
   </main>

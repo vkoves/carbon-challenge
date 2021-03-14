@@ -45,18 +45,13 @@ a {
   font-weight: bold;
   color: $dark-blue;
   text-decoration: none;
-  padding: 0.125rem;
-  margin: -0.125rem;
-  border: solid 0.125rem transparent;
 
   &:hover, &:focus {
     text-decoration: underline;
-    outline-color: transparent;
   }
 
   &:focus {
-    border-color: $dark-blue;
-    border-radius: 5px;
+    outline: 3px solid $dark-blue;
   }
 }
 

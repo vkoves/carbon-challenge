@@ -107,7 +107,6 @@ export default class App extends Vue { }
 header {
   background-color: $dark-blue;
   padding: 0.75rem 2rem;
-  position: absolute;
   width: 100%;
   z-index: 10;
   box-sizing: border-box;
@@ -179,6 +178,7 @@ header {
     // On mobile, the <header> is sticky and leaves padding to it's mobile child
     position: fixed;
     padding: 0;
+    top: 0;
 
     .btn.-transparent { border: none; }
 
@@ -212,5 +212,10 @@ header {
       select { width: 40%; }
     }
   }
+}
+
+@media (max-width: $mobile-max-width) {
+  // Since the header becomes sticky, add <body> padding to compensate
+  body { padding-top: 4.5rem; }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <main id="main-content" class="inner">
+  <main id="main-content">
     <h1>{{ $t('title') }}</h1>
 
     <div class="main-cont">
@@ -93,6 +93,7 @@ export default class Game extends Vue { }
 main {
   padding: 6rem;
   color: $white;
+  overflow: hidden;
 }
 
 .main-cont {
@@ -170,7 +171,7 @@ main {
 
 .game-board {
   // The raw board size. Keep in mind this gets distorted due to rotation + skew
-  $boardSize: min(50vw, 60vh);
+  $boardSize: min(40vw, 60vh);
 
   display: grid;
   transform: rotate($boardRotation) skew($skewDeg, $skewDeg);
@@ -179,5 +180,10 @@ main {
   width: $boardSize;
   height: $boardSize;
   margin: auto;
+}
+
+// Mobile styling
+@media (max-width: $mobile-max-width) {
+  main { padding: 3rem; }
 }
 </style>
