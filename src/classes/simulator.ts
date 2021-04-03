@@ -12,7 +12,7 @@ export const GridWidth = 4;
  */
 const DefaultBoardLayout: Array<TileType> = [
     TileType.Forest, TileType.Farm, TileType.Empty, TileType.Forest,
-    TileType.Forest, TileType.House, TileType.Office, TileType.House,
+    TileType.Forest, TileType.House, TileType.Office, TileType.Factory,
     TileType.Empty, TileType.Empty, TileType.Power, TileType.Lake,
     TileType.Empty, TileType.Factory, TileType.Forest, TileType.Forest,
 ]

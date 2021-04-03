@@ -5,15 +5,10 @@
     @click="tileSelected()"
     :style="{ 'animation-delay': animDelay }">
     <div class="above-ground -building">
-      <img v-if="tileImg"
-        :style="{ 'animation-delay': imgAnimDelay }"
-        :class="tile.type"
-        :src="require('@/assets/' + tileImg)"
-        :alt="$t(`simulator.tileTypes.${tile.type}`)">
-      <!-- TODO: Move all non empty tiles to images -->
-      <span v-else>
+      <div :class="'tile-img ' + tile.type"
+        :style="{ 'animation-delay': imgAnimDelay }">
         {{ $t(`simulator.tileTypes.${tile.type}`) }}
-      </span>
+      </div>
     </div>
   </button>
 
@@ -22,9 +17,7 @@
     <div class="above-ground">
       <!-- Scenery tiles are decorative, so no need for alt text - it'd just be
         noise -->
-      <img v-if="tileImg"
-        :class="tile.type"
-        :src="require('@/assets/' + tileImg)" alt="">
+      <div :class="'tile-img ' + tile.type"></div>
     </div>
   </div>
 </template>
@@ -124,15 +117,18 @@ export default class Game extends Vue { }
     outline-color: $white;
   }
 
-  // Reverse the game board rotation and skew to straighten above ground
-  // assets
   .above-ground {
-    transform: skew(-$skewDeg, -$skewDeg) rotate(-$boardRotation);
-    width: 85%;
+    transform:
+      // Reverse the game board rotation and skew to straighten above ground
+      // assets
+      skew(-$skewDeg, -$skewDeg) rotate(-$boardRotation)
+      // Move images back a bit on the tile
+      translate(0, -10px);
+    width: 100%;
 
     // Default building images to invisible and have them fall onto the game
     // board after the board animation completes
-    &.-building img {
+    &.-building .tile-img {
       opacity: 0;
       animation: 0.2s ease-in fadeIn, 0.4s linear fallIn;
       // Ensure animation effects persist after completion
@@ -140,13 +136,44 @@ export default class Game extends Vue { }
     }
   }
 
-  img {
+  .tile-img:not(.empty) {
+    background-image: url('~@/assets/tile-sheet.png');
+    font-size: 0;
+    color: transparent;
     width: 100%;
+    padding: 50% 0;
+    margin: auto;
+    background-size: 300%;
+    background-repeat: no-repeat;
+    // Default to first tile spot to show rendering error
+    background-position: 25% 45%;
 
-    &.forest {
-        position: relative;
-        width: 140%;
-        left: -20%;
+    &.lake {
+      background-position: 25% 5%;
+      width: 80%;
+      padding: 40% 0;
+      margin-bottom: 20%;
+    }
+    &.forest { background-position: 100% 5%; }
+
+    &.house {
+      background-position-y: 22%;
+    }
+
+    &.office {
+      background-position-y: 42%;
+    }
+
+    &.power {
+      background-position-y: 62%;
+    }
+
+    &.factory {
+      background-position-y: 82%;
+    }
+
+    &.farm {
+      background-position-y: 102%;
     }
   }
 }
