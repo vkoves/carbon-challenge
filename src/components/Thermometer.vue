@@ -7,6 +7,21 @@
     <div class="bulb"></div>
 
     <div class="text">
+      <div class="emoji">
+        <span v-if="avgTempRise < TempThresholds.great">
+          😌
+        </span>
+        <span v-else-if="avgTempRise < TempThresholds.okay">
+          😬
+        </span>
+        <span v-else-if="avgTempRise < TempThresholds.bad">
+          😨
+        </span>
+        <span v-else-if="avgTempRise < TempThresholds.horrifying">
+          😰
+        </span>
+      </div>
+
       <p class="temp">{{ avgTempRise.toFixed(2) }} °C</p>
       <p class="label">{{ $t('simulator.avgTempLabel') }}</p>
     </div>
@@ -28,9 +43,22 @@ import { Options, Vue } from 'vue-class-component';
   },
 
   data: () => ({
+    /** The actual predicted average temperature rise */
     avgTempRise: 0,
+
+    /** A % equivalent of the temperature. Used to show the height of the
+      thermometer. */
     avgTempAdjusted: 0,
     MaxTempRise: 3,
+
+    TempThresholds: {
+      great: 1.5,
+      okay: 2,
+      bad: 2.5,
+      // Anything over 2.5 is horrifying, but we know the simulator can't go up
+      // to 100
+      horrifying: 100,
+    }
   }),
 
   methods: {
@@ -117,10 +145,13 @@ export default class Thermometer extends Vue { }
     text-align: center;
     font-size: 0.8rem;
 
+    .emoji { font-size: 2rem; }
+
     .temp {
       font-size: 1.25rem;
       font-weight: bold;
     }
+
     .label { margin-top: 0.25rem; }
   }
 }
