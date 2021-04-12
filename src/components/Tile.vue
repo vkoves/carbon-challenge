@@ -5,7 +5,11 @@
     @click="tileSelected()"
     :style="{ 'animation-delay': animDelay }">
     <div class="above-ground -building">
-      <div :class="'tile-img ' + tile.type"
+      <div
+        :class="[
+          'tile-img ' + tile.type,
+          { '-green': tile.isGreenVariant }
+        ]"
         :style="{ 'animation-delay': imgAnimDelay }">
         {{ $t(`simulator.tileTypes.${tile.type}`) }}
       </div>
@@ -63,20 +67,6 @@ const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
     imgAnimDelay(): string {
       return (this.tileNum * AnimationOffsetSec) + GridAnimDelaySec + 's';
     },
-
-    tileImg(): string | null {
-      if (this.tile.type === TileType.House) {
-        return 'House.svg';
-      }
-      else if (this.tile.type == TileType.Forest) {
-        return 'Forest.svg';
-      }
-      else if (this.tile.type == TileType.Lake) {
-        return 'Lake.svg';
-      }
-
-      return null;
-    }
   }
 })
 
@@ -118,13 +108,16 @@ export default class Game extends Vue { }
   }
 
   .above-ground {
+    width: 100%;
+    height: 100%;
     transform:
       // Reverse the game board rotation and skew to straighten above ground
       // assets
       skew(-$skewDeg, -$skewDeg) rotate(-$boardRotation)
+      // Scale images up compared to what would fit in the tile
+      scale(1.1)
       // Move images back a bit on the tile
-      translate(0, -10px);
-    width: 100%;
+      translate(0, -10%);
 
     // Default building images to invisible and have them fall onto the game
     // board after the board animation completes
@@ -137,24 +130,33 @@ export default class Game extends Vue { }
   }
 
   .tile-img:not(.empty) {
-    background-image: url('~@/assets/tile-sheet.png');
+    position: absolute;
+    width: 100%;
+    height: 110%;
     font-size: 0;
     color: transparent;
-    width: 100%;
-    padding: 50% 0;
     margin: auto;
+    background-image: url('~@/assets/tile-sheet.png');
     background-size: 300%;
     background-repeat: no-repeat;
     // Default to first tile spot to show rendering error
     background-position: 25% 45%;
 
+    // If a tile is using it's green variant, just switch to the second column
+    // of icons
+    &.-green { background-position-x: 100%; }
+
     &.lake {
       background-position: 25% 5%;
       width: 80%;
-      padding: 40% 0;
-      margin-bottom: 20%;
+      height: 80%;
+      margin-top: 10%;
+      margin-left: 10%;
     }
-    &.forest { background-position: 100% 5%; }
+
+    &.forest {
+      background-position: 100% 5%;
+    }
 
     &.house {
       background-position-y: 22%;
@@ -174,6 +176,9 @@ export default class Game extends Vue { }
 
     &.farm {
       background-position-y: 102%;
+      // Move the farm back on the tile
+      top: -20%;
+      right: -15%;
     }
   }
 }

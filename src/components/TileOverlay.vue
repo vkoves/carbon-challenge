@@ -115,9 +115,6 @@ const AnimDurationMs = 300;
     submitOptions(submitEvent: Event) {
       submitEvent.preventDefault();
 
-      console.log('Tile updated! New options:',
-        JSON.stringify(this.tile.options));
-
       this.$emit('tileUpdated', this.tile);
       this.closeOverlay();
     }
