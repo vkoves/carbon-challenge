@@ -31,7 +31,7 @@
     <TileOverlay
       :tile="selectedTile"
       @closed="tileOverlayClosed()"
-      @tile-updated="tileUpdated(tile)"></TileOverlay>
+      @tile-updated="tileUpdated($event)"></TileOverlay>
   </main>
 </template>
 
@@ -71,7 +71,9 @@ import TileOverlay from './TileOverlay.vue';
     },
 
     // Takes in a TileObj, but we don't use that at the moment
-    tileUpdated() {
+    tileUpdated(tile: TileObj) {
+      tile.recalculateProperties();
+
       this.recalculateTemps();
     },
 
