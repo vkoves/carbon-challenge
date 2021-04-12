@@ -43,22 +43,27 @@ const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
 
 @Options({
   name: 'Game',
+
   props: {
     tile: {} as TileObj,
     tileNum: 0,
   },
+
   data: () => ({
     // Expose TileType enum to template
     TileType: TileType,
   }),
+
   emits: {
     selected(newTile: TileObj): TileObj { return newTile; },
   },
+
   methods: {
     tileSelected(): void {
       this.$emit('selected', this.tile);
     }
   },
+
   computed: {
     animDelay(): string {
       return this.tileNum * AnimationOffsetSec + 's';

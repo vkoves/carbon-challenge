@@ -1,8 +1,8 @@
 /**
  * Code related to game simulation.
  */
-import { TileObj } from '../classes/tile-obj';
-import { TileType } from '../interfaces/tile-interfaces';
+import { TileObj } from '@/classes/tile-obj';
+import { TileType } from '@/interfaces/tile-interfaces';
 
 /** The width of our simulator grid */
 export const GridWidth = 4;

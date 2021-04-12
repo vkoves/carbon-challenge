@@ -85,14 +85,17 @@ const AnimDurationMs = 300;
     // The tile whose options we're rendering
     tile: {} as TileObj,
   },
+
   data: () => ({
     showingTileMenu: false,
     lastFocusedElem: null,
   }),
+
   emits: {
     closed(): void { },
     tileUpdated(newTile: TileObj): TileObj { return newTile; },
   },
+
   methods: {
     closeOverlay() {
       this.showingTileMenu = false;
@@ -119,22 +122,23 @@ const AnimDurationMs = 300;
       this.closeOverlay();
     }
   },
+
   watch: {
     // On tile changed
     tile: function(newVal) {
-        if (!newVal) {
-            return;
-        }
+      if (!newVal) {
+        return;
+      }
 
-        this.showingTileMenu = true;
+      this.showingTileMenu = true;
 
-        setTimeout(() => {
-            // Focus the first focusable element in the overlay - the close button
-            // TODO: Make the overlay trap focus
-            this.lastFocusedElem = document.activeElement;
+      setTimeout(() => {
+        // Focus the first focusable element in the overlay - the close button
+        // TODO: Make the overlay trap focus
+        this.lastFocusedElem = document.activeElement;
 
-            this.$refs.closeBtn.focus();
-        });
+        this.$refs.closeBtn.focus();
+      });
     }
   }
 })
