@@ -15,7 +15,7 @@ export const SpanishLanguageData: ILanguageData = {
     startBtn: 'Vamos'
   },
   simulator: {
-    avgTempLabel: 'Aumento de la temperatura global promedio',
+    avgTempLabel: 'Aumento de la temperatura global promedio para 2100',
     close: 'Cerrar',
     tileOverlay: {
       current: 'Actual',

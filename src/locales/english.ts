@@ -15,7 +15,7 @@ export const EnglishLanguageData: ILanguageData = {
     startBtn: 'Let\'s Go'
   },
   simulator: {
-    avgTempLabel: 'Average Global Temperature Increase',
+    avgTempLabel: 'Average Global Temperature Increase by 2100',
     close: 'Close',
     tileOverlay: {
       current: 'Current',

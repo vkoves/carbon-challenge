@@ -20,23 +20,6 @@ export enum TileType {
 }
 
 /**
- * All of the possible options for any tile, so we can have internationalization
- * for each of these. Note that some of these may be unique to a single tile
- * type, some may apply to many!
- *
- * NOTE: Each of these values are rendered via i18n plugin using the
- * `AllLanguageData` constant, in [locale].simulator.tileOptions. Make sure to
- * keep that in sync with this enum!
- */
-export enum TileOption {
-  Deforestation = 'deforestation',
-  ElectricCarShare = 'electricCarShare',
-  ElectricHeating = 'electricHeating',
-  RenewableShare = 'renewableShare',
-  Electrification = 'electrificationPercent',
-}
-
-/**
  * A single tile option configuration, usually wrapped in IOptions.
  */
 export interface IOption {
@@ -58,6 +41,14 @@ export interface IOption {
    * maintained. Expressed as a full number (e.g. `2021`)
    */
   targetYear: number;
+
+  /**
+   * A decimal number expressing the weight of this option as a % of current
+   * global emissions.
+   * Example: In 2016, residential building energy use in 2016 was 10.9% of
+   * emissions so this value would be 0.109.
+   */
+  weight: number;
 }
 
 /**
@@ -67,12 +58,14 @@ export interface IOption {
  * - TargetValue
  * - TargetValueYear
  *
- * For example, the power tile may have renewable options like so:
+ * For example, the power tile may have an option to change how much power is
+ * made renwable with an option like so:
  *
  * renewable: {
  *   current: 5,
  *   target: 100,
  *   targetYear: 2050,
+ *   weight: 17.5,
  * }
  *
  * This means the user can impact the total warming in three ways:
