@@ -33,6 +33,7 @@ export enum TileOption {
   ElectricCarShare = 'electricCarShare',
   ElectricHeating = 'electricHeating',
   RenewableShare = 'renewableShare',
+  Electrification = 'electrificationPercent',
 }
 
 /**
