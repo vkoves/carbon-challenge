@@ -6,7 +6,9 @@
 
       <p>
         The Carbon Challenge is a project made by non-scientists, and although
-        we did a lot of research (learn more on our <a href="/about">About Page</a>).
+        we did a lot of research (learn more on our <a href="/about">About Page</a>)
+        it is a layer of estimtes on estimates and is thus not an accurate
+        <em>simulation</em> of climate change or emissions.
       </p>
 
       <p>
@@ -15,7 +17,7 @@
         starting point for non-scientists to think about
         <em>order of magnitude</em> differences between different policies. That
         means that we want to be accurate in saying one policy is
-        <em>several times</em> more accurate than another, but we likely aren't
+        <em>several times</em> more effective than another, but we likely aren't
         going to be as accurate in comparing two policies that have similar size
         impacts.
       </p>
