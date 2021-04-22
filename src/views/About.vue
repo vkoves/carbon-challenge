@@ -17,10 +17,26 @@
 
       <h2>References</h2>
 
-      <!-- TODO: Add references -->
       <dl>
-          <dt>Reference Thing</dt>
-          <dd>Reference link</dd>
+          <dt>
+            <strong>Carbon Budgets</strong> - Used to estimate degrees of
+            warming based on predicted carbon emissions
+          </dt>
+          <dd>
+            <a href="https://carbontracker.org/carbon-budgets-where-are-we-now/">
+              Carbon Budgets: Where Are We Now? | Carbon Tracker
+            </a>
+          </dd>
+
+          <dt>
+            <strong>Carbon Emissions by Sector</strong> - Used to figure out
+            what changes will reduce emissions by what amount.
+          </dt>
+          <dd>
+            <a href="https://ourworldindata.org/ghg-emissions-by-sector">
+              Sector by sector: where do global greenhouse gas emissions come from? | Our World in Data
+            </a>
+          </dd>
       </dl>
 
     </div>
@@ -28,12 +44,10 @@
 </template>
 
 <style scoped lang="scss">
-dl { margin-top: 1rem; }
+dt, dd { display: block; }
 
-dt, dd { display: inline; }
+dt { margin-top: 1rem; }
 
-dt {
-  font-weight: bold;
-  margin-right: 1rem;
-}
+dd { margin-left: 1rem; }
+
 </style>
