@@ -21,6 +21,8 @@
     <div class="hero">
       <div class="hero-inner">
         <div class="img-cont">
+          <div class="circle"></div>
+          <div class="img -power-green"></div>
         </div>
 
         <div class="text-cont">
@@ -53,6 +55,8 @@
         </div>
 
         <div class="img-cont">
+          <div class="circle"></div>
+          <div class="img -farm-green"></div>
         </div>
       </div>
     </div>
@@ -102,14 +106,42 @@ export default class Intro extends Vue { }
     background-color: $dark-blue;
     color: $white;
 
-    .img-cont { background-color: $white; }
+    .img-cont .circle { background-color: $white; }
   }
 
   .img-cont {
-    background-color: $blue;
+    position: relative;
     width: 25%;
-    border-radius: 10rem;
-    padding: 9rem 0;
+    padding: 12.5% 0;
+
+    .circle {
+      position: absolute;
+      background-color: $blue;
+      bottom: 0;
+      border-radius: 10rem;
+      width: 100%;
+      padding: 50% 0;
+      transform: scale(1, 0.8);
+    }
+
+    .img {
+      background-image: url('~@/assets/tile-sheet.png');
+      background-size: 300%;
+      position: absolute;
+      width: 80%;
+      padding: 50% 0;
+      left: 10%;
+
+      &.-farm-green {
+        top: -8%;
+        background-position: 100% 104%;
+      }
+
+      &.-power-green {
+        top: -15%;
+        background-position: 100% 81%;
+      }
+    }
   }
 
   .text-cont {
@@ -128,6 +160,11 @@ export default class Intro extends Vue { }
 
     > div:last-of-type {
       margin-top: $x-large;
+    }
+
+    .img-cont {
+      width: 50%;
+      padding: 25% 0;
     }
   }
 }
