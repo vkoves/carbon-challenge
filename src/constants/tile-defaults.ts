@@ -39,16 +39,18 @@ export const HighEstDegreesWarmingPerGigaTonne = 0.002;
 export enum TileOption {
   Deforestation = 'deforestation',
   ElectricCarShare = 'electricCarShare',
-  ElectricHeating = 'electricHeating',
   RenewableShare = 'renewableShare',
   Electrification = 'electrificationPercent',
-  // Emissions from escaped oil and gas during energy production
-  FugitiveEmissions = 'fugitiveEmissions',
+
+  RenewableShareAgriculture = 'renewableShareAgriculture',
+
+  // Reductions in emissions from escaped oil and gas during energy production
+  FugitiveEmissionsReduction = 'fugitiveEmissionsReduction',
 }
 
 const EmptyOption: IOption = {
   current: 0,
-  target: 100,
+  target: 0,
   targetYear: 2050,
   weight: 16.66,
 };
@@ -77,18 +79,32 @@ export const DefaultTileOptions: { [ type: string ]: IOptions } = {
 
   [TileType.Farm]: {
     [TileOption.Deforestation]: Object.assign({}, EmptyOption),
+    [TileOption.RenewableShareAgriculture]: Object.assign({
+      weight: 1.7,
+    }, EmptyOption),
   },
 
   [TileType.House]: {
-    [TileOption.ElectricCarShare]: Object.assign({}, EmptyOption),
-    [TileOption.ElectricHeating]: Object.assign({}, EmptyOption),
+    [TileOption.ElectricCarShare]: Object.assign({}, EmptyOption, {
+      weight: 11.9 * 0.6, // "Transport > Road transport" * 60% passenger
+    }),
+    [TileOption.RenewableShare]: Object.assign({
+      weight: 10.9, // "Energy use in buildings > Residential buildings"
+    }, EmptyOption),
   },
 
   [TileType.Office]: {
-    [TileOption.ElectricHeating]: Object.assign({}, EmptyOption),
+    [TileOption.ElectricCarShare]: Object.assign({
+      weight: 11.9 * 0.4, // "Transport > Road transport" * 40% commercial
+    }, EmptyOption),
+    [TileOption.RenewableShare]: Object.assign({
+      weight: 6.6, // "Energy use in buildings > Commercial buildings"
+    }, EmptyOption),
   },
 
   [TileType.Power]: {
-    [TileOption.RenewableShare]: Object.assign({}, EmptyOption),
+    [TileOption.FugitiveEmissionsReduction]: Object.assign({
+      weight: 5.8,
+    }, EmptyOption),
   },
 };

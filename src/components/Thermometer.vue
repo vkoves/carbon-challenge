@@ -1,5 +1,5 @@
 <template>
-  <div class="thermometer" @click="recalculateTemps()">
+  <div class="thermometer">
     <div class="stem">
       <div class="stem-inner"
         v-bind:style="{ height: avgTempAdjusted + '%' }"></div>
@@ -7,6 +7,8 @@
     <div class="bulb"></div>
 
     <div class="text">
+      <div class="temp">{{ avgTempRise.toFixed(2) }} °C</div>
+
       <div class="emoji">
         <span v-if="avgTempRise < TempThresholds.great">
           😌
@@ -22,8 +24,7 @@
         </span>
       </div>
 
-      <p class="temp">{{ avgTempRise.toFixed(2) }} °C</p>
-      <p class="label">{{ $t('simulator.avgTempLabel') }}</p>
+      <!-- <p class="label">{{ $t('simulator.avgTempLabel') }}</p> -->
     </div>
   </div>
 </template>
@@ -43,14 +44,6 @@ import { Options, Vue } from 'vue-class-component';
   },
 
   data: () => ({
-    /** The actual predicted average temperature rise */
-    avgTempRise: 0,
-
-    /** A % equivalent of the temperature. Used to show the height of the
-      thermometer. */
-    avgTempAdjusted: 0,
-    MaxTempRise: 3,
-
     TempThresholds: {
       great: 1.5,
       okay: 2,
@@ -61,28 +54,40 @@ import { Options, Vue } from 'vue-class-component';
     }
   }),
 
-  methods: {
-    recalculateTemps(): void {
-      this.avgTempRise = Simulator.getThermometerDegrees(this.tiles);
-
-      // Convert decimal temperature rise to a %
-      this.avgTempAdjusted = (this.avgTempRise / this.MaxTempRise) * 100;
-    },
-  },
-
   watch: {
     // On tiles changed (likely options updatd)
     tiles: function(newVal) {
       if (!newVal) {
           return;
       }
-
-      this.recalculateTemps();
     }
   }
 })
 
-export default class Thermometer extends Vue { }
+export default class Thermometer extends Vue {
+  /** The actual predicted average temperature rise */
+  avgTempRise: number = 0;
+
+  tiles: Array<TileObj> = [];
+
+  /** A % equivalent of the temperature. Used to show the height of the
+    thermometer. */
+  avgTempAdjusted: number = 0;
+
+  static readonly MaxTempRise: number = 3;
+
+  calculateTemperature(): void {
+    this.avgTempRise = Simulator.getThermometerDegrees(this.tiles);
+
+    // Convert decimal temperature rise to a %
+    this.avgTempAdjusted = (this.avgTempRise / Thermometer.MaxTempRise) * 100;
+  }
+
+  // On Thermometer component being mounted, calculate avg. warming
+  mounted() {
+    this.calculateTemperature();
+  }
+}
 </script>
 
 
@@ -144,8 +149,12 @@ export default class Thermometer extends Vue { }
   .text {
     text-align: center;
     font-size: 0.8rem;
+    padding-top: 0.5rem;
 
-    .emoji { font-size: 2rem; }
+    .emoji {
+      font-size: 2rem;
+      margin-top: 0.5rem;
+    }
 
     .temp {
       font-size: 1.25rem;
