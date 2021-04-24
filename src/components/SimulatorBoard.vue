@@ -2,6 +2,11 @@
   <main id="main-content">
     <h1>{{ $t('title') }}</h1>
 
+    <button class="btn -small -grey"
+      @click="showingDebugView = true">
+      Debug View
+    </button>
+
     <div class="main-cont">
       <Thermometer :tiles="tiles"></Thermometer>
 
@@ -21,6 +26,10 @@
       :tile="selectedTile"
       @closed="tileOverlayClosed()"
       @tile-updated="tileUpdated($event)"></TileOverlay>
+
+    <DebugView v-if="showingDebugView"
+      :tiles="tiles"
+      @closed="showingDebugView = false"></DebugView>
   </main>
 </template>
 
@@ -30,6 +39,7 @@ import { Simulator } from '@/classes/simulator';
 // eslint-disable-next-line no-unused-vars
 import { TileObj } from '@/classes/tile-obj';
 
+import DebugView from './DebugView.vue';
 import Tile from './Tile.vue';
 import TileOverlay from './TileOverlay.vue';
 import Thermometer from './Thermometer.vue';
@@ -38,6 +48,7 @@ import Thermometer from './Thermometer.vue';
   name: 'SimulatorBoard',
 
   components: {
+    DebugView,
     Thermometer,
     Tile,
     TileOverlay,
@@ -47,6 +58,7 @@ import Thermometer from './Thermometer.vue';
     tiles: Simulator.generateTiles() as Array<TileObj>,
     selectedTile: null,
     showingTileMenu: false,
+    showingDebugView: false,
   }),
 
   methods: {

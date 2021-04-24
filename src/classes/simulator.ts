@@ -8,6 +8,11 @@ import {
   HighEstDegreesWarmingPerGigaTonne,
 } from '@/constants/tile-defaults';
 
+export const SimulatorUnits = {
+  Temperature: '°C',
+  Emissions: 'Gigatonnes',
+}
+
 /** The width of our simulator grid */
 export const GridWidth = 4;
 
@@ -17,7 +22,7 @@ export const GridWidth = 4;
  * longer and so that we show a fuller scope of potential warming, even in worst
  * case scenarios where we aren't net zero by 2050 or beyond.
  */
-const SimulationEndYear = 2100;
+export const SimulationEndYear = 2100;
 
 /**
  * The default layout of board tile types
@@ -28,6 +33,12 @@ const DefaultBoardLayout: Array<TileType> = [
     TileType.Empty, TileType.Empty, TileType.Power, TileType.Lake,
     TileType.Empty, TileType.Factory, TileType.Forest, TileType.Forest,
 ]
+
+export enum TempCalcMethod {
+  OverBudgetsEstimated,
+  TwoDegBudget,
+  OneAndAHalfDegBudget,
+}
 
 /**
  * The core simulator class, which handles all of the calculation and data \
@@ -60,6 +71,30 @@ export class Simulator {
   }
 
   /**
+   * Get the total CO2 emissions (in GigaTonnes) from the current year to the
+   * SimulationEndYear, using the options set in the passed tiles.
+   */
+  public static getTotalEmissions(currentTiles: Array<TileObj>): number {
+    // TODO: Make this actually use the tile options to reduce the predicted
+    // total emissions
+    return OrigYearlyEmissionsGigaTonnes
+      * Simulator.GetRemainingSimulationYears();
+  }
+
+  /**
+   * Returns which carbon budget was used to estimate the current degrees of
+   * warming, if any, or if we just used the over 2 deg. budget estimation
+   * formula.
+   */
+  public static getThermometerDegreesMethod(
+    currentTiles: Array<TileObj>
+  ): TempCalcMethod {
+    // TODO: Make this return the carbon budgets if the total emissions is within
+    // the point we can use the budgets
+    return TempCalcMethod.OverBudgetsEstimated;
+  }
+
+  /**
    * Returns the estimate degrees of average global temperature rise. Should
    * typically be in the range of 1 - 3.
    *
@@ -75,8 +110,7 @@ export class Simulator {
   public static getThermometerDegrees(
     currentTiles: Array<TileObj>
   ): number {
-    return OrigYearlyEmissionsGigaTonnes
-      * Simulator.GetRemainingSimulationYears()
+    return Simulator.getTotalEmissions(currentTiles)
       * HighEstDegreesWarmingPerGigaTonne;
   }
 }
