@@ -6,7 +6,7 @@
       <Thermometer :tiles="tiles"></Thermometer>
 
       <div class="boards-cont">
-        <div class="game-board -main">
+        <div class="simulator-board -main">
           <Tile v-for="(tile, index) in tiles"
             v-bind:key="tile.id"
             :tile="tile"
@@ -35,7 +35,7 @@ import TileOverlay from './TileOverlay.vue';
 import Thermometer from './Thermometer.vue';
 
 @Options({
-  name: 'Game',
+  name: 'SimulatorBoard',
 
   components: {
     Thermometer,
@@ -68,7 +68,7 @@ import Thermometer from './Thermometer.vue';
   }
 })
 
-export default class Game extends Vue { }
+export default class SimulatorBoard extends Vue { }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -93,7 +93,7 @@ main {
   width: 100%;
 }
 
-.game-board {
+.simulator-board {
   // The raw board size. Keep in mind this gets distorted due to rotation + skew
   $boardSize: min(40vw, 60vh);
 

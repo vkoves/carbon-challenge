@@ -6,7 +6,7 @@ import App from '@/App.vue'
 
 import About from '@/views/About.vue'
 import Disclaimers from '@/views/Disclaimers.vue'
-import Game from '@/components/Game.vue'
+import SimulatorBoard from '@/components/SimulatorBoard.vue'
 import Intro from '@/components/Intro.vue'
 
 const routes: Array<RouteRecordRaw> = [
@@ -20,8 +20,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/simulator',
-    name: 'Simulator',
-    component: Game,
+    name: 'SimulatorBoard',
+    component: SimulatorBoard,
     meta: {
       langKey: 'simulator'
     }

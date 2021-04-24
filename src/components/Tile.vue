@@ -42,7 +42,7 @@ const AnimationOffsetSec = AnimationOffsetMs / 1000;
 const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
 
 @Options({
-  name: 'Game',
+  name: 'Tile',
 
   props: {
     tile: {} as TileObj,
@@ -75,7 +75,7 @@ const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
   }
 })
 
-export default class Game extends Vue { }
+export default class Tile extends Vue { }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
