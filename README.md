@@ -50,6 +50,10 @@ After setup, run:
 yarn lint
 ```
 
+## References
+
+To see reference data, see the About page and the `/reference-data` folder.
+
 <!-- Link declarations-->
 [vue]: https://v3.vuejs.org
 [vue-i18n]: https://vue-i18n.intlify.dev/
