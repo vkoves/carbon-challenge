@@ -39,10 +39,16 @@ export interface ILanguageData {
     };
     // Should include all values from the TileOption enum
     tileOptions: {
+      aviationElectrification: string;
+      businessElectricVehicleShare: string;
       deforestation: string;
-      electricCarShare: string;
-      electricHeating: string;
+      electrificationPercent: string;
+      fugitiveEmissionsReduction: string;
+      livestockAndManure: string;
       renewableShare: string;
+      renewableShareAgriculture: string;
+      residentialElectricCarShare: string;
+      shipping: string;
     };
   }
 }

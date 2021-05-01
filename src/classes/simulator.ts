@@ -73,6 +73,13 @@ export class Simulator {
   /**
    * Get the total CO2 emissions (in GigaTonnes) from the current year to the
    * SimulationEndYear, using the options set in the passed tiles.
+   *
+   * This process is _subtractive_ not additive. As in each tile can return a
+   * subtraction from the default OrigYearlyEmissionsGigaTonnes if the user has
+   * made emissions reductions.
+   *
+   * This is necessary since some emissions sources cannot be changed within
+   * our simulator and to make the system more reliable.
    */
   public static getTotalEmissions(currentTiles: Array<TileObj>): number {
     // TODO: Make this actually use the tile options to reduce the predicted
@@ -110,6 +117,7 @@ export class Simulator {
   public static getThermometerDegrees(
     currentTiles: Array<TileObj>
   ): number {
+    // TODO: Make this actually use the carbon budgets when appropriate
     return Simulator.getTotalEmissions(currentTiles)
       * HighEstDegreesWarmingPerGigaTonne;
   }

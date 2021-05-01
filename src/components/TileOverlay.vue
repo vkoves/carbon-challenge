@@ -15,6 +15,10 @@
                 <div v-for="(option, key) in tile.options" :key="key">
                     <h3>{{ $t(`simulator.tileOptions.${key}`) }}</h3>
 
+                    <p>
+                      Weight: ~{{ Math.round(option.weight) }}%
+                    </p>
+
                     <!--
                       Render the current value (which is only editable in magic
                       mode, otherwise it comes from real data) and then allow

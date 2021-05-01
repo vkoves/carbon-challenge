@@ -43,10 +43,10 @@ export interface IOption {
   targetYear: number;
 
   /**
-   * A decimal number expressing the weight of this option as a % of current
+   * A percentage number expressing the weight of this option as a % of current
    * global emissions.
    * Example: In 2016, residential building energy use in 2016 was 10.9% of
-   * emissions so this value would be 0.109.
+   * emissions so this value would be 10.9
    */
   weight: number;
 }

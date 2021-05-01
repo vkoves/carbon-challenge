@@ -37,22 +37,24 @@ export const HighEstDegreesWarmingPerGigaTonne = 0.002;
  * keep that in sync with this enum!
  */
 export enum TileOption {
+  AviationElectrification = 'aviationElectrification',
+  BusinessElectricVehicleShare = 'businessElectricVehicleShare',
   Deforestation = 'deforestation',
-  ElectricCarShare = 'electricCarShare',
-  RenewableShare = 'renewableShare',
   Electrification = 'electrificationPercent',
-
-  RenewableShareAgriculture = 'renewableShareAgriculture',
-
   // Reductions in emissions from escaped oil and gas during energy production
   FugitiveEmissionsReduction = 'fugitiveEmissionsReduction',
+  LivestockAndManure = 'livestockAndManure',
+  RenewableShare = 'renewableShare',
+  RenewableShareAgriculture = 'renewableShareAgriculture',
+  ResidentialElectricCarShare = 'residentialElectricCarShare',
+  Shipping = 'shipping',
 }
 
 const EmptyOption: IOption = {
   current: 0,
   target: 0,
   targetYear: 2050,
-  weight: 16.66,
+  weight: 0,
 };
 
 
@@ -72,39 +74,64 @@ const EmptyOption: IOption = {
  * - Farm greening
  * - Office electrification
  */
+
+/**
+ * Weights sourced from Our World in Data:
+ * https://ourworldindata.org/ghg-emissions-by-sector
+ */
 export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   [TileType.Factory]: {
-    [TileOption.Electrification]: Object.assign({}, EmptyOption),
+    [TileOption.BusinessElectricVehicleShare]: Object.assign({
+      weight: 11.9 * 0.4, // "Transport > Road transport" * 40% commercial
+    }, EmptyOption),
+    // "Transport > Road transport" * 40% commercial
+    [TileOption.Shipping]: Object.assign({}, EmptyOption, {
+      weight: 1.7,
+    }),
+    // This comes from "Energy use in industry"
+    [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
+      weight:  24.2,
+    }),
   },
 
   [TileType.Farm]: {
-    [TileOption.Deforestation]: Object.assign({}, EmptyOption),
-    [TileOption.RenewableShareAgriculture]: Object.assign({
+    [TileOption.Deforestation]: Object.assign({}, EmptyOption, {
+      weight: 2.2,
+    }),
+    // Called "Energy use in agriculture and fishing"
+    [TileOption.RenewableShareAgriculture]: Object.assign({}, EmptyOption, {
       weight: 1.7,
-    }, EmptyOption),
+    }),
   },
 
   [TileType.House]: {
-    [TileOption.ElectricCarShare]: Object.assign({}, EmptyOption, {
-      weight: 11.9 * 0.6, // "Transport > Road transport" * 60% passenger
+    // "Transport > Road transport" * 60% passenger
+    [TileOption.ResidentialElectricCarShare]: Object.assign({}, EmptyOption, {
+      weight: 11.9 * 0.6,
     }),
-    [TileOption.RenewableShare]: Object.assign({
-      weight: 10.9, // "Energy use in buildings > Residential buildings"
-    }, EmptyOption),
+    // "Energy use in buildings > Residential buildings"
+    [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
+      weight: 10.9,
+    }),
+    // "Energy use in buildings > Residential buildings"
+    [TileOption.AviationElectrification]: Object.assign({}, EmptyOption, {
+      weight: 10.9,
+    }),
   },
 
   [TileType.Office]: {
-    [TileOption.ElectricCarShare]: Object.assign({
-      weight: 11.9 * 0.4, // "Transport > Road transport" * 40% commercial
-    }, EmptyOption),
-    [TileOption.RenewableShare]: Object.assign({
-      weight: 6.6, // "Energy use in buildings > Commercial buildings"
-    }, EmptyOption),
+    // "Energy use in buildings > Commercial buildings"
+    [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
+      weight: 6.6,
+    }),
   },
 
   [TileType.Power]: {
-    [TileOption.FugitiveEmissionsReduction]: Object.assign({
+    [TileOption.FugitiveEmissionsReduction]: Object.assign({}, EmptyOption, {
       weight: 5.8,
-    }, EmptyOption),
+    }),
+    [TileOption.LivestockAndManure]: Object.assign({}, EmptyOption, {
+      weight: 5.8,
+    }),
   },
 };

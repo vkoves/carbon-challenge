@@ -40,6 +40,10 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+// eslint-disable-next-line no-unused-vars
+import { TileObj } from '@/classes/tile-obj';
+// eslint-disable-next-line no-unused-vars
+import { IOption } from '@/interfaces/tile-interfaces';
 
 import { TempCalcMethod, Simulator, SimulatorUnits, SimulationEndYear } from '@/classes/simulator';
 // import { TileObj } from '@/classes/tile-obj';
@@ -77,12 +81,25 @@ export default class DebugView extends Vue {
   SimulatorUnits = SimulatorUnits;
   TempCalcMethod = TempCalcMethod;
 
-  tiles: Array<any> = [];
+  tiles: Array<TileObj> = [];
 
   calculateValues(): void {
     this.totalEmissions = Simulator.getTotalEmissions(this.tiles);
     this.tempCalcMethod = Simulator.getThermometerDegreesMethod(this.tiles);
     this.estDegWarming = Simulator.getThermometerDegrees(this.tiles);
+
+    let totalWeight = 0;
+
+    this.tiles.forEach(tile => {
+      Object.values(tile.options)
+        .forEach((option: IOption) => {
+          totalWeight += option.weight;
+        });
+    });
+
+    // The total weight sets a maximum for the amount of emissions a user could
+    // possibly cut, so it's important this is as close to 100% as possible
+    console.log(`totalWeight: ${totalWeight}%`);
   }
 
   mounted(): void {

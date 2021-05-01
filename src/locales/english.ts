@@ -34,10 +34,16 @@ export const EnglishLanguageData: ILanguageData = {
     },
     // Should include all values from the TileOption enum
     tileOptions: {
-      deforestation: 'Deforestation',
-      electricCarShare: 'Share of Electric Cars',
-      electricHeating: 'Share of Electric Heating',
-      renewableShare: 'Share of Renewables',
+      aviationElectrification: 'Share of Electric Planes',
+      businessElectricVehicleShare: 'Electric Vehicle Share (Commercial)',
+      deforestation: 'Deforerstation Reduction',
+      electrificationPercent: 'Electrification',
+      fugitiveEmissionsReduction: 'Fugitive Emissions Reduction',
+      livestockAndManure: 'Livestock and Manure Reduction',
+      renewableShare: 'Renewable Share',
+      renewableShareAgriculture: 'Renewable Share (Agriculture)',
+      residentialElectricCarShare: 'Electric Car Share (Residential)',
+      shipping: 'Shipping',
     }
   }
 };

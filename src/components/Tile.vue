@@ -171,11 +171,11 @@ export default class Tile extends Vue { }
       background-position-y: 42%;
     }
 
-    &.power {
+    &.factory {
       background-position-y: 62%;
     }
 
-    &.factory {
+    &.power {
       background-position-y: 82%;
     }
 

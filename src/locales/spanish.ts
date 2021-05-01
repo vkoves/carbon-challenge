@@ -34,10 +34,17 @@ export const SpanishLanguageData: ILanguageData = {
     },
     // Should include all values from the TileOption enum
     tileOptions: {
-      deforestation: 'Deforestación',
-      electricCarShare: 'Cuota de coches eléctricos',
-      electricHeating: 'Cuota de calefacción eléctrica',
-      renewableShare: 'Cuota de renovables',
+      // TODO: Fill these out
+      aviationElectrification: '',
+      businessElectricVehicleShare: '',
+      deforestation: '',
+      electrificationPercent: '',
+      fugitiveEmissionsReduction: '',
+      livestockAndManure: '',
+      renewableShare: '',
+      renewableShareAgriculture: '',
+      residentialElectricCarShare: '',
+      shipping: '',
     }
   }
 };

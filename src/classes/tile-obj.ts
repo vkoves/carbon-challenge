@@ -8,7 +8,8 @@ import { TileType, IOption, IOptions } from '../interfaces/tile-interfaces';
 export class TileObj {
   id: number;
   type: TileType;
-  options: IOptions | null; // empty tiles don't have options
+  // Empty tiles don't have options and will have an empty object
+  options: IOptions;
 
   /** Whether this tile should */
   isGreenVariant: boolean = false;
@@ -16,7 +17,7 @@ export class TileObj {
   constructor(id: number, type: TileType) {
     this.id = id;
     this.type = type;
-    this.options = DefaultTileOptions[type];
+    this.options = DefaultTileOptions[type] || {};
   }
 
   /**
