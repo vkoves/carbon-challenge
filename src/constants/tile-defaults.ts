@@ -1,4 +1,4 @@
-import { IOption, IOptions, TileType } from '../interfaces/tile-interfaces';
+import { IOption, IOptions, TileType, TileOption } from '../interfaces/tile-interfaces';
 
 /**
  * All data is based on Our World in Data emissions by sector in April 2021, which
@@ -27,30 +27,8 @@ export const OrigYearlyEmissionsGigaTonnes = 49.4;
  */
 export const HighEstDegreesWarmingPerGigaTonne = 0.002;
 
-/**
- * All of the possible options for any tile, so we can have internationalization
- * for each of these. Note that some of these may be unique to a single tile
- * type, some may apply to many!
- *
- * NOTE: Each of these values are rendered via i18n plugin using the
- * `AllLanguageData` constant, in [locale].simulator.tileOptions. Make sure to
- * keep that in sync with this enum!
- */
-export enum TileOption {
-  AviationElectrification = 'aviationElectrification',
-  BusinessElectricVehicleShare = 'businessElectricVehicleShare',
-  Deforestation = 'deforestation',
-  Electrification = 'electrificationPercent',
-  // Reductions in emissions from escaped oil and gas during energy production
-  FugitiveEmissionsReduction = 'fugitiveEmissionsReduction',
-  LivestockAndManure = 'livestockAndManure',
-  RenewableShare = 'renewableShare',
-  RenewableShareAgriculture = 'renewableShareAgriculture',
-  ResidentialElectricCarShare = 'residentialElectricCarShare',
-  Shipping = 'shipping',
-}
-
 const EmptyOption: IOption = {
+  optionType: null,
   current: 0,
   target: 0,
   targetYear: 2050,
@@ -82,24 +60,29 @@ const EmptyOption: IOption = {
 export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   [TileType.Factory]: {
     [TileOption.BusinessElectricVehicleShare]: Object.assign({
+      optionType: TileOption.BusinessElectricVehicleShare,
       weight: 11.9 * 0.4, // "Transport > Road transport" * 40% commercial
     }, EmptyOption),
     // "Transport > Road transport" * 40% commercial
     [TileOption.Shipping]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.Shipping,
       weight: 1.7,
     }),
     // This comes from "Energy use in industry"
     [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.RenewableShare,
       weight:  24.2,
     }),
   },
 
   [TileType.Farm]: {
     [TileOption.Deforestation]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.Deforestation,
       weight: 2.2,
     }),
     // Called "Energy use in agriculture and fishing"
     [TileOption.RenewableShareAgriculture]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.RenewableShareAgriculture,
       weight: 1.7,
     }),
   },
@@ -107,14 +90,17 @@ export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   [TileType.House]: {
     // "Transport > Road transport" * 60% passenger
     [TileOption.ResidentialElectricCarShare]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.ResidentialElectricCarShare,
       weight: 11.9 * 0.6,
     }),
     // "Energy use in buildings > Residential buildings"
     [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.RenewableShare,
       weight: 10.9,
     }),
     // "Energy use in buildings > Residential buildings"
     [TileOption.AviationElectrification]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.AviationElectrification,
       weight: 10.9,
     }),
   },
@@ -122,15 +108,18 @@ export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   [TileType.Office]: {
     // "Energy use in buildings > Commercial buildings"
     [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.RenewableShare,
       weight: 6.6,
     }),
   },
 
   [TileType.Power]: {
     [TileOption.FugitiveEmissionsReduction]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.FugitiveEmissionsReduction,
       weight: 5.8,
     }),
     [TileOption.LivestockAndManure]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.LivestockAndManure,
       weight: 5.8,
     }),
   },

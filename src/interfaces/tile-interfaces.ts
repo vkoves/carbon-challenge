@@ -19,10 +19,36 @@ export enum TileType {
   Power = 'power',
 }
 
+
+/**
+ * All of the possible options for any tile, so we can have internationalization
+ * for each of these. Note that some of these may be unique to a single tile
+ * type, some may apply to many!
+ *
+ * NOTE: Each of these values are rendered via i18n plugin using the
+ * `AllLanguageData` constant, in [locale].simulator.tileOptions. Make sure to
+ * keep that in sync with this enum!
+ */
+export enum TileOption {
+  AviationElectrification = 'aviationElectrification',
+  BusinessElectricVehicleShare = 'businessElectricVehicleShare',
+  Deforestation = 'deforestation',
+  Electrification = 'electrificationPercent',
+  // Reductions in emissions from escaped oil and gas during energy production
+  FugitiveEmissionsReduction = 'fugitiveEmissionsReduction',
+  LivestockAndManure = 'livestockAndManure',
+  RenewableShare = 'renewableShare',
+  RenewableShareAgriculture = 'renewableShareAgriculture',
+  ResidentialElectricCarShare = 'residentialElectricCarShare',
+  Shipping = 'shipping',
+}
+
 /**
  * A single tile option configuration, usually wrapped in IOptions.
  */
 export interface IOption {
+  optionType: TileOption | null;
+
   /*
     A percentage (0 - 100) representing the current value of this option.
     This should come from real data and is only editable in magic mode (since

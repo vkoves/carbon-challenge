@@ -2,7 +2,7 @@
  * Code related to game simulation.
  */
 import { TileObj } from '@/classes/tile-obj';
-import { TileType } from '@/interfaces/tile-interfaces';
+import { TileType, IOption } from '@/interfaces/tile-interfaces';
 import {
   OrigYearlyEmissionsGigaTonnes,
   HighEstDegreesWarmingPerGigaTonne,
@@ -11,6 +11,15 @@ import {
 export const SimulatorUnits = {
   Temperature: '°C',
   Emissions: 'Gigatonnes',
+}
+
+/**
+ * A single point in time for a tile option, indicating its % value (0 - 100)
+ * and the year in question.
+ */
+export interface IDeltaObj {
+  value: number;
+  year: number;
 }
 
 /** The width of our simulator grid */
@@ -46,11 +55,18 @@ export enum TempCalcMethod {
  */
 export class Simulator {
   /**
+   * Returns the current year as a number (e.g. 2021, 2030).
+   */
+  public static getCurrentYear(): number {
+    return (new Date()).getFullYear()
+  }
+
+  /**
    * Get the number of years left in the simulation time till our end year
    * (2100)
    */
-  public static GetRemainingSimulationYears(): number {
-    return SimulationEndYear - (new Date()).getFullYear();
+  public static getRemainingSimulationYears(): number {
+    return SimulationEndYear - Simulator.getCurrentYear();
   }
 
   /**
@@ -71,6 +87,60 @@ export class Simulator {
   }
 
   /**
+   * Given a tile option, returns the difference in total emissions (over the
+   * remaining simulator years) this tile's state creates, in Gigatonnes CO2.
+   * For example setting a tile to increase the share of electirc cars would
+   * return a negative  number.
+   */
+  public static getOptionTotalEmissionDelta(tileOption: IOption): number {
+    const remainingYears = Simulator.getRemainingSimulationYears();
+    const totalEmissionsDelta = 0;
+    const startYear = Simulator.getCurrentYear();
+
+    const emissionDeltaArr: Array<IDeltaObj> = [];
+
+    for (let i = 0; i < remainingYears; i++) {
+      const currYear = startYear + i;
+
+      // If the current year is beyond the option's target year, we've reached
+      // the target
+      if (currYear >= tileOption.targetYear) {
+        emissionDeltaArr.push({
+          year: currYear,
+          value: tileOption.target * tileOption.weight
+            * OrigYearlyEmissionsGigaTonnes,
+        });
+      }
+      // Otherwise we're part-way to the target. We assume a linear progression
+      // towards the target. Ex: If target is 100, the startYear is 2000 and the
+      // targetYear is 2050, in 2040 the current value of this option is 80.
+      // The formula for this is:
+      // (currYear - startYear / remainingYears) * target = currAmt
+      // In the example, this yields:
+      // (2040 - 2000) / (2050 - 2000) * 100 = 40 / 50 * 100 = 0.8 * 100 = 80
+      else {
+        const yearsPassed = currYear - startYear;
+
+        emissionDeltaArr.push({
+          year: currYear,
+          value: yearsPassed / remainingYears * tileOption.target,
+        })
+      }
+    }
+
+    let totalDelta = 0;
+
+    emissionDeltaArr.forEach((delta: IDeltaObj) => {
+      totalDelta += delta.value;
+    });
+
+    // TODO: Double check this and maybe write unit tests
+    // console.log('emissionDeltaArr', emissionDeltaArr);
+
+    return totalDelta;
+  }
+
+  /**
    * Get the total CO2 emissions (in GigaTonnes) from the current year to the
    * SimulationEndYear, using the options set in the passed tiles.
    *
@@ -82,10 +152,16 @@ export class Simulator {
    * our simulator and to make the system more reliable.
    */
   public static getTotalEmissions(currentTiles: Array<TileObj>): number {
+    currentTiles.forEach((tile: TileObj) => {
+      Object.values(tile.options).forEach((tileOption: IOption) => {
+        Simulator.getOptionTotalEmissionDelta(tileOption);
+      });
+    });
+
     // TODO: Make this actually use the tile options to reduce the predicted
     // total emissions
     return OrigYearlyEmissionsGigaTonnes
-      * Simulator.GetRemainingSimulationYears();
+      * Simulator.getRemainingSimulationYears();
   }
 
   /**
