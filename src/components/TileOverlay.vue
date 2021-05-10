@@ -28,7 +28,7 @@
                       {{ $t('simulator.tileOverlay.current') }}:
                     </label>
                     <input type="range"
-                      v-model="option.current"
+                      v-model.number="option.current"
                       :id="`${key}-current-val`"
                       name="current-val"
                       min="0" max="100" step="1" disabled>
@@ -40,7 +40,7 @@
                       {{ $t('simulator.tileOverlay.target') }}:
                     </label>
                     <input type="range"
-                      v-model="option.target"
+                      v-model.number="option.target"
                       :id="`${key}-target-val`"
                       name="target-val"
                       min="0" max="100" step="1">
@@ -52,7 +52,7 @@
                       {{ $t('simulator.tileOverlay.targetYear') }}:
                     </label>
                     <input type="range"
-                      v-model="option.targetYear"
+                      v-model.number="option.targetYear"
                       :id="`${key}-target-year-val`"
                       name="target-year-val"
                       min="2025" max="2100" step="1">

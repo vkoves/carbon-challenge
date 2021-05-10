@@ -94,10 +94,11 @@ export class Simulator {
    */
   public static getOptionTotalEmissionDelta(tileOption: IOption): number {
     const remainingYears = Simulator.getRemainingSimulationYears();
-    const totalEmissionsDelta = 0;
     const startYear = Simulator.getCurrentYear();
 
     const emissionDeltaArr: Array<IDeltaObj> = [];
+
+    console.log('tileOption', tileOption);
 
     for (let i = 0; i < remainingYears; i++) {
       const currYear = startYear + i;
@@ -107,8 +108,7 @@ export class Simulator {
       if (currYear >= tileOption.targetYear) {
         emissionDeltaArr.push({
           year: currYear,
-          value: tileOption.target * tileOption.weight
-            * OrigYearlyEmissionsGigaTonnes,
+          value: tileOption.target,
         });
       }
       // Otherwise we're part-way to the target. We assume a linear progression
@@ -128,16 +128,21 @@ export class Simulator {
       }
     }
 
-    let totalDelta = 0;
+    let totalEmissionsDelta = 0;
 
     emissionDeltaArr.forEach((delta: IDeltaObj) => {
-      totalDelta += delta.value;
+      totalEmissionsDelta += delta.value
+        * tileOption.weight * OrigYearlyEmissionsGigaTonnes;
     });
 
-    // TODO: Double check this and maybe write unit tests
-    // console.log('emissionDeltaArr', emissionDeltaArr);
+    console.log('totalEmissionsDelta', totalEmissionsDelta);
 
-    return totalDelta;
+    if (totalEmissionsDelta !== 0) {
+      // TODO: Double check this and maybe write unit tests
+      console.log('emissionDeltaArr', emissionDeltaArr);
+    }
+
+    return totalEmissionsDelta;
   }
 
   /**
