@@ -93,7 +93,7 @@ export default class DebugView extends Vue {
     this.tiles.forEach(tile => {
       Object.values(tile.options)
         .forEach((option: IOption) => {
-          totalWeight += option.weight;
+          totalWeight += option.weightPrcnt;
         });
     });
 

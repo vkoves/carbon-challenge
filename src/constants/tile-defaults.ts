@@ -32,7 +32,7 @@ const EmptyOption: IOption = {
   current: 0,
   target: 0,
   targetYear: 2050,
-  weight: 0,
+  weightPrcnt: 0,
 };
 
 
@@ -61,29 +61,29 @@ export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   [TileType.Factory]: {
     [TileOption.BusinessElectricVehicleShare]: Object.assign({
       optionType: TileOption.BusinessElectricVehicleShare,
-      weight: 11.9 * 0.4, // "Transport > Road transport" * 40% commercial
+      weightPrcnt: 11.9 * 0.4, // "Transport > Road transport" * 40% commercial
     }, EmptyOption),
     // "Transport > Road transport" * 40% commercial
     [TileOption.Shipping]: Object.assign({}, EmptyOption, {
       optionType: TileOption.Shipping,
-      weight: 1.7,
+      weightPrcnt: 1.7,
     }),
     // This comes from "Energy use in industry"
     [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
       optionType: TileOption.RenewableShare,
-      weight:  24.2,
+      weightPrcnt:  24.2,
     }),
   },
 
   [TileType.Farm]: {
     [TileOption.Deforestation]: Object.assign({}, EmptyOption, {
       optionType: TileOption.Deforestation,
-      weight: 2.2,
+      weightPrcnt: 2.2,
     }),
     // Called "Energy use in agriculture and fishing"
     [TileOption.RenewableShareAgriculture]: Object.assign({}, EmptyOption, {
       optionType: TileOption.RenewableShareAgriculture,
-      weight: 1.7,
+      weightPrcnt: 1.7,
     }),
   },
 
@@ -91,17 +91,17 @@ export const DefaultTileOptions: { [ type: string ]: IOptions } = {
     // "Transport > Road transport" * 60% passenger
     [TileOption.ResidentialElectricCarShare]: Object.assign({}, EmptyOption, {
       optionType: TileOption.ResidentialElectricCarShare,
-      weight: 11.9 * 0.6,
+      weightPrcnt: 11.9 * 0.6,
     }),
     // "Energy use in buildings > Residential buildings"
     [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
       optionType: TileOption.RenewableShare,
-      weight: 10.9,
+      weightPrcnt: 10.9,
     }),
     // "Energy use in buildings > Residential buildings"
     [TileOption.AviationElectrification]: Object.assign({}, EmptyOption, {
       optionType: TileOption.AviationElectrification,
-      weight: 10.9,
+      weightPrcnt: 10.9,
     }),
   },
 
@@ -109,18 +109,18 @@ export const DefaultTileOptions: { [ type: string ]: IOptions } = {
     // "Energy use in buildings > Commercial buildings"
     [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
       optionType: TileOption.RenewableShare,
-      weight: 6.6,
+      weightPrcnt: 6.6,
     }),
   },
 
   [TileType.Power]: {
     [TileOption.FugitiveEmissionsReduction]: Object.assign({}, EmptyOption, {
       optionType: TileOption.FugitiveEmissionsReduction,
-      weight: 5.8,
+      weightPrcnt: 5.8,
     }),
     [TileOption.LivestockAndManure]: Object.assign({}, EmptyOption, {
       optionType: TileOption.LivestockAndManure,
-      weight: 5.8,
+      weightPrcnt: 5.8,
     }),
   },
 };

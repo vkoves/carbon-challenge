@@ -74,7 +74,7 @@ export interface IOption {
    * Example: In 2016, residential building energy use in 2016 was 10.9% of
    * emissions so this value would be 10.9
    */
-  weight: number;
+  weightPrcnt: number;
 }
 
 /**
@@ -91,7 +91,7 @@ export interface IOption {
  *   current: 5,
  *   target: 100,
  *   targetYear: 2050,
- *   weight: 17.5,
+ *   weightPrcnt: 17.5,
  * }
  *
  * This means the user can impact the total warming in three ways:

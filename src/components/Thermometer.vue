@@ -55,11 +55,13 @@ import { Options, Vue } from 'vue-class-component';
   }),
 
   watch: {
-    // On tiles changed (likely options updatd)
+    // On tiles changed (likely options updated) recalculate temperature
     tiles: function(newVal) {
       if (!newVal) {
           return;
       }
+
+      this.calculateTemperature();
     }
   }
 })

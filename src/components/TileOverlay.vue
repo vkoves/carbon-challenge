@@ -16,7 +16,7 @@
                     <h3>{{ $t(`simulator.tileOptions.${key}`) }}</h3>
 
                     <p>
-                      Weight: ~{{ Math.round(option.weight) }}%
+                      Weight: ~{{ Math.round(option.weightPrcnt) }}%
                     </p>
 
                     <!--

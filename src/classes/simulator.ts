@@ -2,7 +2,7 @@
  * Code related to game simulation.
  */
 import { TileObj } from '@/classes/tile-obj';
-import { TileType, IOption } from '@/interfaces/tile-interfaces';
+import { IOption, TileOption, TileType } from '@/interfaces/tile-interfaces';
 import {
   OrigYearlyEmissionsGigaTonnes,
   HighEstDegreesWarmingPerGigaTonne,
@@ -18,7 +18,7 @@ export const SimulatorUnits = {
  * and the year in question.
  */
 export interface IDeltaObj {
-  value: number;
+  valuePrcnt: number;
   year: number;
 }
 
@@ -63,9 +63,9 @@ export class Simulator {
 
   /**
    * Get the number of years left in the simulation time till our end year
-   * (2100)
+   * (2100). E.g. in 2025 this would return 75.
    */
-  public static getRemainingSimulationYears(): number {
+  public static getTotalSimulationYears(): number {
     return SimulationEndYear - Simulator.getCurrentYear();
   }
 
@@ -91,16 +91,18 @@ export class Simulator {
    * remaining simulator years) this tile's state creates, in Gigatonnes CO2.
    * For example setting a tile to increase the share of electirc cars would
    * return a negative  number.
+   *
+   * TODO: Write unit tests for this function
    */
   public static getOptionTotalEmissionDelta(tileOption: IOption): number {
-    const remainingYears = Simulator.getRemainingSimulationYears();
+    const totalSimYears = Simulator.getTotalSimulationYears();
     const startYear = Simulator.getCurrentYear();
+
+    const yearsFromTodayTillTarget = tileOption.targetYear - startYear;
 
     const emissionDeltaArr: Array<IDeltaObj> = [];
 
-    console.log('tileOption', tileOption);
-
-    for (let i = 0; i < remainingYears; i++) {
+    for (let i = 0; i < totalSimYears; i++) {
       const currYear = startYear + i;
 
       // If the current year is beyond the option's target year, we've reached
@@ -108,14 +110,14 @@ export class Simulator {
       if (currYear >= tileOption.targetYear) {
         emissionDeltaArr.push({
           year: currYear,
-          value: tileOption.target,
+          valuePrcnt: tileOption.target,
         });
       }
       // Otherwise we're part-way to the target. We assume a linear progression
       // towards the target. Ex: If target is 100, the startYear is 2000 and the
       // targetYear is 2050, in 2040 the current value of this option is 80.
       // The formula for this is:
-      // (currYear - startYear / remainingYears) * target = currAmt
+      // (currYear - startYear / totalSimYears) * target = currAmt
       // In the example, this yields:
       // (2040 - 2000) / (2050 - 2000) * 100 = 40 / 50 * 100 = 0.8 * 100 = 80
       else {
@@ -123,21 +125,37 @@ export class Simulator {
 
         emissionDeltaArr.push({
           year: currYear,
-          value: yearsPassed / remainingYears * tileOption.target,
+          valuePrcnt: (yearsPassed / yearsFromTodayTillTarget) * tileOption.target,
         })
       }
     }
 
     let totalEmissionsDelta = 0;
 
+    console.log('OrigYearlyEmissionsGigaTonnes', OrigYearlyEmissionsGigaTonnes);
+
     emissionDeltaArr.forEach((delta: IDeltaObj) => {
-      totalEmissionsDelta += delta.value
-        * tileOption.weight * OrigYearlyEmissionsGigaTonnes;
+      if (tileOption.optionType === TileOption.ResidentialElectricCarShare) {
+        console.log({
+          year: delta.year,
+          valuePrcnt: delta.valuePrcnt,
+          weightPrcnt: tileOption.weightPrcnt,
+
+          optDelta: (delta.valuePrcnt / 100)
+          * (tileOption.weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes,
+        });
+      }
+
+      totalEmissionsDelta -= (delta.valuePrcnt / 100)
+        * (tileOption.weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes;
     });
 
-    console.log('totalEmissionsDelta', totalEmissionsDelta);
 
-    if (totalEmissionsDelta !== 0) {
+    if (tileOption.optionType === TileOption.ResidentialElectricCarShare) {
+      console.log('tileOption', tileOption);
+
+      console.log('totalEmissionsDelta', totalEmissionsDelta);
+
       // TODO: Double check this and maybe write unit tests
       console.log('emissionDeltaArr', emissionDeltaArr);
     }
@@ -157,16 +175,24 @@ export class Simulator {
    * our simulator and to make the system more reliable.
    */
   public static getTotalEmissions(currentTiles: Array<TileObj>): number {
+    let totalTileDelta = 0;
+
     currentTiles.forEach((tile: TileObj) => {
       Object.values(tile.options).forEach((tileOption: IOption) => {
-        Simulator.getOptionTotalEmissionDelta(tileOption);
+        totalTileDelta += Simulator.getOptionTotalEmissionDelta(tileOption);
       });
     });
 
+    console.log('totalTileDelta', totalTileDelta.toLocaleString());
+
+    const origEmissions = OrigYearlyEmissionsGigaTonnes
+      * Simulator.getTotalSimulationYears();
+
+    console.log('origEmissions', origEmissions.toLocaleString());
+
     // TODO: Make this actually use the tile options to reduce the predicted
     // total emissions
-    return OrigYearlyEmissionsGigaTonnes
-      * Simulator.getRemainingSimulationYears();
+    return origEmissions + totalTileDelta;
   }
 
   /**
@@ -198,6 +224,8 @@ export class Simulator {
   public static getThermometerDegrees(
     currentTiles: Array<TileObj>
   ): number {
+    console.log('getThermometerDegrees called!');
+
     // TODO: Make this actually use the carbon budgets when appropriate
     return Simulator.getTotalEmissions(currentTiles)
       * HighEstDegreesWarmingPerGigaTonne;
