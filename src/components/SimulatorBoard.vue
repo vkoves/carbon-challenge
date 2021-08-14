@@ -24,7 +24,7 @@
 
     <TileOverlay
       :tile="selectedTile"
-      @closed="tileOverlayClosed()"
+      @closed="tileOverlayClosed($event)"
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
     <DebugView v-if="showingDebugView"
