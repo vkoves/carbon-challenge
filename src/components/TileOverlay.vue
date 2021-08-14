@@ -194,7 +194,7 @@ const AnimDurationMs = 300;
 
       // Emit closed event after fade animation is done
       setTimeout(() => {
-        this.$emit('closed');
+        this.$emit('closed', this.tile.id);
       }, AnimDurationMs);
     },
 
@@ -211,8 +211,6 @@ const AnimDurationMs = 300;
 
     policySelected(policyKey: TilePolicyKey, optionKey: TileOption) {
       const tileOption: IOption = this.tile.options[optionKey];
-
-      console.log('tileOption', tileOption);
 
       tileOption.currentPolicyKey = policyKey;
 
@@ -293,7 +291,7 @@ export default class TileOverlay extends Vue { }
     .form-inner {
       display: block;
       overflow: auto;
-      height: 60vh;
+      max-height: 62vh;
       padding: $large;
       margin-top: $standard;
       background-color: rgba(0, 0, 0, 0.5);

@@ -13,7 +13,7 @@
       <dl>
         <dt>Total Emissions</dt>
         <dd>
-          {{ totalEmissions }} {{ SimulatorUnits.Emissions }}
+          {{ Math.round(totalEmissions) }} {{ SimulatorUnits.Emissions }}
         </dd>
 
         <dt>Degree Warming Calculation Method</dt>
@@ -31,7 +31,7 @@
 
         <dt>Est. Deg. Warming (by {{ SimEndYear }})</dt>
         <dd>
-          {{ estDegWarming }} {{ SimulatorUnits.Temperature }}
+          {{ estDegWarming.toFixed(2) }} {{ SimulatorUnits.Temperature }}
         </dd>
       </dl>
     </div>
