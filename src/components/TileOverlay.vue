@@ -11,12 +11,18 @@
           <div v-if="tile">
               <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
 
+              <p v-if="$t(`simulator.tileTypeDescriptions.${tile.type}`)">
+                {{ $t(`simulator.tileTypeDescriptions.${tile.type}`) }}
+              </p>
+
               <form @submit="submitOptions">
                 <div v-for="(option, key) in tile.options" :key="key">
-                    <h3>{{ $t(`simulator.tileOptions.${key}`) }}</h3>
+                    <h3>
+                      {{ $t(`simulator.tileOptionTitles.${key}`) }}
+                    </h3>
 
-                    <p>
-                      Weight: ~{{ Math.round(option.weightPrcnt) }}%
+                    <p class="option-percent">
+                      {{ option.weightPrcnt }}% annual emissions
                     </p>
 
                     <!--
@@ -183,6 +189,8 @@ export default class TileOverlay extends Vue { }
     backdrop-filter: blur(0.2rem);
 
     h2, h3 { margin-top: 2rem; }
+
+    .option-percent { margin-top: 0.25rem; }
   }
 
   form {

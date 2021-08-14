@@ -32,18 +32,34 @@ export const EnglishLanguageData: ILanguageData = {
       factory: 'Factory',
       empty: 'Empty',
     },
+    // Optional descriptions of each tile type, explaining what falls under this
+    // tile and where expected options may be if they fall under another tile.
+    // Should include all values from the TileType enum
+    tileTypeDescriptions: {
+      power:
+        'Emissions that are broadly tied to generating power. Emissions for ' +
+        'specific uses are under the Home, Office, and Factory tiles.',
+      farm: '',
+      forest: '',
+      house: '',
+      office: '',
+      factory: '',
+      empty: '',
+    },
     // Should include all values from the TileOption enum
-    tileOptions: {
-      aviationElectrification: 'Share of Electric Planes',
-      businessElectricVehicleShare: 'Electric Vehicle Share (Commercial)',
-      deforestation: 'Deforerstation Reduction',
-      electrificationPercent: 'Electrification',
-      fugitiveEmissionsReduction: 'Fugitive Emissions Reduction',
-      livestockAndManure: 'Livestock and Manure Reduction',
-      renewableShare: 'Renewable Share',
-      renewableShareAgriculture: 'Renewable Share (Agriculture)',
-      residentialElectricCarShare: 'Electric Car Share (Residential)',
-      shipping: 'Shipping',
+    tileOptionTitles: {
+      aviation: 'Aviation',
+      deforestation: 'Deforestation',
+      energyAgriculture: 'Energy for Agriculture',
+      energyCommercialBuildings: 'Energy for Commercial Buildings',
+      energyIndustry: 'Energy for Industry',
+      energyResidential: 'Energy for Residential Buildings',
+      freightRoadTransport: 'Freight Road Vehicles',
+      fugitiveEmissions: 'Fugitive Emissions from Energy Production',
+      livestockAndManure: 'Livestock and Manure',
+      passengerRoadTransport: 'Passenger Vehicles',
+      shipping: 'Shipping (Boats)',
+      unallocatedFuelCombustion: 'Unallocated Fuel Combustion',
     }
   }
 };

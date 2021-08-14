@@ -22,25 +22,30 @@ export enum TileType {
 
 /**
  * All of the possible options for any tile, so we can have internationalization
- * for each of these. Note that some of these may be unique to a single tile
- * type, some may apply to many!
+ * for each of these. These should be:
+ *
+ *   1. Unique to each tile, so we can use specific wording
+ *   2. Should be the name of the underlying emission source, rather than a
+ *      potential policy to reduce it. (e.g. "CommercialRoadTransport" rather
+ *      than "ElectrifyCommercialRoadTransport")
  *
  * NOTE: Each of these values are rendered via i18n plugin using the
- * `AllLanguageData` constant, in [locale].simulator.tileOptions. Make sure to
- * keep that in sync with this enum!
+ * `AllLanguageData` constant, in [locale].simulator.tileOptions, so make sure
+ * that the language files are updated along with this enum!
  */
 export enum TileOption {
-  AviationElectrification = 'aviationElectrification',
-  BusinessElectricVehicleShare = 'businessElectricVehicleShare',
+  Aviation = 'aviation',
+  FreightRoadTransport = 'freightRoadTransport',
   Deforestation = 'deforestation',
-  Electrification = 'electrificationPercent',
-  // Reductions in emissions from escaped oil and gas during energy production
-  FugitiveEmissionsReduction = 'fugitiveEmissionsReduction',
+  EnergyAgriculture = 'energyAgriculture',
+  EnergyCommercialBuildings = 'energyCommercialBuildings',
+  EnergyIndustry = 'energyIndustry',
+  EnergyResidential = 'energyResidential',
+  FugitiveEmissions = 'fugitiveEmissions',
   LivestockAndManure = 'livestockAndManure',
-  RenewableShare = 'renewableShare',
-  RenewableShareAgriculture = 'renewableShareAgriculture',
-  ResidentialElectricCarShare = 'residentialElectricCarShare',
+  PassengerRoadTransport = 'passengerRoadTransport',
   Shipping = 'shipping',
+  UnallocatedFuelCombustion = 'unallocatedFuelCombustion',
 }
 
 /**
@@ -71,6 +76,7 @@ export interface IOption {
   /**
    * A percentage number expressing the weight of this option as a % of current
    * global emissions.
+   *
    * Example: In 2016, residential building energy use in 2016 was 10.9% of
    * emissions so this value would be 10.9
    */

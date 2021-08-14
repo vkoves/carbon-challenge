@@ -102,6 +102,8 @@ export class Simulator {
 
     const emissionDeltaArr: Array<IDeltaObj> = [];
 
+    // Loop through every year of the simulation and calculate emissions in in
+    // that year
     for (let i = 0; i < totalSimYears; i++) {
       const currYear = startYear + i;
 
@@ -132,33 +134,10 @@ export class Simulator {
 
     let totalEmissionsDelta = 0;
 
-    console.log('OrigYearlyEmissionsGigaTonnes', OrigYearlyEmissionsGigaTonnes);
-
     emissionDeltaArr.forEach((delta: IDeltaObj) => {
-      if (tileOption.optionType === TileOption.ResidentialElectricCarShare) {
-        console.log({
-          year: delta.year,
-          valuePrcnt: delta.valuePrcnt,
-          weightPrcnt: tileOption.weightPrcnt,
-
-          optDelta: (delta.valuePrcnt / 100)
-          * (tileOption.weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes,
-        });
-      }
-
       totalEmissionsDelta -= (delta.valuePrcnt / 100)
         * (tileOption.weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes;
     });
-
-
-    if (tileOption.optionType === TileOption.ResidentialElectricCarShare) {
-      console.log('tileOption', tileOption);
-
-      console.log('totalEmissionsDelta', totalEmissionsDelta);
-
-      // TODO: Double check this and maybe write unit tests
-      console.log('emissionDeltaArr', emissionDeltaArr);
-    }
 
     return totalEmissionsDelta;
   }
@@ -183,12 +162,8 @@ export class Simulator {
       });
     });
 
-    console.log('totalTileDelta', totalTileDelta.toLocaleString());
-
     const origEmissions = OrigYearlyEmissionsGigaTonnes
       * Simulator.getTotalSimulationYears();
-
-    console.log('origEmissions', origEmissions.toLocaleString());
 
     // TODO: Make this actually use the tile options to reduce the predicted
     // total emissions
@@ -224,8 +199,6 @@ export class Simulator {
   public static getThermometerDegrees(
     currentTiles: Array<TileObj>
   ): number {
-    console.log('getThermometerDegrees called!');
-
     // TODO: Make this actually use the carbon budgets when appropriate
     return Simulator.getTotalEmissions(currentTiles)
       * HighEstDegreesWarmingPerGigaTonne;

@@ -27,28 +27,19 @@ export interface ILanguageData {
       target: string;
       targetYear: string;
     };
-    // Should include all values from the TileType enum
+    // Require each language to declare the translations for each TileType
     tileTypes: {
-      power: string;
-      farm: string;
-      forest: string;
-      house: string;
-      office: string;
-      factory: string;
-      empty: string;
+      [type in TileType]: string;
     };
-    // Should include all values from the TileOption enum
-    tileOptions: {
-      aviationElectrification: string;
-      businessElectricVehicleShare: string;
-      deforestation: string;
-      electrificationPercent: string;
-      fugitiveEmissionsReduction: string;
-      livestockAndManure: string;
-      renewableShare: string;
-      renewableShareAgriculture: string;
-      residentialElectricCarShare: string;
-      shipping: string;
+    // Optional descriptions of each tile type, explaining what falls under this
+    // tile and where expected options may be if they fall under another tile.
+    // Should include all values from the TileType enum
+    tileTypeDescriptions: {
+      [type in TileType]: string | null;
+    }
+    // Require each language to declare titles for each TileOption
+    tileOptionTitles: {
+      [optValue in TileOption]: string;
     };
   }
 }

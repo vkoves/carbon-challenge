@@ -99,7 +99,7 @@ export default class DebugView extends Vue {
 
     // The total weight sets a maximum for the amount of emissions a user could
     // possibly cut, so it's important this is as close to 100% as possible
-    console.log(`totalWeight: ${totalWeight}%`);
+    console.info(`totalWeight: ${totalWeight}%`);
   }
 
   mounted(): void {
@@ -130,6 +130,7 @@ export default class DebugView extends Vue {
 
 .debug-cont {
   flex-basis: 800px;
+  max-width: 90%;
   margin: 0 auto 5rem auto;
   background-color: #000;
   border-radius: 0.5rem;

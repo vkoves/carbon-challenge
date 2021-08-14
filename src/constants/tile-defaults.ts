@@ -53,74 +53,84 @@ const EmptyOption: IOption = {
  * - Office electrification
  */
 
+export const RoadTransportTotalWeight = 11.9;
+
 /**
  * Weights sourced from Our World in Data:
  * https://ourworldindata.org/ghg-emissions-by-sector
  */
 export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   [TileType.Factory]: {
-    [TileOption.BusinessElectricVehicleShare]: Object.assign({
-      optionType: TileOption.BusinessElectricVehicleShare,
-      weightPrcnt: 11.9 * 0.4, // "Transport > Road transport" * 40% commercial
-    }, EmptyOption),
     // "Transport > Road transport" * 40% commercial
+    [TileOption.FreightRoadTransport]: Object.assign({
+      optionType: TileOption.FreightRoadTransport,
+      weightPrcnt: RoadTransportTotalWeight * 0.4,
+    }, EmptyOption),
+    //
     [TileOption.Shipping]: Object.assign({}, EmptyOption, {
       optionType: TileOption.Shipping,
       weightPrcnt: 1.7,
     }),
     // This comes from "Energy use in industry"
-    [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
-      optionType: TileOption.RenewableShare,
+    [TileOption.EnergyIndustry]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.EnergyIndustry,
       weightPrcnt:  24.2,
     }),
   },
 
   [TileType.Farm]: {
+    [TileOption.LivestockAndManure]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.LivestockAndManure,
+      weightPrcnt: 5.8,
+    }),
     [TileOption.Deforestation]: Object.assign({}, EmptyOption, {
       optionType: TileOption.Deforestation,
       weightPrcnt: 2.2,
     }),
     // Called "Energy use in agriculture and fishing"
-    [TileOption.RenewableShareAgriculture]: Object.assign({}, EmptyOption, {
-      optionType: TileOption.RenewableShareAgriculture,
+    [TileOption.EnergyAgriculture]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.EnergyAgriculture,
       weightPrcnt: 1.7,
     }),
   },
 
   [TileType.House]: {
     // "Transport > Road transport" * 60% passenger
-    [TileOption.ResidentialElectricCarShare]: Object.assign({}, EmptyOption, {
-      optionType: TileOption.ResidentialElectricCarShare,
-      weightPrcnt: 11.9 * 0.6,
+    [TileOption.PassengerRoadTransport]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.PassengerRoadTransport,
+      weightPrcnt: RoadTransportTotalWeight * 0.6,
     }),
     // "Energy use in buildings > Residential buildings"
-    [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
-      optionType: TileOption.RenewableShare,
+    [TileOption.EnergyResidential]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.EnergyResidential,
       weightPrcnt: 10.9,
     }),
     // "Energy use in buildings > Residential buildings"
-    [TileOption.AviationElectrification]: Object.assign({}, EmptyOption, {
-      optionType: TileOption.AviationElectrification,
+    [TileOption.Aviation]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.Aviation,
       weightPrcnt: 10.9,
     }),
   },
 
   [TileType.Office]: {
     // "Energy use in buildings > Commercial buildings"
-    [TileOption.RenewableShare]: Object.assign({}, EmptyOption, {
-      optionType: TileOption.RenewableShare,
+    [TileOption.EnergyCommercialBuildings]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.EnergyCommercialBuildings,
       weightPrcnt: 6.6,
     }),
   },
 
+  // Note: General power generation is segmented into its users, like commercial
+  // buildings (office tile), industry (factory tile) and residential buildings
+  // (house tile)
   [TileType.Power]: {
-    [TileOption.FugitiveEmissionsReduction]: Object.assign({}, EmptyOption, {
-      optionType: TileOption.FugitiveEmissionsReduction,
+    [TileOption.FugitiveEmissions]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.FugitiveEmissions,
       weightPrcnt: 5.8,
     }),
-    [TileOption.LivestockAndManure]: Object.assign({}, EmptyOption, {
-      optionType: TileOption.LivestockAndManure,
-      weightPrcnt: 5.8,
+    [TileOption.UnallocatedFuelCombustion]: Object.assign({}, EmptyOption, {
+      optionType: TileOption.UnallocatedFuelCombustion,
+      weightPrcnt: 7.8,
     }),
   },
 };

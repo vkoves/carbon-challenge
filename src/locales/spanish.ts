@@ -32,19 +32,37 @@ export const SpanishLanguageData: ILanguageData = {
       factory: 'Fábrica',
       empty: 'Vacío',
     },
+    // Optional descriptions of each tile type, explaining what falls under this
+    // tile and where expected options may be if they fall under another tile.
+    // Should include all values from the TileType enum
+    tileTypeDescriptions: {
+      // TODO: Add translations
+      power:
+        'Emissions that are broadly tied to generating power. Emissions for ' +
+        'specific uses are under the Home, Office, and Factory tiles.',
+      farm: null,
+      forest: null,
+      house: null,
+      office: null,
+      factory: null,
+      empty: null,
+    },
     // Should include all values from the TileOption enum
-    tileOptions: {
+    tileOptionTitles: {
       // TODO: Fill these out
-      aviationElectrification: '',
-      businessElectricVehicleShare: '',
+      aviation: '',
+      commercialRoadTransport: '',
       deforestation: '',
-      electrificationPercent: '',
-      fugitiveEmissionsReduction: '',
+      energyAgriculture: '',
+      energyCommercialBuildings: '',
+      energyIndustry: '',
+      energyResidential: '',
+      freightRoadTransport: '',
+      fugitiveEmissions: '',
       livestockAndManure: '',
-      renewableShare: '',
-      renewableShareAgriculture: '',
-      residentialElectricCarShare: '',
+      passengerRoadTransport: '',
       shipping: '',
+      unallocatedFuelCombustion: '',
     }
   }
 };
