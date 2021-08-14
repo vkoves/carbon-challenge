@@ -1,13 +1,13 @@
 <template>
   <main id="main-content" class="page">
     <div class="page-inner">
-      <!-- TODO: Move into language constants for i18n -->
-      <h1>Disclaimers</h1>
+      <h1>{{ $t('header.disclaimers') }}</h1>
 
+      <!-- TODO: Move into language constants for i18n -->
       <p>
         The Carbon Challenge is a project made by non-scientists, and although
         we did a lot of research (learn more on our <a href="/about">About Page</a>)
-        it is a layer of estimtes on estimates and is thus not an accurate
+        it is a layer of estimates on estimates and is thus not an accurate
         <em>simulation</em> of climate change or emissions.
       </p>
 

@@ -3,6 +3,7 @@ import { TilePolicyKey } from '@/constants/tile-policies';
 
 export const SpanishLanguageData: ILanguageData = {
   title: 'El Desafío Del Carbono',
+
   header: {
     home: 'Hogar',
     simulator: 'Simulador',
@@ -10,11 +11,17 @@ export const SpanishLanguageData: ILanguageData = {
     about: 'Sobre',
     language: 'Lingua',
   },
+
   intro: {
     slogan1: 'El cambio climático es grande.',
     slogan2: 'Así que tenemos que ir aún más grandes.',
     startBtn: 'Vamos'
   },
+
+  about: {
+    title: 'Sobre El Desafío Del Carbono',
+  },
+
   simulator: {
     avgTempLabel: 'Aumento de la temperatura global promedio para 2100',
     close: 'Cerrar',

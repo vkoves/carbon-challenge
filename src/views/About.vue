@@ -1,9 +1,9 @@
 <template>
   <main id="main-content" class="page">
     <div class="page-inner">
-      <!-- TODO: Move into language constants for i18n -->
-      <h1>About the Carbon Challenge</h1>
+      <h1>{{ $t('about.title') }}</h1>
 
+      <!-- TODO: Move into language constants for i18n -->
       <p>
         The Carbon Challenge is a project made by
         <a href="https://viktorkoves.com/">Viktor Köves</a> with help from lots

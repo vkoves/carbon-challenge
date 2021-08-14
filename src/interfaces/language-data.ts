@@ -9,6 +9,7 @@ import { TilePolicyKey } from '../constants/tile-policies';
  */
 export interface ILanguageData {
   title: string;
+
   // These are also used for page titles
   header: {
     home: string;
@@ -17,11 +18,17 @@ export interface ILanguageData {
     about: string;
     language: string;
   };
+
   intro: {
     slogan1: string;
     slogan2: string;
     startBtn: string;
   };
+
+  about: {
+    title: string;
+  };
+
   simulator: {
     avgTempLabel: string;
     close: string;

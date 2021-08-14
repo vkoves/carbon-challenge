@@ -3,6 +3,7 @@ import { TilePolicyKey } from '@/constants/tile-policies';
 
 export const EnglishLanguageData: ILanguageData = {
   title: 'The Carbon Challenge',
+
   header: {
     home: 'Home',
     simulator: 'Simulator',
@@ -10,11 +11,17 @@ export const EnglishLanguageData: ILanguageData = {
     about: 'About',
     language: 'Language',
   },
+
   intro: {
     slogan1: 'Climate change is big.',
     slogan2: 'So we have to go even bigger.',
     startBtn: 'Let\'s Go'
   },
+
+  about: {
+    title: 'About The Carbon Challenge',
+  },
+
   simulator: {
     avgTempLabel: 'Average Global Temperature Increase by 2100',
     close: 'Close',
