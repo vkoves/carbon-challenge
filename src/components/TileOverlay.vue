@@ -90,40 +90,40 @@
                         mode, otherwise it is 0) and then allow editing of the
                         target value and year
                       -->
-                      <label :for="`${key}-current-val`">
+                      <label :for="`${optKey}-current-val`">
                         {{ $t('simulator.tileOverlay.current') }}:
                       </label>
                       <input type="range"
                         v-model.number="option.current"
-                        :id="`${key}-current-val`"
+                        :id="`${optKey}-current-val`"
                         name="current-val"
                         min="0" max="100" step="1" disabled>
-                      <output class="output" :for="`${key}-current-val`">
+                      <output class="output" :for="`${optKey}-current-val`">
                         {{ option.current }}%
                       </output>
                     </div>
 
-                    <label :for="`${key}-target-val`">
+                    <label :for="`${optKey}-target-val`">
                       {{ $t('simulator.tileOverlay.target') }}:
                     </label>
                     <input type="range"
                       v-model.number="option.target"
-                      :id="`${key}-target-val`"
+                      :id="`${optKey}-target-val`"
                       name="target-val"
                       min="0" max="100" step="1">
-                    <output class="output" :for="`${key}-target-val`">
+                    <output class="output" :for="`${optKey}-target-val`">
                       {{ option.target }}%
                     </output>
 
-                    <label :for="`${key}-target-year-val`">
+                    <label :for="`${optKey}-target-year-val`">
                       {{ $t('simulator.tileOverlay.targetYear') }}:
                     </label>
                     <input type="range"
                       v-model.number="option.targetYear"
-                      :id="`${key}-target-year-val`"
+                      :id="`${optKey}-target-year-val`"
                       name="target-year-val"
                       min="2025" max="2100" step="1">
-                    <output class="output" :for="`${key}-target-year-val`">
+                    <output class="output" :for="`${optKey}-target-year-val`">
                       {{ option.targetYear }}
                     </output>
                   </div>
@@ -172,7 +172,7 @@ const AnimDurationMs = 300;
   }),
 
   emits: {
-    closed(): void { },
+    closed(tileId: number): number { return tileId; },
     tileUpdated(newTile: TileObj): TileObj { return newTile; },
   },
 

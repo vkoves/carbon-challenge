@@ -66,7 +66,7 @@ export const EnglishLanguageData: ILanguageData = {
       energyCommercialBuildings: 'Energy for Commercial Buildings',
       energyIndustry: 'Energy for Industry',
       energyResidential: 'Energy for Residential Buildings',
-      freightRoadTransport: 'Freight Road Vehicles',
+      freightRoadTransport: 'Freight Trucking',
       fugitiveEmissions: 'Fugitive Emissions from Energy Production',
       livestockAndManure: 'Livestock and Manure',
       passengerRoadTransport: 'Passenger Vehicles',
