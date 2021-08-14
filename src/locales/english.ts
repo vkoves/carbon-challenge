@@ -1,4 +1,5 @@
 import { ILanguageData } from '@/interfaces/language-data';
+import { TilePolicyKey } from '@/constants/tile-policies';
 
 export const EnglishLanguageData: ILanguageData = {
   title: 'The Carbon Challenge',
@@ -19,8 +20,9 @@ export const EnglishLanguageData: ILanguageData = {
     close: 'Close',
     tileOverlay: {
       current: 'Current',
-      target: 'Target',
+      target: 'Target Emissions Reduction',
       targetYear: 'Target Year',
+      emissionPrcntLabel: 'annual emissions',
     },
     // Should include all values from the TileType enum
     tileTypes: {
@@ -32,6 +34,7 @@ export const EnglishLanguageData: ILanguageData = {
       factory: 'Factory',
       empty: 'Empty',
     },
+
     // Optional descriptions of each tile type, explaining what falls under this
     // tile and where expected options may be if they fall under another tile.
     // Should include all values from the TileType enum
@@ -43,9 +46,11 @@ export const EnglishLanguageData: ILanguageData = {
       forest: '',
       house: '',
       office: '',
-      factory: '',
+      factory:
+        'Emissions related to industry including manufacturing of all kinds.',
       empty: '',
     },
+
     // Should include all values from the TileOption enum
     tileOptionTitles: {
       aviation: 'Aviation',
@@ -60,6 +65,21 @@ export const EnglishLanguageData: ILanguageData = {
       passengerRoadTransport: 'Passenger Vehicles',
       shipping: 'Shipping (Boats)',
       unallocatedFuelCombustion: 'Unallocated Fuel Combustion',
+    },
+
+    // Should contain all values from TilePolicyKey
+    tilePolicies: {
+      [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
+        name: 'Require All Electric Freight by 2050',
+        description:
+          'Require all road freight vehicles to be electric by 2050.',
+      },
+      [TilePolicyKey.FactoryElectricFreightIncentive2050]: {
+        name: 'Electric Freight Incentives',
+        description:
+          'Provide tax incentives for electric freight vehicles, cutting gas ' +
+          'powered trucks in half by 2050.',
+      }
     }
   }
 };

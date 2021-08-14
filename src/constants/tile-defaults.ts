@@ -1,4 +1,5 @@
 import { IOption, IOptions, TileType, TileOption } from '../interfaces/tile-interfaces';
+import { TilePolicies } from './tile-policies';
 
 /**
  * All data is based on Our World in Data emissions by sector in April 2021, which
@@ -53,70 +54,89 @@ const EmptyOption: IOption = {
  * - Office electrification
  */
 
-export const RoadTransportTotalWeight = 11.9;
+const RoadTransportTotalWeight = 11.9;
 
 /**
+ * Create a new option, using EmptyOption to fill in default values
+ */
+function createOption(optParams: any): IOption {
+  return Object.assign({}, EmptyOption, optParams);
+}
+
+/**
+ * The tile options that are available for each tile type.
+ *
  * Weights sourced from Our World in Data:
  * https://ourworldindata.org/ghg-emissions-by-sector
  */
-export const DefaultTileOptions: { [ type: string ]: IOptions } = {
+export const TileOptions: { [ type: string ]: IOptions } = {
   [TileType.Factory]: {
     // "Transport > Road transport" * 40% commercial
-    [TileOption.FreightRoadTransport]: Object.assign({
+    [TileOption.FreightRoadTransport]: createOption({
       optionType: TileOption.FreightRoadTransport,
       weightPrcnt: RoadTransportTotalWeight * 0.4,
-    }, EmptyOption),
+      policies: TilePolicies[TileOption.FreightRoadTransport]
+    }),
     //
-    [TileOption.Shipping]: Object.assign({}, EmptyOption, {
+    [TileOption.Shipping]: createOption({
       optionType: TileOption.Shipping,
       weightPrcnt: 1.7,
+      policies: TilePolicies[TileOption.Shipping]
     }),
     // This comes from "Energy use in industry"
-    [TileOption.EnergyIndustry]: Object.assign({}, EmptyOption, {
+    [TileOption.EnergyIndustry]: createOption({
       optionType: TileOption.EnergyIndustry,
       weightPrcnt:  24.2,
+      policies: TilePolicies[TileOption.EnergyIndustry]
     }),
   },
 
   [TileType.Farm]: {
-    [TileOption.LivestockAndManure]: Object.assign({}, EmptyOption, {
+    [TileOption.LivestockAndManure]: createOption({
       optionType: TileOption.LivestockAndManure,
       weightPrcnt: 5.8,
+      policies: TilePolicies[TileOption.LivestockAndManure]
     }),
-    [TileOption.Deforestation]: Object.assign({}, EmptyOption, {
+    [TileOption.Deforestation]: createOption({
       optionType: TileOption.Deforestation,
       weightPrcnt: 2.2,
+      policies: TilePolicies[TileOption.Deforestation]
     }),
     // Called "Energy use in agriculture and fishing"
-    [TileOption.EnergyAgriculture]: Object.assign({}, EmptyOption, {
+    [TileOption.EnergyAgriculture]: createOption({
       optionType: TileOption.EnergyAgriculture,
       weightPrcnt: 1.7,
+      policies: TilePolicies[TileOption.EnergyAgriculture]
     }),
   },
 
   [TileType.House]: {
     // "Transport > Road transport" * 60% passenger
-    [TileOption.PassengerRoadTransport]: Object.assign({}, EmptyOption, {
+    [TileOption.PassengerRoadTransport]: createOption({
       optionType: TileOption.PassengerRoadTransport,
       weightPrcnt: RoadTransportTotalWeight * 0.6,
+      policies: TilePolicies[TileOption.PassengerRoadTransport]
     }),
     // "Energy use in buildings > Residential buildings"
-    [TileOption.EnergyResidential]: Object.assign({}, EmptyOption, {
+    [TileOption.EnergyResidential]: createOption({
       optionType: TileOption.EnergyResidential,
       weightPrcnt: 10.9,
+      policies: TilePolicies[TileOption.EnergyResidential]
     }),
     // "Energy use in buildings > Residential buildings"
-    [TileOption.Aviation]: Object.assign({}, EmptyOption, {
+    [TileOption.Aviation]: createOption({
       optionType: TileOption.Aviation,
       weightPrcnt: 10.9,
+      policies: TilePolicies[TileOption.Aviation]
     }),
   },
 
   [TileType.Office]: {
     // "Energy use in buildings > Commercial buildings"
-    [TileOption.EnergyCommercialBuildings]: Object.assign({}, EmptyOption, {
+    [TileOption.EnergyCommercialBuildings]: createOption({
       optionType: TileOption.EnergyCommercialBuildings,
       weightPrcnt: 6.6,
+      policies: TilePolicies[TileOption.EnergyCommercialBuildings]
     }),
   },
 
@@ -124,13 +144,15 @@ export const DefaultTileOptions: { [ type: string ]: IOptions } = {
   // buildings (office tile), industry (factory tile) and residential buildings
   // (house tile)
   [TileType.Power]: {
-    [TileOption.FugitiveEmissions]: Object.assign({}, EmptyOption, {
+    [TileOption.FugitiveEmissions]: createOption({
       optionType: TileOption.FugitiveEmissions,
       weightPrcnt: 5.8,
+      policies: TilePolicies[TileOption.FugitiveEmissions]
     }),
-    [TileOption.UnallocatedFuelCombustion]: Object.assign({}, EmptyOption, {
+    [TileOption.UnallocatedFuelCombustion]: createOption({
       optionType: TileOption.UnallocatedFuelCombustion,
       weightPrcnt: 7.8,
+      policies: TilePolicies[TileOption.UnallocatedFuelCombustion]
     }),
   },
 };

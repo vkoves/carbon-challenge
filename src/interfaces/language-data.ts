@@ -1,3 +1,6 @@
+import { TileType, IOption, TileOption } from './tile-interfaces;'
+import { TilePolicyKey } from '../constants/tile-policies';
+
 /**
  * A common interface for all our language data objects we pass into the i18n
  * library. We need an interface for the configurations for each language to
@@ -26,20 +29,32 @@ export interface ILanguageData {
       current: string;
       target: string;
       targetYear: string;
+      emissionPrcntLabel: string;
     };
+
     // Require each language to declare the translations for each TileType
     tileTypes: {
       [type in TileType]: string;
     };
+
     // Optional descriptions of each tile type, explaining what falls under this
     // tile and where expected options may be if they fall under another tile.
     // Should include all values from the TileType enum
     tileTypeDescriptions: {
       [type in TileType]: string | null;
     }
+
     // Require each language to declare titles for each TileOption
     tileOptionTitles: {
       [optValue in TileOption]: string;
     };
+
+    // Require each language to declare the name and description for each policy
+    tilePolicies: {
+      [policyKey in TilePolicyKey]: {
+        name: string;
+        description: string;
+      };
+    }
   }
 }

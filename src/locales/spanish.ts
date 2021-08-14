@@ -1,4 +1,5 @@
 import { ILanguageData } from '@/interfaces/language-data';
+import { TilePolicyKey } from '@/constants/tile-policies';
 
 export const SpanishLanguageData: ILanguageData = {
   title: 'El Desafío Del Carbono',
@@ -21,6 +22,7 @@ export const SpanishLanguageData: ILanguageData = {
       current: 'Actual',
       target: 'Objetivo',
       targetYear: 'Año objetivo',
+      emissionPrcntLabel: 'emisiones anuales',
     },
     // Should include all values from the TileType enum
     tileTypes: {
@@ -37,9 +39,7 @@ export const SpanishLanguageData: ILanguageData = {
     // Should include all values from the TileType enum
     tileTypeDescriptions: {
       // TODO: Add translations
-      power:
-        'Emissions that are broadly tied to generating power. Emissions for ' +
-        'specific uses are under the Home, Office, and Factory tiles.',
+      power: '',
       farm: null,
       forest: null,
       house: null,
@@ -63,6 +63,21 @@ export const SpanishLanguageData: ILanguageData = {
       passengerRoadTransport: '',
       shipping: '',
       unallocatedFuelCombustion: '',
+    },
+
+    // Should contain all values from TilePolicyKey
+    tilePolicies: {
+      [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
+        name: 'Requerir toda la carga eléctrica para 2050',
+        description:
+          'Exigir que todos los vehículos de carga por carretera sean eléctricos para 2050',
+      },
+      [TilePolicyKey.FactoryElectricFreightIncentive2050]: {
+        name: 'Incentivos de flete eléctrico',
+        description:
+          'Proporcionar incentivos fiscales para vehículos eléctricos de carga, recortando gasolina '+
+          'impulsará camiones a la mitad para 2050.',
+      }
     }
   }
 };

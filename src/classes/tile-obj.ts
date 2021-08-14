@@ -1,4 +1,4 @@
-import { DefaultTileOptions } from '../constants/tile-defaults';
+import { TileOptions } from '../constants/tile-defaults';
 import { TileType, IOption, IOptions } from '../interfaces/tile-interfaces';
 
 /**
@@ -17,7 +17,7 @@ export class TileObj {
   constructor(id: number, type: TileType) {
     this.id = id;
     this.type = type;
-    this.options = DefaultTileOptions[type] || {};
+    this.options = TileOptions[type] || {};
   }
 
   /**

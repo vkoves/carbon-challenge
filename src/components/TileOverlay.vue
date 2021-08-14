@@ -1,86 +1,106 @@
 <template>
-    <div @click="closeOverlay()"
-      class="overlay" :class="{ '-open': showingTileMenu }">
-      <transition name="slide-fade">
-        <section class="sidebar" v-show="showingTileMenu"
-          @click="handleSidebarClick">
-          <button @click="closeOverlay()" class="btn -small" ref="closeBtn">
-            {{ $t('simulator.close') }}
-          </button>
+  <div @click="closeOverlay()"
+    class="overlay" :class="{ '-open': showingTileMenu }">
+    <transition name="slide-fade">
+      <section class="sidebar" v-show="showingTileMenu"
+        @click="handleSidebarClick">
+        <button @click="closeOverlay()" class="btn -small" ref="closeBtn">
+          {{ $t('simulator.close') }}
+        </button>
 
-          <div v-if="tile">
-              <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
+        <div v-if="tile">
+          <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
 
-              <p v-if="$t(`simulator.tileTypeDescriptions.${tile.type}`)">
-                {{ $t(`simulator.tileTypeDescriptions.${tile.type}`) }}
-              </p>
+          <p v-if="$t(`simulator.tileTypeDescriptions.${tile.type}`)">
+            {{ $t(`simulator.tileTypeDescriptions.${tile.type}`) }}
+          </p>
 
-              <form @submit="submitOptions">
-                <div v-for="(option, key) in tile.options" :key="key">
-                    <h3>
-                      {{ $t(`simulator.tileOptionTitles.${key}`) }}
-                    </h3>
+          <form @submit="submitOptions">
+            <div class="form-inner">
+              <div v-for="(option, key, index) in tile.options" :key="key"
+                :class="{ '-first': index === 0 }">
+                <h3>
+                  {{ $t(`simulator.tileOptionTitles.${key}`) }}
+                </h3>
 
-                    <p class="option-percent">
-                      {{ option.weightPrcnt }}% annual emissions
+                <p class="option-percent">
+                  {{ option.weightPrcnt.toFixed(1) }}%
+                  {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
+                </p>
+
+                <div class="policies-cont">
+                  <div v-for="(policy) in option.policies"
+                    :key="policy.key"
+                    class="policy-card">
+                    <h4>
+                      {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
+                    </h4>
+
+                    <p>
+                      {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
                     </p>
-
-                    <!--
-                      Render the current value (which is only editable in magic
-                      mode, otherwise it comes from real data) and then allow
-                      editing of the target value and year
-                    -->
-                    <label :for="`${key}-current-val`">
-                      {{ $t('simulator.tileOverlay.current') }}:
-                    </label>
-                    <input type="range"
-                      v-model.number="option.current"
-                      :id="`${key}-current-val`"
-                      name="current-val"
-                      min="0" max="100" step="1" disabled>
-                    <output class="output" :for="`${key}-current-val`">
-                      {{ option.current }}%
-                    </output>
-
-                    <label :for="`${key}-target-val`">
-                      {{ $t('simulator.tileOverlay.target') }}:
-                    </label>
-                    <input type="range"
-                      v-model.number="option.target"
-                      :id="`${key}-target-val`"
-                      name="target-val"
-                      min="0" max="100" step="1">
-                    <output class="output" :for="`${key}-target-val`">
-                      {{ option.target }}%
-                    </output>
-
-                    <label :for="`${key}-target-year-val`">
-                      {{ $t('simulator.tileOverlay.targetYear') }}:
-                    </label>
-                    <input type="range"
-                      v-model.number="option.targetYear"
-                      :id="`${key}-target-year-val`"
-                      name="target-year-val"
-                      min="2025" max="2100" step="1">
-                    <output class="output" :for="`${key}-target-year-val`">
-                      {{ option.targetYear }}
-                    </output>
+                  </div>
                 </div>
 
-                <div class="btns">
-                  <button type="button" @click="closeOverlay()"
-                    class="btn -grey -small">
-                    Cancel
-                  </button>
-                  <button type="submit" class="btn -small">
-                    Update
-                  </button>
+                <div v-if="false">
+                  <!--
+                    Render the current value (which is only editable in magic
+                    mode, otherwise it is 0) and then allow editing of the
+                    target value and year
+                  -->
+                  <label :for="`${key}-current-val`">
+                    {{ $t('simulator.tileOverlay.current') }}:
+                  </label>
+                  <input type="range"
+                    v-model.number="option.current"
+                    :id="`${key}-current-val`"
+                    name="current-val"
+                    min="0" max="100" step="1" disabled>
+                  <output class="output" :for="`${key}-current-val`">
+                    {{ option.current }}%
+                  </output>
                 </div>
-              </form>
-          </div>
-        </section>
-      </transition>
-    </div>
+
+                <label :for="`${key}-target-val`">
+                  {{ $t('simulator.tileOverlay.target') }}:
+                </label>
+                <input type="range"
+                  v-model.number="option.target"
+                  :id="`${key}-target-val`"
+                  name="target-val"
+                  min="0" max="100" step="1">
+                <output class="output" :for="`${key}-target-val`">
+                  {{ option.target }}%
+                </output>
+
+                <label :for="`${key}-target-year-val`">
+                  {{ $t('simulator.tileOverlay.targetYear') }}:
+                </label>
+                <input type="range"
+                  v-model.number="option.targetYear"
+                  :id="`${key}-target-year-val`"
+                  name="target-year-val"
+                  min="2025" max="2100" step="1">
+                <output class="output" :for="`${key}-target-year-val`">
+                  {{ option.targetYear }}
+                </output>
+              </div>
+            </div>
+
+            <div class="btns">
+              <button type="button" @click="closeOverlay()"
+                class="btn -grey -small">
+                Cancel
+              </button>
+              <button type="submit" class="btn -small">
+                Update
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts">
@@ -97,8 +117,9 @@ const AnimDurationMs = 300;
   },
 
   data: () => ({
-    showingTileMenu: false,
+    isMagicMode: false,
     lastFocusedElem: null,
+    showingTileMenu: false,
   }),
 
   emits: {
@@ -191,21 +212,41 @@ export default class TileOverlay extends Vue { }
     h2, h3 { margin-top: 2rem; }
 
     .option-percent { margin-top: 0.25rem; }
+
+    .form-inner {
+      display: block;
+      overflow: auto;
+      height: 60vh;
+      padding: $large;
+      margin-top: $standard;
+      background-color: rgba(0, 0, 0, 0.5);
+
+      div.-first h3 { margin-top: 0; }
+    }
+  }
+
+  .policy-card {
+    display: inline-block;
+    background: $white;
+    color: $text-grey;
+    padding: $standard;
+    border-radius: 0.5rem;
+    margin: $standard 0;
   }
 
   form {
     label {
       display: block;
-      margin-top: 1rem;
+      margin-top: $standard;
     }
   }
 
   .btns {
     display: flex;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: $standard;
 
-    > button:first-of-type { margin-right: 1rem; }
+    > button:first-of-type { margin-right: $standard; }
   }
 }
 </style>
