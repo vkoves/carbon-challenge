@@ -72,8 +72,8 @@ import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes
  * got the total it did.
  */
 export default class DebugView extends Vue {
-  totalEmissions: number | null = null;
-  estDegWarming: number | null = null;
+  totalEmissions: number = 0;
+  estDegWarming: number = 0;
   tempCalcMethod: TempCalcMethod | null = null;
 
   // Expose needed constants and enums to template
