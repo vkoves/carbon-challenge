@@ -67,6 +67,14 @@ export const SpanishLanguageData: ILanguageData = {
 
     // Should contain all values from TilePolicyKey
     tilePolicies: {
+      [TilePolicyKey.None]: {
+        name: 'Ninguno',
+        description: '',
+      },
+      [TilePolicyKey.Custom]: {
+        name: 'Personalizada',
+        description: '',
+      },
       [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
         name: 'Requerir toda la carga eléctrica para 2050',
         description:

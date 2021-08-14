@@ -5,6 +5,11 @@ import { IOptionPolicy, TileOption } from '../interfaces/tile-interfaces';
  * We don't specify an enum value.
  */
 export enum TilePolicyKey {
+  // Generic policies - these policies apply to each option
+  None,
+  Custom,
+
+  // Factory policies
   FactoryElectricFreightRequirement2050,
   FactoryElectricFreightIncentive2050,
 }
@@ -12,8 +17,6 @@ export enum TilePolicyKey {
 /**
  * The policies available for each tile option to reduce that type of emission.
  * Since the text
- *
- * TODO: Move all text to come from i18n
  */
 export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
   // Factory options

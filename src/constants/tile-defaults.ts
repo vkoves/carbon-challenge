@@ -1,5 +1,5 @@
 import { IOption, IOptions, TileType, TileOption } from '../interfaces/tile-interfaces';
-import { TilePolicies } from './tile-policies';
+import { TilePolicies, TilePolicyKey } from './tile-policies';
 
 /**
  * All data is based on Our World in Data emissions by sector in April 2021, which
@@ -34,6 +34,7 @@ const EmptyOption: IOption = {
   target: 0,
   targetYear: 2050,
   weightPrcnt: 0,
+  currentPolicyKey: TilePolicyKey.None,
 };
 
 

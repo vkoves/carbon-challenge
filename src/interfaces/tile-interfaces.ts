@@ -120,6 +120,9 @@ export interface IOption {
    */
   current: number;
 
+  /** The key indicating which policy is currently selected */
+  currentPolicyKey: TilePolicyKey;
+
   /**
    * A percentage (0 - 100) representing the value this option will reach at the
    * target year.

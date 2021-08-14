@@ -29,7 +29,7 @@
           </span>
         </dd>
 
-        <dt>Est. Deg. Warming (by {{ SimulationEndYear }})</dt>
+        <dt>Est. Deg. Warming (by {{ SimEndYear }})</dt>
         <dd>
           {{ estDegWarming }} {{ SimulatorUnits.Temperature }}
         </dd>
@@ -45,7 +45,7 @@ import { TileObj } from '@/classes/tile-obj';
 // eslint-disable-next-line no-unused-vars
 import { IOption } from '@/interfaces/tile-interfaces';
 
-import { TempCalcMethod, Simulator, SimulatorUnits, SimulationEndYear } from '@/classes/simulator';
+import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes/simulator';
 // import { TileObj } from '@/classes/tile-obj';
 
 @Options({
@@ -77,7 +77,7 @@ export default class DebugView extends Vue {
   tempCalcMethod: TempCalcMethod | null = null;
 
   // Expose needed constants and enums to template
-  SimulationEndYear = SimulationEndYear;
+  SimEndYear = SimEndYear;
   SimulatorUnits = SimulatorUnits;
   TempCalcMethod = TempCalcMethod;
 

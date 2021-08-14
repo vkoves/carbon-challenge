@@ -31,7 +31,7 @@ export const GridWidth = 4;
  * longer and so that we show a fuller scope of potential warming, even in worst
  * case scenarios where we aren't net zero by 2050 or beyond.
  */
-export const SimulationEndYear = 2100;
+export const SimEndYear = 2100;
 
 /**
  * The default layout of board tile types
@@ -66,7 +66,7 @@ export class Simulator {
    * (2100). E.g. in 2025 this would return 75.
    */
   public static getTotalSimulationYears(): number {
-    return SimulationEndYear - Simulator.getCurrentYear();
+    return SimEndYear - Simulator.getCurrentYear();
   }
 
   /**
@@ -87,6 +87,23 @@ export class Simulator {
   }
 
   /**
+   * Validates a property of a tile option is in a specified range and throws an
+   * error if not
+   */
+  public static validateNumInRange(
+    tileOption: IOption,
+    key: string,
+    value: number,
+    min: number,
+    max: number
+  ): void {
+    if (value > max || value < min) {
+      throw new Error(
+        `tileOption.${key} is outside of range (${min} - ${max}) with value ${value}!`)
+    }
+  }
+
+  /**
    * Given a tile option, returns the difference in total emissions (over the
    * remaining simulator years) this tile's state creates, in Gigatonnes CO2.
    * For example setting a tile to increase the share of electirc cars would
@@ -97,6 +114,14 @@ export class Simulator {
   public static getOptionTotalEmissionDelta(tileOption: IOption): number {
     const totalSimYears = Simulator.getTotalSimulationYears();
     const startYear = Simulator.getCurrentYear();
+
+    // Validate properties are in a valid range
+    Simulator.validateNumInRange(
+      tileOption, 'current', tileOption.current, 0, 100);
+    Simulator.validateNumInRange(
+      tileOption, 'target', tileOption.target, 0, 100);
+    Simulator.validateNumInRange(
+      tileOption, 'targetYear', tileOption.targetYear, startYear, SimEndYear);
 
     const yearsFromTodayTillTarget = tileOption.targetYear - startYear;
 
@@ -144,7 +169,7 @@ export class Simulator {
 
   /**
    * Get the total CO2 emissions (in GigaTonnes) from the current year to the
-   * SimulationEndYear, using the options set in the passed tiles.
+   * SimEndYear, using the options set in the passed tiles.
    *
    * This process is _subtractive_ not additive. As in each tile can return a
    * subtraction from the default OrigYearlyEmissionsGigaTonnes if the user has

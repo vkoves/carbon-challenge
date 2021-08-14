@@ -69,6 +69,16 @@ export const EnglishLanguageData: ILanguageData = {
 
     // Should contain all values from TilePolicyKey
     tilePolicies: {
+      [TilePolicyKey.None]: {
+        name: 'None',
+        description:
+          'Keep related emissions the same for the forseable future.',
+      },
+      [TilePolicyKey.Custom]: {
+        name: 'Custom',
+        description:
+          'Create your own fully custom policy.',
+      },
       [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
         name: 'Require All Electric Freight by 2050',
         description:
