@@ -88,12 +88,72 @@ export const SpanishLanguageData: ILanguageData = {
         description:
           'Exigir que todos los vehículos de carga por carretera sean eléctricos para 2050',
       },
-      [TilePolicyKey.FactoryElectricFreightIncentive2050]: {
+      [TilePolicyKey.FactoryElectricFreightIncentive]: {
         name: 'Incentivos de flete eléctrico',
         description:
           'Proporcionar incentivos fiscales para vehículos eléctricos de carga, recortando gasolina '+
-          'impulsará camiones a la mitad para 2050.',
-      }
+          'impulsará camiones a la mitad para 2100.',
+      },
+      [TilePolicyKey.FactoryShippingElectricRequirement2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FactoryRenewableEnergyRequirement2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmManureManagement2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmDeforestationElimination2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.HomeElectricVehicleIncentive]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.HomeRenewableEnergyRequirement2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.HomeRenewableEnergyIncentive]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.HomeAirTravelIncentive]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.OfficeRenewableEnergyRequirement2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.OfficeRenewableEnergyIncentive]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.PowerFugitiveEmissionsBan2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.PowerFugitiveEmissionsClampDown]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.PowerUnallocatedFuelReduction2050]: {
+        name: '',
+        description: '',
+      },
     }
   }
 };

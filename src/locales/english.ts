@@ -92,12 +92,72 @@ export const EnglishLanguageData: ILanguageData = {
         description:
           'Require all road freight vehicles to be electric by 2050.',
       },
-      [TilePolicyKey.FactoryElectricFreightIncentive2050]: {
+      [TilePolicyKey.FactoryElectricFreightIncentive]: {
         name: 'Electric Freight Incentives',
         description:
-          'Provide tax incentives for electric freight vehicles, cutting gas ' +
-          'powered trucks in half by 2050.',
-      }
+          'Provide tax incentives for electric freight vehicles, cutting gas powered trucks in half by 2050.',
+      },
+      [TilePolicyKey.FactoryShippingElectricRequirement2050]: {
+        name: 'Electrified Shipping Requirement by 2050',
+        description:
+          'Require all shipping to be powered by Electrified boats by 2050.',
+      },
+      [TilePolicyKey.FactoryRenewableEnergyRequirement2050]: {
+        name: 'Require Green Energy for Industry by 2050',
+        description: 'Require industry to run on fully renewable energy by 2050.',
+      },
+      [TilePolicyKey.FarmManureManagement2050]: {
+        name: 'Manure Management',
+        description: 'Require better manure management to halve emissions from livestock and manure by 2050.',
+      },
+      [TilePolicyKey.FarmDeforestationElimination2050]: {
+        name: 'Eliminate Deforestation by 2050',
+        description: 'Fully eliminate deforestation by 2050.',
+      },
+      [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
+        name: 'Require Green Energy for Farming by 2050',
+        description: 'Require farming to run on fully renewable energy by 2050',
+      },
+      [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
+        name: 'Electric Vehicle Requirement by 2050',
+        description: 'Phase out gas powered vehicles to get to all passenger vehicles being electric by 2050.',
+      },
+      [TilePolicyKey.HomeElectricVehicleIncentive]: {
+        name: 'Tax Incentives for Electric Vehicles',
+        description: 'Provide tax incentives and subsidies for electric vehicles to cut gas powered vehicles in half by 2050.',
+      },
+      [TilePolicyKey.HomeRenewableEnergyRequirement2050]: {
+        name: 'Require Green Energy for Homes by 2050',
+        description: 'Require homes to run on fully renewable energy by 2050.',
+      },
+      [TilePolicyKey.HomeRenewableEnergyIncentive]: {
+        name: 'Renewable Energy Incentive for Homes',
+        description: 'Provide incentives and subsidies to halve emissions from home energy by 2050.',
+      },
+      [TilePolicyKey.HomeAirTravelIncentive]: {
+        name: 'Air Travel Incentives',
+        description: 'Use tax incentives or fees to cut air travel in half by 2050.',
+      },
+      [TilePolicyKey.OfficeRenewableEnergyRequirement2050]: {
+        name: 'Require Green Energy for Offices by 2050',
+        description: 'Require office buildings to run on fully renewable energy by 2050.',
+      },
+      [TilePolicyKey.OfficeRenewableEnergyIncentive]: {
+        name: 'Renewable Energy Incentives for Offices',
+        description: 'Provide tax incentives to cut emissions from office energy in half by 2050.',
+      },
+      [TilePolicyKey.PowerFugitiveEmissionsBan2050]: {
+        name: 'Fossil Fuel Extraction Ban by 2050',
+        description: 'Reduce fossil fuel extraction culminating in a ban by 2050, fully reducing fugitive emissions by 2050.',
+      },
+      [TilePolicyKey.PowerFugitiveEmissionsClampDown]: {
+        name: 'Fugitive Emissions Clampdown',
+        description: 'Clamp down on fugitive emissions from fossil fuel production, halving related emissions by 2050.',
+      },
+      [TilePolicyKey.PowerUnallocatedFuelReduction2050]: {
+        name: 'Reduce Unallocated Fuel Emissions',
+        description: 'Use tax incentives and subsidies to reduce emissions from home heating and other unallocated sources',
+      },
     }
   }
 };

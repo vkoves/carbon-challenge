@@ -242,6 +242,7 @@ export default class TileOverlay extends Vue { }
   .sidebar {
     padding: 3rem 5rem;
     height: 100%;
+    min-width: 37.5rem;
     width: 40%;
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.6);
