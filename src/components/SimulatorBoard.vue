@@ -24,7 +24,7 @@
 
     <TileOverlay
       :tile="selectedTile"
-      @closed="tileOverlayClosed()"
+      @closed="tileOverlayClosed($event)"
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
     <DebugView v-if="showingDebugView"
@@ -74,8 +74,13 @@ import Thermometer from './Thermometer.vue';
       this.tiles = this.tiles.slice();
     },
 
-    tileOverlayClosed() {
-      this.selectedTile = null;
+    tileOverlayClosed(tileId: number) {
+      // If the selectedTile is the same as it was when we closed the overlay,
+      // clear the selected tile. This safety check is in place to fix issues
+      // where selecting one tile during the close animation broke things
+      if (this.selectedTile.id === tileId) {
+        this.selectedTile = null;
+      }
     }
   }
 })

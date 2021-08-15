@@ -13,7 +13,7 @@
       <dl>
         <dt>Total Emissions</dt>
         <dd>
-          {{ totalEmissions }} {{ SimulatorUnits.Emissions }}
+          {{ Math.round(totalEmissions) }} {{ SimulatorUnits.Emissions }}
         </dd>
 
         <dt>Degree Warming Calculation Method</dt>
@@ -29,9 +29,9 @@
           </span>
         </dd>
 
-        <dt>Est. Deg. Warming (by {{ SimulationEndYear }})</dt>
+        <dt>Est. Deg. Warming (by {{ SimEndYear }})</dt>
         <dd>
-          {{ estDegWarming }} {{ SimulatorUnits.Temperature }}
+          {{ estDegWarming.toFixed(2) }} {{ SimulatorUnits.Temperature }}
         </dd>
       </dl>
     </div>
@@ -45,7 +45,7 @@ import { TileObj } from '@/classes/tile-obj';
 // eslint-disable-next-line no-unused-vars
 import { IOption } from '@/interfaces/tile-interfaces';
 
-import { TempCalcMethod, Simulator, SimulatorUnits, SimulationEndYear } from '@/classes/simulator';
+import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes/simulator';
 // import { TileObj } from '@/classes/tile-obj';
 
 @Options({
@@ -72,12 +72,12 @@ import { TempCalcMethod, Simulator, SimulatorUnits, SimulationEndYear } from '@/
  * got the total it did.
  */
 export default class DebugView extends Vue {
-  totalEmissions: number | null = null;
-  estDegWarming: number | null = null;
+  totalEmissions: number = 0;
+  estDegWarming: number = 0;
   tempCalcMethod: TempCalcMethod | null = null;
 
   // Expose needed constants and enums to template
-  SimulationEndYear = SimulationEndYear;
+  SimEndYear = SimEndYear;
   SimulatorUnits = SimulatorUnits;
   TempCalcMethod = TempCalcMethod;
 
@@ -99,7 +99,7 @@ export default class DebugView extends Vue {
 
     // The total weight sets a maximum for the amount of emissions a user could
     // possibly cut, so it's important this is as close to 100% as possible
-    console.log(`totalWeight: ${totalWeight}%`);
+    console.info(`totalWeight: ${totalWeight}%`);
   }
 
   mounted(): void {
@@ -130,6 +130,7 @@ export default class DebugView extends Vue {
 
 .debug-cont {
   flex-basis: 800px;
+  max-width: 90%;
   margin: 0 auto 5rem auto;
   background-color: #000;
   border-radius: 0.5rem;

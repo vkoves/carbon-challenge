@@ -3,10 +3,33 @@
  */
 import { TileObj } from '@/classes/tile-obj';
 import { IOption, TileOption, TileType } from '@/interfaces/tile-interfaces';
-import {
-  OrigYearlyEmissionsGigaTonnes,
-  HighEstDegreesWarmingPerGigaTonne,
-} from '@/constants/tile-defaults';
+
+/**
+ * All data is based on Our World in Data emissions by sector in April 2021, which
+ * was showing emissions for 2016.
+ */
+
+/**
+ * The total emissions in our "start year" (the year we use for the weight data)
+ * in gigatonnes (billion tonnes) of eq. CO2.
+ */
+export const OrigYearlyEmissionsGigaTonnes = 49.4;
+
+/**
+ * A high bound estimate for the additional degrees of warming by 2100 per extra
+ * GigaTonne of emissions. This is a high estimate based the Carbon Tracker
+ * budgets page:
+ *
+ * https://carbontracker.org/carbon-budgets-where-are-we-now/
+ *
+ * To get this number, I took the IPCC 66% budget of 1,100 Gigatonnes CO2 and
+ * divided the 2° warming that budget corresponds to by that value. This
+ * yields ~0.001818 °C/Gigatonne, which I rounded up to 0.002. This seems
+ * reasonable considering that emissions have a cascading effect, so emissions
+ * beyond the 2°C threshold likely have greater effects than the emissions up
+ * to that point.
+ */
+export const HighEstDegreesWarmingPerGigaTonne = 0.002;
 
 export const SimulatorUnits = {
   Temperature: '°C',
@@ -31,14 +54,14 @@ export const GridWidth = 4;
  * longer and so that we show a fuller scope of potential warming, even in worst
  * case scenarios where we aren't net zero by 2050 or beyond.
  */
-export const SimulationEndYear = 2100;
+export const SimEndYear = 2100;
 
 /**
  * The default layout of board tile types
  */
 const DefaultBoardLayout: Array<TileType> = [
     TileType.Forest, TileType.Farm, TileType.Empty, TileType.Forest,
-    TileType.Forest, TileType.House, TileType.Office, TileType.Empty,
+    TileType.Forest, TileType.Home, TileType.Office, TileType.Empty,
     TileType.Empty, TileType.Empty, TileType.Power, TileType.Lake,
     TileType.Empty, TileType.Factory, TileType.Forest, TileType.Forest,
 ]
@@ -66,7 +89,7 @@ export class Simulator {
    * (2100). E.g. in 2025 this would return 75.
    */
   public static getTotalSimulationYears(): number {
-    return SimulationEndYear - Simulator.getCurrentYear();
+    return SimEndYear - Simulator.getCurrentYear();
   }
 
   /**
@@ -87,6 +110,23 @@ export class Simulator {
   }
 
   /**
+   * Validates a property of a tile option is in a specified range and throws an
+   * error if not
+   */
+  public static validateNumInRange(
+    tileOption: IOption,
+    key: string,
+    value: number,
+    min: number,
+    max: number
+  ): void {
+    if (value > max || value < min) {
+      throw new Error(
+        `tileOption.${key} is outside of range (${min} - ${max}) with value ${value}!`)
+    }
+  }
+
+  /**
    * Given a tile option, returns the difference in total emissions (over the
    * remaining simulator years) this tile's state creates, in Gigatonnes CO2.
    * For example setting a tile to increase the share of electirc cars would
@@ -98,10 +138,20 @@ export class Simulator {
     const totalSimYears = Simulator.getTotalSimulationYears();
     const startYear = Simulator.getCurrentYear();
 
+    // Validate properties are in a valid range
+    Simulator.validateNumInRange(
+      tileOption, 'current', tileOption.current, 0, 100);
+    Simulator.validateNumInRange(
+      tileOption, 'target', tileOption.target, 0, 100);
+    Simulator.validateNumInRange(
+      tileOption, 'targetYear', tileOption.targetYear, startYear, SimEndYear);
+
     const yearsFromTodayTillTarget = tileOption.targetYear - startYear;
 
     const emissionDeltaArr: Array<IDeltaObj> = [];
 
+    // Loop through every year of the simulation and calculate emissions in in
+    // that year
     for (let i = 0; i < totalSimYears; i++) {
       const currYear = startYear + i;
 
@@ -132,40 +182,17 @@ export class Simulator {
 
     let totalEmissionsDelta = 0;
 
-    console.log('OrigYearlyEmissionsGigaTonnes', OrigYearlyEmissionsGigaTonnes);
-
     emissionDeltaArr.forEach((delta: IDeltaObj) => {
-      if (tileOption.optionType === TileOption.ResidentialElectricCarShare) {
-        console.log({
-          year: delta.year,
-          valuePrcnt: delta.valuePrcnt,
-          weightPrcnt: tileOption.weightPrcnt,
-
-          optDelta: (delta.valuePrcnt / 100)
-          * (tileOption.weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes,
-        });
-      }
-
       totalEmissionsDelta -= (delta.valuePrcnt / 100)
         * (tileOption.weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes;
     });
-
-
-    if (tileOption.optionType === TileOption.ResidentialElectricCarShare) {
-      console.log('tileOption', tileOption);
-
-      console.log('totalEmissionsDelta', totalEmissionsDelta);
-
-      // TODO: Double check this and maybe write unit tests
-      console.log('emissionDeltaArr', emissionDeltaArr);
-    }
 
     return totalEmissionsDelta;
   }
 
   /**
    * Get the total CO2 emissions (in GigaTonnes) from the current year to the
-   * SimulationEndYear, using the options set in the passed tiles.
+   * SimEndYear, using the options set in the passed tiles.
    *
    * This process is _subtractive_ not additive. As in each tile can return a
    * subtraction from the default OrigYearlyEmissionsGigaTonnes if the user has
@@ -183,15 +210,9 @@ export class Simulator {
       });
     });
 
-    console.log('totalTileDelta', totalTileDelta.toLocaleString());
-
     const origEmissions = OrigYearlyEmissionsGigaTonnes
       * Simulator.getTotalSimulationYears();
 
-    console.log('origEmissions', origEmissions.toLocaleString());
-
-    // TODO: Make this actually use the tile options to reduce the predicted
-    // total emissions
     return origEmissions + totalTileDelta;
   }
 
@@ -224,8 +245,6 @@ export class Simulator {
   public static getThermometerDegrees(
     currentTiles: Array<TileObj>
   ): number {
-    console.log('getThermometerDegrees called!');
-
     // TODO: Make this actually use the carbon budgets when appropriate
     return Simulator.getTotalEmissions(currentTiles)
       * HighEstDegreesWarmingPerGigaTonne;

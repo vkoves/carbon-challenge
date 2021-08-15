@@ -1,3 +1,6 @@
+import { TileType, IOption, TileOption } from './tile-interfaces;'
+import { TilePolicyKey } from '../constants/tile-policies';
+
 /**
  * A common interface for all our language data objects we pass into the i18n
  * library. We need an interface for the configurations for each language to
@@ -6,6 +9,7 @@
  */
 export interface ILanguageData {
   title: string;
+
   // These are also used for page titles
   header: {
     home: string;
@@ -14,41 +18,52 @@ export interface ILanguageData {
     about: string;
     language: string;
   };
+
   intro: {
     slogan1: string;
     slogan2: string;
     startBtn: string;
   };
+
+  about: {
+    title: string;
+  };
+
   simulator: {
     avgTempLabel: string;
     close: string;
+
     tileOverlay: {
       current: string;
       target: string;
       targetYear: string;
+      emissionPrcntLabel: string;
+      policiesLabel: string;
     };
-    // Should include all values from the TileType enum
+
+    // Require each language to declare the translations for each TileType
     tileTypes: {
-      power: string;
-      farm: string;
-      forest: string;
-      house: string;
-      office: string;
-      factory: string;
-      empty: string;
+      [type in TileType]: string;
     };
-    // Should include all values from the TileOption enum
-    tileOptions: {
-      aviationElectrification: string;
-      businessElectricVehicleShare: string;
-      deforestation: string;
-      electrificationPercent: string;
-      fugitiveEmissionsReduction: string;
-      livestockAndManure: string;
-      renewableShare: string;
-      renewableShareAgriculture: string;
-      residentialElectricCarShare: string;
-      shipping: string;
+
+    // Optional descriptions of each tile type, explaining what falls under this
+    // tile and where expected options may be if they fall under another tile.
+    // Should include all values from the TileType enum
+    tileTypeDescriptions: {
+      [type in TileType]: string | null;
+    }
+
+    // Require each language to declare titles for each TileOption
+    tileOptionTitles: {
+      [optValue in TileOption]: string;
     };
+
+    // Require each language to declare the name and description for each policy
+    tilePolicies: {
+      [policyKey in TilePolicyKey]: {
+        name: string;
+        description: string;
+      };
+    }
   }
 }
