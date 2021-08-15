@@ -75,8 +75,8 @@ export enum TileOption {
  */
 export interface IOptionPolicy {
   key: TilePolicyKey;
-  target: number;
-  targetYear: number;
+  target: number | null;
+  targetYear: number | null;
 }
 
 
@@ -121,7 +121,7 @@ export interface IOption {
   current: number;
 
   /** The key indicating which policy is currently selected */
-  currentPolicyKey: TilePolicyKey;
+  currPolicyKey: TilePolicyKey;
 
   /**
    * A percentage (0 - 100) representing the value this option will reach at the

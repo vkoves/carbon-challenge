@@ -1,4 +1,4 @@
-import { IOption, IOptions, TileType, TileOption } from '../interfaces/tile-interfaces';
+import { IOption, IOptions, IOptionPolicy, TileType, TileOption } from '../interfaces/tile-interfaces';
 import { TilePolicies, TilePolicyKey } from './tile-policies';
 
 /**
@@ -34,7 +34,7 @@ const EmptyOption: IOption = {
   target: 0,
   targetYear: 2050,
   weightPrcnt: 0,
-  currentPolicyKey: TilePolicyKey.None,
+  currPolicyKey: TilePolicyKey.None,
 };
 
 

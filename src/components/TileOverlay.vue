@@ -28,32 +28,16 @@
                   {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
                 </p>
 
-                <!-- The default no policy card -->
-                <div class="policy-card">
-                  <input type="radio"
-                    :name="optKey"
-                    :id="`policy-radio-${optKey}-${TilePolicyKey.None}`"
-                    :checked="option.currentPolicyKey === TilePolicyKey.None"
-                    @change="policySelected(TilePolicyKey.None, optKey)">
-                  <label :for="`policy-radio-${optKey}-${TilePolicyKey.None}`">
-                    <span class="name">
-                      {{ $t(`simulator.tilePolicies.${TilePolicyKey.None}.name`) }}
-                    </span>
-
-                    <p>
-                      {{ $t(`simulator.tilePolicies.${TilePolicyKey.None}.description`) }}
-                    </p>
-                  </label>
-                </div>
-
                 <!-- Loop through available policies for the option -->
                 <div v-for="(policy) in option.policies"
+                  class="policy-card"
+                  :class="{ '-active': option.currPolicyKey === policy.key  }"
                   :key="policy.key"
-                  class="policy-card">
+                  @click="policySelected(policy.key, optKey)">
                   <input type="radio"
                     :name="optKey"
                     :id="`policy-radio-${optKey}-${policy.key}`"
-                    :checked="option.currentPolicyKey === policy.key"
+                    :checked="option.currPolicyKey === policy.key"
                     @change="policySelected(policy.key, optKey)">
                   <label :for="`policy-radio-${optKey}-${policy.key}`">
                     <span class="name">
@@ -64,69 +48,16 @@
                       {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
                     </p>
                   </label>
-                </div>
 
-                <!-- The custom policy card -->
-                <div class="policy-card">
-                  <input type="radio"
-                    :name="optKey"
-                    :id="`policy-radio-${optKey}-${TilePolicyKey.Custom}`"
-                    :checked="option.currentPolicyKey === TilePolicyKey.Custom"
-                    @change="policySelected(TilePolicyKey.Custom, optKey)">
-                  <label :for="`policy-radio-${optKey}-${TilePolicyKey.Custom}`">
-                    <span class="name">
-                      {{ $t(`simulator.tilePolicies.${TilePolicyKey.Custom}.name`) }}
-                    </span>
-
-                    <p>
-                      {{ $t(`simulator.tilePolicies.${TilePolicyKey.Custom}.description`) }}
-                    </p>
-                  </label>
-
-                  <div class="custom-cont" v-if="option.currentPolicyKey === TilePolicyKey.Custom">
-                    <div v-if="false">
-                      <!--
-                        Render the current value (which is only editable in magic
-                        mode, otherwise it is 0) and then allow editing of the
-                        target value and year
-                      -->
-                      <label :for="`${optKey}-current-val`">
-                        {{ $t('simulator.tileOverlay.current') }}:
-                      </label>
-                      <input type="range"
-                        v-model.number="option.current"
-                        :id="`${optKey}-current-val`"
-                        name="current-val"
-                        min="0" max="100" step="1" disabled>
-                      <output class="output" :for="`${optKey}-current-val`">
-                        {{ option.current }}%
-                      </output>
-                    </div>
-
-                    <label :for="`${optKey}-target-val`">
-                      {{ $t('simulator.tileOverlay.target') }}:
-                    </label>
-                    <input type="range"
-                      v-model.number="option.target"
-                      :id="`${optKey}-target-val`"
-                      name="target-val"
-                      min="0" max="100" step="1">
-                    <output class="output" :for="`${optKey}-target-val`">
-                      {{ option.target }}%
-                    </output>
-
-                    <label :for="`${optKey}-target-year-val`">
-                      {{ $t('simulator.tileOverlay.targetYear') }}:
-                    </label>
-                    <input type="range"
-                      v-model.number="option.targetYear"
-                      :id="`${optKey}-target-year-val`"
-                      name="target-year-val"
-                      min="2025" max="2100" step="1">
-                    <output class="output" :for="`${optKey}-target-year-val`">
-                      {{ option.targetYear }}
-                    </output>
-                  </div>
+                  <!-- Show the custom policy controls if this is the custom
+                    policy and it is selected -->
+                  <CustomPolicyControls
+                    v-if="policy.key === TilePolicyKey.Custom
+                      && option.currPolicyKey === TilePolicyKey.Custom"
+                    :option="option"
+                    :optionKey="optKey"
+                    :isMagicMode="isMagicMode">
+                  </CustomPolicyControls>
                 </div>
               </div>
             </div>
@@ -155,12 +86,18 @@ import { TilePolicyKey } from '@/constants/tile-policies';
 // eslint-disable-next-line no-unused-vars
 import { IOption, IOptionPolicy, TileOption } from '@/interfaces/tile-interfaces';
 
+import CustomPolicyControls from './CustomPolicyControls.vue';
+
 const AnimDurationMs = 300;
 
 @Options({
   props: {
     // The tile whose options we're rendering
     tile: {} as TileObj,
+  },
+
+  components: {
+    CustomPolicyControls,
   },
 
   data: () => ({
@@ -212,17 +149,17 @@ const AnimDurationMs = 300;
     policySelected(policyKey: TilePolicyKey, optionKey: TileOption) {
       const tileOption: IOption = this.tile.options[optionKey];
 
-      tileOption.currentPolicyKey = policyKey;
+      tileOption.currPolicyKey = policyKey;
 
       // Find the select policy among the policies of the current tile option
       const selectedPolicy = (tileOption.policies || [])
           .find((policy: IOptionPolicy) => policy.key === policyKey);
 
-      if (policyKey === TilePolicyKey.None) {
-        tileOption.target = 0;
-        tileOption.targetYear = 2100;
-      }
-      else if (selectedPolicy) {
+      // The custom policy doesn't have a target or targetYear, so verify the
+      // selectedPolicy has one
+      if (selectedPolicy
+        && typeof selectedPolicy.target === 'number'
+        && typeof selectedPolicy.targetYear === 'number') {
         tileOption.target = selectedPolicy.target;
         tileOption.targetYear = selectedPolicy.targetYear;
       }
@@ -306,8 +243,18 @@ export default class TileOverlay extends Vue { }
     padding: $standard;
     border-radius: 0.5rem;
     margin: $standard 0;
+    border-left: solid 0.75rem $mid-grey;
+    transition: background-color 0.3s, border-color 0.3s;
 
-    > input, > label {
+    &:hover { background-color: $light-grey; }
+
+    &.-active {
+      border-color: $dark-blue;
+
+      .name { font-weight: bold; }
+    }
+
+    input[type="radio"], input[type="radio"] + label {
       display: inline-block;
     }
 
@@ -321,23 +268,14 @@ export default class TileOverlay extends Vue { }
       margin-left: $small;
       width: calc(100% - 1.5rem);
 
-      .name { font-weight: bold; }
-
       p {
-        margin-top: $small;
+        margin-top: $tiny;
         font-size: 0.875rem;
       }
     }
 
-    .custom-cont {
+    .custom-policy-cont {
       margin-left: 1.25rem;
-    }
-  }
-
-  form {
-    label {
-      display: block;
-      margin-top: $standard;
     }
   }
 
