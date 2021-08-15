@@ -1,4 +1,4 @@
-import { TileOptions } from '../constants/tile-defaults';
+import { TileOptions } from '../constants/tile-options';
 import { TileType, IOption, IOptions } from '../interfaces/tile-interfaces';
 
 /**

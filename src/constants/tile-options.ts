@@ -1,33 +1,6 @@
 import { IOption, IOptions, IOptionPolicy, TileType, TileOption } from '../interfaces/tile-interfaces';
 import { TilePolicies, TilePolicyKey } from './tile-policies';
 
-/**
- * All data is based on Our World in Data emissions by sector in April 2021, which
- * was showing emissions for 2016.
- */
-
-/**
- * The total emissions in our "start year" (the year we use for the weight data)
- * in gigatonnes (billion tonnes) of eq. CO2.
- */
-export const OrigYearlyEmissionsGigaTonnes = 49.4;
-
-/**
- * A high bound estimate for the additional degrees of warming by 2100 per extra
- * GigaTonne of emissions. This is a high estimate based the Carbon Tracker
- * budgets page:
- *
- * https://carbontracker.org/carbon-budgets-where-are-we-now/
- *
- * To get this number, I took the IPCC 66% budget of 1,100 Gigatonnes CO2 and
- * divided the 2° warming that budget corresponds to by that value. This
- * yields ~0.001818 °C/Gigatonne, which I rounded up to 0.002. This seems
- * reasonable considering that emissions have a cascading effect, so emissions
- * beyond the 2°C threshold likely have greater effects than the emissions up
- * to that point.
- */
-export const HighEstDegreesWarmingPerGigaTonne = 0.002;
-
 const EmptyOption: IOption = {
   optionType: null,
   current: 0,
