@@ -29,7 +29,8 @@ export const EnglishLanguageData: ILanguageData = {
       current: 'Current',
       target: 'Target Emissions Reduction',
       targetYear: 'Target Year',
-      emissionPrcntLabel: 'annual emissions',
+      emissionPrcntLabel: 'orig.',
+      policiesLabel: 'Policy',
     },
     // Should include all values from the TileType enum
     tileTypes: {
@@ -70,7 +71,7 @@ export const EnglishLanguageData: ILanguageData = {
       fugitiveEmissions: 'Fugitive Emissions from Energy Production',
       livestockAndManure: 'Livestock and Manure',
       passengerRoadTransport: 'Passenger Vehicles',
-      shipping: 'Shipping (Boats)',
+      shipping: 'Shipping',
       unallocatedFuelCombustion: 'Unallocated Fuel Combustion',
     },
 

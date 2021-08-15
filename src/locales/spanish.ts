@@ -29,7 +29,8 @@ export const SpanishLanguageData: ILanguageData = {
       current: 'Actual',
       target: 'Objetivo',
       targetYear: 'Año objetivo',
-      emissionPrcntLabel: 'emisiones anuales',
+      emissionPrcntLabel: 'orig.',
+      policiesLabel: '',
     },
     // Should include all values from the TileType enum
     tileTypes: {

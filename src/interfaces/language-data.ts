@@ -32,11 +32,13 @@ export interface ILanguageData {
   simulator: {
     avgTempLabel: string;
     close: string;
+
     tileOverlay: {
       current: string;
       target: string;
       targetYear: string;
       emissionPrcntLabel: string;
+      policiesLabel: string;
     };
 
     // Require each language to declare the translations for each TileType

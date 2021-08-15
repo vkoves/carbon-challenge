@@ -19,46 +19,58 @@
             <div class="form-inner">
               <div v-for="(option, optKey, index) in tile.options" :key="optKey"
                 :class="{ '-first': index === 0 }">
-                <h3>
-                  {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
-                </h3>
+                <div class="title-cont">
+                  <h3>
+                    {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
+                  </h3>
 
-                <p class="option-percent">
-                  {{ option.weightPrcnt.toFixed(1) }}%
-                  {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
-                </p>
-
-                <!-- Loop through available policies for the option -->
-                <div v-for="(policy) in option.policies"
-                  class="policy-card"
-                  :class="{ '-active': option.currPolicyKey === policy.key  }"
-                  :key="policy.key"
-                  @click="policySelected(policy.key, optKey)">
-                  <input type="radio"
-                    :name="optKey"
-                    :id="`policy-radio-${optKey}-${policy.key}`"
-                    :checked="option.currPolicyKey === policy.key"
-                    @change="policySelected(policy.key, optKey)">
-                  <label :for="`policy-radio-${optKey}-${policy.key}`">
-                    <span class="name">
-                      {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
-                    </span>
-
-                    <p>
-                      {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
-                    </p>
-                  </label>
-
-                  <!-- Show the custom policy controls if this is the custom
-                    policy and it is selected -->
-                  <CustomPolicyControls
-                    v-if="policy.key === TilePolicyKey.Custom
-                      && option.currPolicyKey === TilePolicyKey.Custom"
-                    :option="option"
-                    :optionKey="optKey"
-                    :isMagicMode="isMagicMode">
-                  </CustomPolicyControls>
+                  <span class="option-percent">
+                    {{ option.weightPrcnt.toFixed(1) }}%
+                    {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
+                    CO<sub>2</sub>
+                  </span>
                 </div>
+
+                <fieldset>
+                  <legend>
+                    {{ $t('simulator.tileOverlay.policiesLabel') }}
+                  </legend>
+
+                  <!-- Loop through available policies for the option -->
+                  <template v-for="(policy) in option.policies">
+                    <!-- Only render the "Custom" policy if we're allowing that -->
+                    <div v-if="policy.key !== TilePolicyKey.Custom || (isAllowingCustom)"
+                      class="policy-card"
+                      :class="{ '-active': option.currPolicyKey === policy.key  }"
+                      :key="policy.key"
+                      @click="policySelected(policy.key, optKey)">
+                      <input type="radio"
+                        :name="optKey"
+                        :id="`policy-radio-${optKey}-${policy.key}`"
+                        :checked="option.currPolicyKey === policy.key"
+                        @change="policySelected(policy.key, optKey)">
+                      <label :for="`policy-radio-${optKey}-${policy.key}`">
+                        <span class="name">
+                          {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
+                        </span>
+
+                        <p>
+                          {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
+                        </p>
+                      </label>
+
+                      <!-- Show the custom policy controls if this is the custom
+                        policy and it is selected -->
+                      <CustomPolicyControls
+                        v-if="policy.key === TilePolicyKey.Custom
+                          && option.currPolicyKey === TilePolicyKey.Custom"
+                        :option="option"
+                        :optionKey="optKey"
+                        :isMagicMode="isMagicMode">
+                      </CustomPolicyControls>
+                    </div>
+                  </template>
+                </fieldset>
               </div>
             </div>
 
@@ -92,8 +104,22 @@ const AnimDurationMs = 300;
 
 @Options({
   props: {
-    // The tile whose options we're rendering
+    /**
+     *  The tile whose options we're rendering
+     */
     tile: {} as TileObj,
+
+    /**
+     * Whether magic mode is on, which allows changing the current emissions
+     * reductions (like a policy that instantly turns us to renewable energy)
+     */
+    isMagicMode: Boolean,
+
+
+    /**
+     * Whether custom policies are allowed, which are more complex
+     */
+    isAllowingCustom: Boolean,
   },
 
   components: {
@@ -101,9 +127,9 @@ const AnimDurationMs = 300;
   },
 
   data: () => ({
-    isMagicMode: false,
     lastFocusedElem: null,
     showingTileMenu: false,
+
     // Expose constants/enums to the template
     TilePolicyKey: TilePolicyKey,
   }),
@@ -221,9 +247,17 @@ export default class TileOverlay extends Vue { }
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(0.2rem);
 
-    h2, h3 { margin-top: 2rem; }
+    h2, h3 { margin-top: $large; }
 
-    .option-percent { margin-top: 0.25rem; }
+    .title-cont {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .option-percent {
+      margin-left: $small;
+    }
 
     .form-inner {
       display: block;
@@ -237,36 +271,45 @@ export default class TileOverlay extends Vue { }
     }
   }
 
+  fieldset { margin-top: $standard; }
+
   .policy-card {
     background: $white;
-    color: $text-grey;
+    color: $text-grey-light;
     padding: $standard;
     border-radius: 0.5rem;
     margin: $standard 0;
-    border-left: solid 0.75rem $mid-grey;
-    transition: background-color 0.3s, border-color 0.3s;
+    border-left: solid 0.75rem $light-grey;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 
-    &:hover { background-color: $light-grey; }
+    &:hover {
+      background-color: $light-grey;
+      border-color: $mid-grey;
+      color: $text-grey;
+    }
 
     &.-active {
       border-color: $dark-blue;
-
-      .name { font-weight: bold; }
+      color: $text-grey;
     }
 
     input[type="radio"], input[type="radio"] + label {
       display: inline-block;
     }
 
-    input {
+    input[type="radio"] {
       margin-left: 0;
       float: left;
     }
 
-    > label {
+    input[type="radio"] + label {
       margin-top: 0;
       margin-left: $small;
       width: calc(100% - 1.5rem);
+
+      .name {
+        font-weight: bold;
+      }
 
       p {
         margin-top: $tiny;
@@ -274,9 +317,7 @@ export default class TileOverlay extends Vue { }
       }
     }
 
-    .custom-policy-cont {
-      margin-left: 1.25rem;
-    }
+    .custom-policy-cont { margin-left: 1.25rem; }
   }
 
   .btns {
