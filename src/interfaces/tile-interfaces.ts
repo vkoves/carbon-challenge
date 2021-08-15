@@ -16,7 +16,7 @@ export enum TileType {
   // Actual interactive types
   Factory = 'factory',
   Farm = 'farm',
-  House = 'house',
+  Home = 'home',
   Office = 'office',
   Power = 'power',
 }

@@ -163,7 +163,7 @@ export default class Tile extends Vue { }
       background-position: 100% 5%;
     }
 
-    &.house {
+    &.home {
       background-position-y: 22%;
     }
 

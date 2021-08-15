@@ -61,7 +61,7 @@ export const SimEndYear = 2100;
  */
 const DefaultBoardLayout: Array<TileType> = [
     TileType.Forest, TileType.Farm, TileType.Empty, TileType.Forest,
-    TileType.Forest, TileType.House, TileType.Office, TileType.Empty,
+    TileType.Forest, TileType.Home, TileType.Office, TileType.Empty,
     TileType.Empty, TileType.Empty, TileType.Power, TileType.Lake,
     TileType.Empty, TileType.Factory, TileType.Forest, TileType.Forest,
 ]

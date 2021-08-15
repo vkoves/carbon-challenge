@@ -37,7 +37,7 @@ export const EnglishLanguageData: ILanguageData = {
       power: 'Power Plant',
       farm: 'Farm',
       forest: 'Forest',
-      house: 'Home',
+      home: 'Home',
       office: 'Office',
       factory: 'Factory',
       empty: 'Empty',
@@ -52,7 +52,7 @@ export const EnglishLanguageData: ILanguageData = {
         'specific uses are under the Home, Office, and Factory tiles.',
       farm: '',
       forest: '',
-      house: 'Emissions related to homes and individual behaviors like driving.',
+      home: 'Emissions related to homes and individual behaviors like driving.',
       office: '',
       factory:
         'Emissions related to industry, including manufacturing of all kinds.',

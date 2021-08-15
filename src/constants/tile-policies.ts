@@ -3,6 +3,8 @@ import { IOptionPolicy, TileOption } from '../interfaces/tile-interfaces';
 /**
  * An enum distinguishing each tile policy and letting us specify translations.
  * We don't specify an enum value.
+ *
+ * NOTE: Changing this enum will require updates to our language files
  */
 export enum TilePolicyKey {
   // Generic policies - these policies apply to each option
@@ -55,54 +57,65 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
   ],
   [TileOption.Shipping]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
   [TileOption.EnergyIndustry]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
 
   // Farm options
   [TileOption.LivestockAndManure]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
   [TileOption.Deforestation]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
   [TileOption.EnergyAgriculture]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
 
-  // House options
+  // Home options
   [TileOption.PassengerRoadTransport]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
   [TileOption.EnergyResidential]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
   [TileOption.Aviation]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
 
   // Office options
   [TileOption.EnergyCommercialBuildings]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
 
   // Power options
   [TileOption.FugitiveEmissions]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
   [TileOption.UnallocatedFuelCombustion]: [
     NonePolicy,
+    // TODO: Add policy
     CustomPolicy,
   ],
 }

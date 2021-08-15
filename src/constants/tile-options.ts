@@ -84,7 +84,7 @@ export const TileOptions: { [ type: string ]: IOptions } = {
     }),
   },
 
-  [TileType.House]: {
+  [TileType.Home]: {
     // "Transport > Road transport" * 60% passenger
     [TileOption.PassengerRoadTransport]: createOption({
       optionType: TileOption.PassengerRoadTransport,
@@ -116,7 +116,7 @@ export const TileOptions: { [ type: string ]: IOptions } = {
 
   // Note: General power generation is segmented into its users, like commercial
   // buildings (office tile), industry (factory tile) and residential buildings
-  // (house tile)
+  // (home tile)
   [TileType.Power]: {
     [TileOption.FugitiveEmissions]: createOption({
       optionType: TileOption.FugitiveEmissions,
