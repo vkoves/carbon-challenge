@@ -24,9 +24,10 @@
   max-width: 90%;
   min-height: 10rem;
   margin: 0 auto 5rem auto;
-  background-color: #000;
+  background-color: $white;
   border-radius: 0.5rem;
   padding: $large;
+  color: $text-grey;
 
   // Large overlays are 800px wide
   &.-large {

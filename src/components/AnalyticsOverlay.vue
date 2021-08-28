@@ -1,12 +1,15 @@
 <template>
   <focus-trap :returnFocusOnDeactivate="true" initialFocus="#analytics-close">
-    <div class="overlay">
+    <div class="overlay" @click="closeOverlay" @keydown.esc="closeOverlay">
       <!-- TODO: Move all text to come from i18n -->
-      <div class="overlay-content -large">
+      <div class="overlay-content -large" @click="absorbClick">
         <div class="title">
           <h1>Analytics</h1>
 
-          <button id="analytics-close" class="btn -blue" @click="closeOverlay()">Close</button>
+          <button id="analytics-close" class="btn -blue -light"
+            @click="closeOverlay">
+            Close
+          </button>
         </div>
 
         <h2>Total Warming Calculation</h2>
@@ -66,9 +69,16 @@ import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes
   },
 
   methods: {
+    /**
+     * Absorb click events to the content to prevent closing it
+     */
+    absorbClick(clickEvent: MouseEvent) {
+      clickEvent.stopPropagation();
+    },
+
     closeOverlay() {
       this.$emit('closed');
-    }
+    },
   }
 })
 
@@ -117,10 +127,14 @@ export default class AnalyticsOverlay extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import './styles/variables/spacing';
+
+h2 { margin-top: $standard; }
+
 dl {
   dt {
     font-weight: bold;
-    margin-top: 0.5rem;
+    margin-top: $small;
   }
 }
 </style>

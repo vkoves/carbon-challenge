@@ -1,98 +1,86 @@
 <template>
-  <div @click="closeOverlay()"
+  <div @click="closeOverlay" @keydown.esc="closeOverlay"
     class="overlay" :class="{ '-open': showingTileMenu }">
     <transition name="slide-fade">
       <section class="sidebar" v-show="showingTileMenu"
         @click="handleSidebarClick">
         <focus-trap :returnFocusOnDeactivate="true" v-model:active="trapFocus" initialFocus="#sidebar-close">
-          <div>
-            <button id="sidebar-close" @click="closeOverlay()" class="btn -small">
+          <form @submit="submitOptions">
+            <button id="sidebar-close" type="button" @click="closeOverlay" class="btn -small">
               {{ $t('simulator.close') }}
             </button>
 
-            <div v-if="tile">
+            <template v-if="tile">
               <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
 
               <p v-if="$t(`simulator.tileTypeDescriptions.${tile.type}`)">
                 {{ $t(`simulator.tileTypeDescriptions.${tile.type}`) }}
               </p>
 
-              <form @submit="submitOptions">
-                <div class="form-inner">
-                  <div v-for="(option, optKey, index) in tile.options" :key="optKey"
-                    :class="{ '-first': index === 0 }">
-                    <div class="title-cont">
-                      <h3>
-                        {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
-                      </h3>
+              <div class="form-inner">
+                <div v-for="(option, optKey, index) in tile.options" :key="optKey"
+                  :class="{ '-first': index === 0 }">
+                  <div class="title-cont">
+                    <h3>
+                      {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
+                    </h3>
 
-                      <span class="option-percent">
-                        {{ option.weightPrcnt.toFixed(1) }}%
-                        {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
-                        CO<sub>2</sub>
-                      </span>
-                    </div>
-
-                    <fieldset>
-                      <legend>
-                        {{ $t('simulator.tileOverlay.policiesLabel') }}
-                      </legend>
-
-                      <!-- Loop through available policies for the option -->
-                      <template v-for="(policy) in option.policies">
-                        <!-- Only render the "Custom" policy if we're allowing that -->
-                        <div v-if="policy.key !== TilePolicyKey.Custom || (settings.customPoliciesEnabled)"
-                          class="policy-card"
-                          :class="{ '-active': option.currPolicyKey === policy.key  }"
-                          :key="policy.key"
-                          @click="policySelected(policy.key, optKey)">
-                          <input type="radio"
-                            :name="optKey"
-                            :id="`policy-radio-${optKey}-${policy.key}`"
-                            :checked="option.currPolicyKey === policy.key"
-                            @change="policySelected(policy.key, optKey)">
-                          <label :for="`policy-radio-${optKey}-${policy.key}`">
-                            <span class="name">
-                              <img v-if="policy.isMagic"
-                                src="@/assets/magic-wand-black.svg"
-                                class="icon -magic-wand"
-                                alt="Magic" width="24" height="24">
-
-                              {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
-                            </span>
-
-                            <p>
-                              {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
-                            </p>
-                          </label>
-
-                          <!-- Show the custom policy controls if this is the custom
-                            policy and it is selected -->
-                          <CustomPolicyControls
-                            v-if="policy.key === TilePolicyKey.Custom
-                              && option.currPolicyKey === TilePolicyKey.Custom"
-                            :option="option"
-                            :optionKey="optKey"
-                            :isMagicMode="settings.magicModeEnabled">
-                          </CustomPolicyControls>
-                        </div>
-                      </template>
-                    </fieldset>
+                    <span class="option-percent">
+                      {{ option.weightPrcnt.toFixed(1) }}%
+                      {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
+                      CO<sub>2</sub>
+                    </span>
                   </div>
-                </div>
 
-                <div class="btns">
-                  <button type="button" @click="cancel()"
-                    class="btn -grey -small">
-                    Cancel
-                  </button>
-                  <button type="submit" class="btn -small">
-                    Update
-                  </button>
+                  <fieldset>
+                    <legend>
+                      {{ $t('simulator.tileOverlay.policiesLabel') }}
+                    </legend>
+
+                    <!-- Loop through available policies for the option -->
+                    <template v-for="(policy) in option.policies">
+                      <!-- Only render the "Custom" policy if we're allowing that -->
+                      <div v-if="policy.key !== TilePolicyKey.Custom || (settings.customPoliciesEnabled)"
+                        class="policy-card"
+                        :class="{ '-active': option.currPolicyKey === policy.key  }"
+                        :key="policy.key"
+                        @click="policySelected(policy.key, optKey)">
+                        <input type="radio"
+                          :name="optKey"
+                          :id="`policy-radio-${optKey}-${policy.key}`"
+                          :checked="option.currPolicyKey === policy.key"
+                          @change="policySelected(policy.key, optKey)">
+                        <label :for="`policy-radio-${optKey}-${policy.key}`">
+                          <span class="name">
+                            <img v-if="policy.isMagic"
+                              src="@/assets/magic-wand-black.svg"
+                              class="icon -magic-wand"
+                              alt="Magic" width="24" height="24">
+
+                            {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
+                          </span>
+
+                          <p>
+                            {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
+                          </p>
+                        </label>
+
+                        <!-- Show the custom policy controls if this is the custom
+                          policy and it is selected -->
+                        <CustomPolicyControls
+                          v-if="policy.key === TilePolicyKey.Custom
+                            && option.currPolicyKey === TilePolicyKey.Custom"
+                          :option="option"
+                          :optionKey="optKey"
+                          :isMagicMode="settings.magicModeEnabled">
+                        </CustomPolicyControls>
+                      </div>
+                    </template>
+                  </fieldset>
                 </div>
-              </form>
-            </div>
-          </div>
+              </div>
+            </template>
+          </form>
         </focus-trap>
       </section>
     </transition>
@@ -144,13 +132,6 @@ const AnimDurationMs = 300;
   },
 
   methods: {
-    // Reset this tile to its previous state and then close the overlay
-    cancel() {
-      // TODO: Make cancel reset tile values
-
-      this.closeOverlay();
-    },
-
     closeOverlay() {
       this.showingTileMenu = false;
       this.trapFocus = false;
@@ -161,15 +142,11 @@ const AnimDurationMs = 300;
       }, AnimDurationMs);
     },
 
+    /**
+     * Absorb click events to the sidebar content to prevent closing it
+     */
     handleSidebarClick(clickEvent: MouseEvent) {
       clickEvent.stopPropagation();
-    },
-
-    submitOptions(submitEvent: Event) {
-      submitEvent.preventDefault();
-
-      this.$emit('tileUpdated', this.tile);
-      this.closeOverlay();
     },
 
     policySelected(policyKey: TilePolicyKey, optionKey: TileOption) {
@@ -189,6 +166,8 @@ const AnimDurationMs = 300;
         tileOption.target = selectedPolicy.target;
         tileOption.targetYear = selectedPolicy.targetYear;
       }
+
+      this.$emit('tileUpdated', this.tile);
     }
   },
 
@@ -245,6 +224,13 @@ export default class TileOverlay extends Vue { }
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(0.2rem);
 
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      height: 100%;
+    }
+
     h2, h3 { margin-top: $large; }
 
     .title-cont {
@@ -255,12 +241,12 @@ export default class TileOverlay extends Vue { }
 
     .option-percent {
       margin-left: $small;
+      flex-shrink: 0;
     }
 
     .form-inner {
       display: block;
       overflow: auto;
-      max-height: 62vh;
       padding: $large;
       margin-top: $standard;
       background-color: rgba(0, 0, 0, 0.5);
@@ -347,14 +333,6 @@ export default class TileOverlay extends Vue { }
 
     .custom-policy-cont { margin-left: 1.25rem; }
   }
-
-  .btns {
-    display: flex;
-    align-items: center;
-    margin-top: $standard;
-
-    > button:first-of-type { margin-right: $standard; }
-  }
 }
 
 @media (max-width: $mobile-max-width) {
@@ -364,8 +342,12 @@ export default class TileOverlay extends Vue { }
     width: 100%;
     padding: $standard $large;
 
-    .title-cont { flex-direction: column; }
-    .form-inner { max-height: 50vh; }
+    .title-cont {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .option-percent { margin-left: 0; }
+    }
   }
 }
 </style>

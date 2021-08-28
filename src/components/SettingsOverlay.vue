@@ -1,12 +1,15 @@
 <template>
   <focus-trap :returnFocusOnDeactivate="true" initialFocus="#settings-close">
-    <div class="overlay">
+    <div class="overlay" @click="closeOverlay" @keydown.esc="closeOverlay">
       <!-- TODO: Move all text to come from i18n -->
-      <div class="overlay-content">
+      <div class="overlay-content" @click="absorbClick">
         <div class="title">
           <h1>Settings</h1>
 
-          <button id="settings-close" class="btn -blue" @click="closeOverlay()">Close</button>
+          <button id="settings-close" class="btn -blue -light"
+            @click="closeOverlay">
+            Close
+          </button>
         </div>
 
         <div class="check-cont">
@@ -15,6 +18,8 @@
             aria-describedby="magic-mode-desc">
           <div>
             <label for="magic-mode">
+              <img src="@/assets/magic-wand-black.svg"
+                alt="" width="24" height="24">
               Magic Mode
             </label>
 
@@ -32,6 +37,8 @@
             aria-describedby="custom-policies-desc">
           <div>
             <label for="custom-policies">
+              <img src="@/assets/graph-black.svg"
+                alt="" width="24" height="24">
               Custom Policies
             </label>
 
@@ -70,6 +77,13 @@ import { ISimulatorSettings } from '@/interfaces/settings';
   },
 
   methods: {
+    /**
+     * Absorb click events to the content to prevent closing it
+     */
+    absorbClick(clickEvent: MouseEvent) {
+      clickEvent.stopPropagation();
+    },
+
     closeOverlay() {
       this.$emit('closed');
     }
@@ -100,10 +114,14 @@ export default class AnalyticsOverlay extends Vue {
   }
 
   label {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: $standard;
     font-size: 1.25rem;
     font-weight: bold;
     margin-top: 0.1rem;
+
+    img { display: inline; }
   }
 
   input, label { cursor: pointer; }
