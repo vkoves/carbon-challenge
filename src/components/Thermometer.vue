@@ -105,6 +105,7 @@ export default class Thermometer extends Vue {
   position: relative;
   width: $thermometer-width;
   margin-right: 2rem;
+  flex-shrink: 0;
 
   $red: red;
 
@@ -121,7 +122,6 @@ export default class Thermometer extends Vue {
     margin: auto;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
-    margin-bottom: 4rem;
   }
 
   .stem-inner {
@@ -141,11 +141,11 @@ export default class Thermometer extends Vue {
 
   .bulb {
     background-color: $red;
-    width: $thermometer-width - $border-width;
-    height: $thermometer-width - $border-width;
+    width: $thermometer-width;
+    height: $thermometer-width;
     border-radius: 100%;
-    position: absolute;
-    top: 82%;
+    position: relative;
+    top: -1rem;
   }
 
   .text {

@@ -229,7 +229,7 @@ export default class TileOverlay extends Vue { }
   height: 100%;
   top: 0;
   right: 0;
-  z-index: 2;
+  z-index: 11; // Draw over <header> on mobile
   transition: background-color 0.3s;
   background-color: rgba(0, 0, 0, 0.25);
   overflow: hidden;
@@ -294,6 +294,11 @@ export default class TileOverlay extends Vue { }
       color: $text-grey;
     }
 
+    // Make it clear that the whole policy card is clickable with a cursor
+    &, input, label {
+      cursor: pointer;
+    }
+
     input[type="radio"], input[type="radio"] + label {
       display: inline-block;
     }
@@ -327,6 +332,18 @@ export default class TileOverlay extends Vue { }
     margin-top: $standard;
 
     > button:first-of-type { margin-right: $standard; }
+  }
+}
+
+@media (max-width: $mobile-max-width) {
+  // Make sidebar full screen on mobile
+  .overlay .sidebar {
+    min-width: 0;
+    width: 100%;
+    padding: $standard $large;
+
+    .title-cont { flex-direction: column; }
+    .form-inner { max-height: 50vh; }
   }
 }
 </style>
