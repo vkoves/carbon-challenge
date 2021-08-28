@@ -4,87 +4,91 @@
     <transition name="slide-fade">
       <section class="sidebar" v-show="showingTileMenu"
         @click="handleSidebarClick">
-        <button @click="closeOverlay()" class="btn -small" ref="closeBtn">
-          {{ $t('simulator.close') }}
-        </button>
+        <focus-trap :returnFocusOnDeactivate="true" v-model:active="trapFocus" initialFocus="#sidebar-close">
+          <div>
+            <button id="sidebar-close" @click="closeOverlay()" class="btn -small">
+              {{ $t('simulator.close') }}
+            </button>
 
-        <div v-if="tile">
-          <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
+            <div v-if="tile">
+              <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
 
-          <p v-if="$t(`simulator.tileTypeDescriptions.${tile.type}`)">
-            {{ $t(`simulator.tileTypeDescriptions.${tile.type}`) }}
-          </p>
+              <p v-if="$t(`simulator.tileTypeDescriptions.${tile.type}`)">
+                {{ $t(`simulator.tileTypeDescriptions.${tile.type}`) }}
+              </p>
 
-          <form @submit="submitOptions">
-            <div class="form-inner">
-              <div v-for="(option, optKey, index) in tile.options" :key="optKey"
-                :class="{ '-first': index === 0 }">
-                <div class="title-cont">
-                  <h3>
-                    {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
-                  </h3>
+              <form @submit="submitOptions">
+                <div class="form-inner">
+                  <div v-for="(option, optKey, index) in tile.options" :key="optKey"
+                    :class="{ '-first': index === 0 }">
+                    <div class="title-cont">
+                      <h3>
+                        {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
+                      </h3>
 
-                  <span class="option-percent">
-                    {{ option.weightPrcnt.toFixed(1) }}%
-                    {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
-                    CO<sub>2</sub>
-                  </span>
+                      <span class="option-percent">
+                        {{ option.weightPrcnt.toFixed(1) }}%
+                        {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
+                        CO<sub>2</sub>
+                      </span>
+                    </div>
+
+                    <fieldset>
+                      <legend>
+                        {{ $t('simulator.tileOverlay.policiesLabel') }}
+                      </legend>
+
+                      <!-- Loop through available policies for the option -->
+                      <template v-for="(policy) in option.policies">
+                        <!-- Only render the "Custom" policy if we're allowing that -->
+                        <div v-if="policy.key !== TilePolicyKey.Custom || (isAllowingCustom)"
+                          class="policy-card"
+                          :class="{ '-active': option.currPolicyKey === policy.key  }"
+                          :key="policy.key"
+                          @click="policySelected(policy.key, optKey)">
+                          <input type="radio"
+                            :name="optKey"
+                            :id="`policy-radio-${optKey}-${policy.key}`"
+                            :checked="option.currPolicyKey === policy.key"
+                            @change="policySelected(policy.key, optKey)">
+                          <label :for="`policy-radio-${optKey}-${policy.key}`">
+                            <span class="name">
+                              {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
+                            </span>
+
+                            <p>
+                              {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
+                            </p>
+                          </label>
+
+                          <!-- Show the custom policy controls if this is the custom
+                            policy and it is selected -->
+                          <CustomPolicyControls
+                            v-if="policy.key === TilePolicyKey.Custom
+                              && option.currPolicyKey === TilePolicyKey.Custom"
+                            :option="option"
+                            :optionKey="optKey"
+                            :isMagicMode="isMagicMode">
+                          </CustomPolicyControls>
+                        </div>
+                      </template>
+                    </fieldset>
+                  </div>
                 </div>
 
-                <fieldset>
-                  <legend>
-                    {{ $t('simulator.tileOverlay.policiesLabel') }}
-                  </legend>
-
-                  <!-- Loop through available policies for the option -->
-                  <template v-for="(policy) in option.policies">
-                    <!-- Only render the "Custom" policy if we're allowing that -->
-                    <div v-if="policy.key !== TilePolicyKey.Custom || (isAllowingCustom)"
-                      class="policy-card"
-                      :class="{ '-active': option.currPolicyKey === policy.key  }"
-                      :key="policy.key"
-                      @click="policySelected(policy.key, optKey)">
-                      <input type="radio"
-                        :name="optKey"
-                        :id="`policy-radio-${optKey}-${policy.key}`"
-                        :checked="option.currPolicyKey === policy.key"
-                        @change="policySelected(policy.key, optKey)">
-                      <label :for="`policy-radio-${optKey}-${policy.key}`">
-                        <span class="name">
-                          {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
-                        </span>
-
-                        <p>
-                          {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
-                        </p>
-                      </label>
-
-                      <!-- Show the custom policy controls if this is the custom
-                        policy and it is selected -->
-                      <CustomPolicyControls
-                        v-if="policy.key === TilePolicyKey.Custom
-                          && option.currPolicyKey === TilePolicyKey.Custom"
-                        :option="option"
-                        :optionKey="optKey"
-                        :isMagicMode="isMagicMode">
-                      </CustomPolicyControls>
-                    </div>
-                  </template>
-                </fieldset>
-              </div>
+                <div class="btns">
+                  <button type="button" @click="cancel()"
+                    class="btn -grey -small">
+                    Cancel
+                  </button>
+                  <button type="submit" class="btn -small">
+                    Update
+                  </button>
+                </div>
+              </form>
             </div>
-
-            <div class="btns">
-              <button type="button" @click="cancel()"
-                class="btn -grey -small">
-                Cancel
-              </button>
-              <button type="submit" class="btn -small">
-                Update
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+        </focus-trap>
       </section>
     </transition>
   </div>
@@ -92,6 +96,9 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+
+import { FocusTrap } from 'focus-trap-vue';
+
 // eslint-disable-next-line no-unused-vars
 import { TileObj } from '../classes/tile-obj';
 import { TilePolicyKey } from '@/constants/tile-policies';
@@ -124,11 +131,12 @@ const AnimDurationMs = 300;
 
   components: {
     CustomPolicyControls,
+    FocusTrap,
   },
 
   data: () => ({
-    lastFocusedElem: null,
     showingTileMenu: false,
+    trapFocus: false,
 
     // Expose constants/enums to the template
     TilePolicyKey: TilePolicyKey,
@@ -149,11 +157,7 @@ const AnimDurationMs = 300;
 
     closeOverlay() {
       this.showingTileMenu = false;
-
-      // On close of the overlay, refocus the last element
-      if (this.lastFocusedElem) {
-        this.lastFocusedElem.focus();
-      }
+      this.trapFocus = false;
 
       // Emit closed event after fade animation is done
       setTimeout(() => {
@@ -201,13 +205,10 @@ const AnimDurationMs = 300;
 
       this.showingTileMenu = true;
 
+      // Enable focus trap once the animation is done
       setTimeout(() => {
-        // Focus the first focusable element in the overlay - the close button
-        // TODO: Make the overlay trap focus
-        this.lastFocusedElem = document.activeElement;
-
-        this.$refs.closeBtn.focus();
-      });
+        this.trapFocus = true;
+      }, AnimDurationMs);
     }
   }
 })

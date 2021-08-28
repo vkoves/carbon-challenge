@@ -1,25 +1,31 @@
 <template>
-  <div class="overlay">
-    <!-- TODO: Move all text to come from i18n -->
-    <div class="overlay-content">
-      <div class="title">
-        <h1>Settings</h1>
+  <focus-trap :returnFocusOnDeactivate="true" initialFocus="#settings-close">
+    <div class="overlay">
+      <!-- TODO: Move all text to come from i18n -->
+      <div class="overlay-content">
+        <div class="title">
+          <h1>Settings</h1>
 
-        <button class="btn -blue" @click="closeOverlay()">Close</button>
+          <button id="settings-close" class="btn -blue" @click="closeOverlay()">Close</button>
+        </div>
+
+        <p>
+          Some neat settings are coming soon!
+        </p>
       </div>
-
-      <p>
-        Some neat settings are coming soon!
-      </p>
     </div>
-  </div>
+  </focus-trap>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
+import { FocusTrap } from 'focus-trap-vue';
+
 @Options({
   name: 'AnalyticsOverlay',
+
+  components: { FocusTrap },
 
   props: {
     tiles: [],
