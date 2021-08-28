@@ -9,9 +9,39 @@
           <button id="settings-close" class="btn -blue" @click="closeOverlay()">Close</button>
         </div>
 
-        <p>
-          Some neat settings are coming soon!
-        </p>
+        <div class="check-cont">
+          <input type="checkbox" id="magic-mode"
+            v-model="settings.magicModeEnabled"
+            aria-describedby="magic-mode-desc">
+          <div>
+            <label for="magic-mode">
+              Magic Mode
+            </label>
+
+            <p id="magic-mode-desc">
+              Magic mode lets you use policies that <em>instantly</em> change
+              things in the world. Curious what would happen if we instantly
+              switched the grid to 100% renewable power? Find out!
+            </p>
+          </div>
+        </div>
+
+        <div class="check-cont">
+          <input type="checkbox" id="custom-policies"
+            v-model="settings.customPoliciesEnabled"
+            aria-describedby="custom-policies-desc">
+          <div>
+            <label for="custom-policies">
+              Custom Policies
+            </label>
+
+            <p id="custom-policies-desc">
+              Don't settle for the polices we've thought of - make your own
+              policies by picking the target emissions reduction for each category
+              and the target year!
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </focus-trap>
@@ -22,13 +52,17 @@ import { Options, Vue } from 'vue-class-component';
 
 import { FocusTrap } from 'focus-trap-vue';
 
+// eslint-disable-next-line no-unused-vars
+import { ISimulatorSettings } from '@/interfaces/settings';
+
 @Options({
   name: 'AnalyticsOverlay',
 
   components: { FocusTrap },
 
   props: {
-    tiles: [],
+    /** The current simulator settings */
+    settings: {} as ISimulatorSettings,
   },
 
   emits: {
@@ -52,44 +86,23 @@ export default class AnalyticsOverlay extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import './styles/variables/colors';
 @import './styles/variables/spacing';
 
-
-.overlay {
+.check-cont {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.25);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-}
+  gap: $standard;
+  margin-top: $standard;
 
-.overlay-content {
-  flex-basis: 800px;
-  max-width: 90%;
-  margin: 0 auto 5rem auto;
-  background-color: #000;
-  border-radius: 0.5rem;
-  padding: 1rem;
-
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .btn { margin-top: 0; }
+  input {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
-  dl {
-    dt {
-      font-weight: bold;
-      margin-top: 0.5rem;
-    }
+  label {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 0.1rem;
   }
 }
 </style>

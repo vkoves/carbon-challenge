@@ -41,7 +41,7 @@
                       <!-- Loop through available policies for the option -->
                       <template v-for="(policy) in option.policies">
                         <!-- Only render the "Custom" policy if we're allowing that -->
-                        <div v-if="policy.key !== TilePolicyKey.Custom || (isAllowingCustom)"
+                        <div v-if="policy.key !== TilePolicyKey.Custom || (settings.customPoliciesEnabled)"
                           class="policy-card"
                           :class="{ '-active': option.currPolicyKey === policy.key  }"
                           :key="policy.key"
@@ -68,7 +68,7 @@
                               && option.currPolicyKey === TilePolicyKey.Custom"
                             :option="option"
                             :optionKey="optKey"
-                            :isMagicMode="isMagicMode">
+                            :isMagicMode="settings.magicModeEnabled">
                           </CustomPolicyControls>
                         </div>
                       </template>
@@ -100,10 +100,12 @@ import { Options, Vue } from 'vue-class-component';
 import { FocusTrap } from 'focus-trap-vue';
 
 // eslint-disable-next-line no-unused-vars
-import { TileObj } from '../classes/tile-obj';
+import { TileObj } from '@/classes/tile-obj';
 import { TilePolicyKey } from '@/constants/tile-policies';
 // eslint-disable-next-line no-unused-vars
 import { IOption, IOptionPolicy, TileOption } from '@/interfaces/tile-interfaces';
+// eslint-disable-next-line no-unused-vars
+import { ISimulatorSettings } from '@/interfaces/settings';
 
 import CustomPolicyControls from './CustomPolicyControls.vue';
 
@@ -111,22 +113,11 @@ const AnimDurationMs = 300;
 
 @Options({
   props: {
-    /**
-     *  The tile whose options we're rendering
-     */
+    /**  The tile whose options we're rendering */
     tile: {} as TileObj,
 
-    /**
-     * Whether magic mode is on, which allows changing the current emissions
-     * reductions (like a policy that instantly turns us to renewable energy)
-     */
-    isMagicMode: Boolean,
-
-
-    /**
-     * Whether custom policies are allowed, which are more complex
-     */
-    isAllowingCustom: Boolean,
+    /** The current simulator settings */
+    settings: {} as ISimulatorSettings,
   },
 
   components: {
@@ -297,7 +288,7 @@ export default class TileOverlay extends Vue { }
 
     // Give the policy card a glow when it's focused
     &:focus-within {
-     box-shadow: 0 0 $standard $tiny $blue;
+     box-shadow: 0 0 $standard $tiny $white;
     }
 
     // Make it clear that the whole policy card is clickable with a cursor

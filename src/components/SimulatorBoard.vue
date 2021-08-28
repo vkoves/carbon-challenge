@@ -35,6 +35,7 @@
 
     <TileOverlay
       :tile="selectedTile"
+      :settings="settings"
       @closed="tileOverlayClosed($event)"
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
@@ -43,6 +44,7 @@
       @closed="showingAnalytics = false"></AnalyticsOverlay>
 
     <SettingsOverlay v-if="showingSettings"
+      :settings="settings"
       @closed="showingSettings = false"></SettingsOverlay>
   </main>
 </template>
@@ -52,6 +54,8 @@ import { Options, Vue } from 'vue-class-component';
 import { Simulator } from '@/classes/simulator';
 // eslint-disable-next-line no-unused-vars
 import { TileObj } from '@/classes/tile-obj';
+// eslint-disable-next-line no-unused-vars
+import { ISimulatorSettings } from '@/interfaces/settings';
 
 import AnalyticsOverlay from './AnalyticsOverlay.vue';
 import SettingsOverlay from './SettingsOverlay.vue';
@@ -72,7 +76,14 @@ import Thermometer from './Thermometer.vue';
 
   data: () => ({
     tiles: Simulator.generateTiles() as Array<TileObj>,
+
     selectedTile: null,
+
+    settings: {
+      magicModeEnabled: false,
+      customPoliciesEnabled: false,
+    } as ISimulatorSettings,
+
     showingTileMenu: false,
     showingAnalytics: false,
     showingSettings: false,
