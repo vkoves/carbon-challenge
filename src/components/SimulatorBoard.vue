@@ -1,11 +1,22 @@
 <template>
   <main id="main-content">
-    <h1>{{ $t('title') }}</h1>
+    <div class="title-cont">
+      <h1>{{ $t('title') }}</h1>
 
-    <button class="btn -small -grey"
-      @click="showingDebugView = true">
-      Debug View
-    </button>
+      <div class="btn-cont">
+        <button class="btn -transparent -small -flex"
+          @click="showingAnalytics = true">
+          Analytics
+          <img src="@/assets/graph.svg" alt="" width="24" height="24">
+        </button>
+
+        <button class="btn -transparent -small -flex"
+          @click="showingSettings = true">
+          Settings
+          <img src="@/assets/settings.svg" alt="" width="24" height="24">
+        </button>
+      </div>
+    </div>
 
     <div class="main-cont">
       <Thermometer :tiles="tiles"></Thermometer>
@@ -27,9 +38,12 @@
       @closed="tileOverlayClosed($event)"
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
-    <DebugView v-if="showingDebugView"
+    <AnalyticsOverlay v-if="showingAnalytics"
       :tiles="tiles"
-      @closed="showingDebugView = false"></DebugView>
+      @closed="showingAnalytics = false"></AnalyticsOverlay>
+
+    <SettingsOverlay v-if="showingSettings"
+      @closed="showingSettings = false"></SettingsOverlay>
   </main>
 </template>
 
@@ -39,7 +53,8 @@ import { Simulator } from '@/classes/simulator';
 // eslint-disable-next-line no-unused-vars
 import { TileObj } from '@/classes/tile-obj';
 
-import DebugView from './DebugView.vue';
+import AnalyticsOverlay from './AnalyticsOverlay.vue';
+import SettingsOverlay from './SettingsOverlay.vue';
 import Tile from './Tile.vue';
 import TileOverlay from './TileOverlay.vue';
 import Thermometer from './Thermometer.vue';
@@ -48,7 +63,8 @@ import Thermometer from './Thermometer.vue';
   name: 'SimulatorBoard',
 
   components: {
-    DebugView,
+    AnalyticsOverlay,
+    SettingsOverlay,
     Thermometer,
     Tile,
     TileOverlay,
@@ -58,7 +74,8 @@ import Thermometer from './Thermometer.vue';
     tiles: Simulator.generateTiles() as Array<TileObj>,
     selectedTile: null,
     showingTileMenu: false,
-    showingDebugView: false,
+    showingAnalytics: false,
+    showingSettings: false,
   }),
 
   methods: {
@@ -98,6 +115,22 @@ main {
   padding: 6rem;
   color: $white;
   overflow: hidden;
+}
+
+.title-cont {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .btn-cont {
+    display: flex;
+    gap: $standard;
+
+    button {
+      margin-top: 0;
+      padding: $small;
+    }
+  }
 }
 
 .main-cont {

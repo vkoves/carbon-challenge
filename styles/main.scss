@@ -116,6 +116,13 @@ button, a.btn {
 
   &.-small { font-size: 1rem; }
 
+  &.-flex {
+    display: inline-flex;
+    gap: $small;
+    align-items: center;
+  }
+
+  // Color variants
   &.-transparent {
     background: none;
     color: $white;

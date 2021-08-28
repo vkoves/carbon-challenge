@@ -1,9 +1,9 @@
 <template>
   <div class="overlay">
     <!-- TODO: Move all text to come from i18n -->
-    <div class="debug-cont">
+    <div class="overlay-content">
       <div class="title">
-        <h1>Debug View</h1>
+        <h1>Analytics</h1>
 
         <button class="btn -blue" @click="closeOverlay()">Close</button>
       </div>
@@ -49,7 +49,7 @@ import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes
 // import { TileObj } from '@/classes/tile-obj';
 
 @Options({
-  name: 'DebugView',
+  name: 'AnalyticsOverlay',
 
   props: {
     tiles: [],
@@ -71,7 +71,7 @@ import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes
  * assumptions so you can peek under the hood of the simulator and see why it
  * got the total it did.
  */
-export default class DebugView extends Vue {
+export default class AnalyticsOverlay extends Vue {
   totalEmissions: number = 0;
   estDegWarming: number = 0;
   tempCalcMethod: TempCalcMethod | null = null;
@@ -128,7 +128,7 @@ export default class DebugView extends Vue {
   z-index: 10;
 }
 
-.debug-cont {
+.overlay-content {
   flex-basis: 800px;
   max-width: 90%;
   margin: 0 auto 5rem auto;
