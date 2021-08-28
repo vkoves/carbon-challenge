@@ -77,6 +77,10 @@ export interface IOptionPolicy {
   key: TilePolicyKey;
   target: number | null;
   targetYear: number | null;
+
+  // Whether this policy is only allowed in magic mode, which typically means
+  // it's targetYear is the current year
+  isMagic?: boolean;
 }
 
 

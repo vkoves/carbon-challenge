@@ -126,6 +126,10 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Tax Incentives for Electric Vehicles',
         description: 'Provide tax incentives and subsidies for electric vehicles to cut gas powered vehicles in half by 2050.',
       },
+      [TilePolicyKey.HomeElectricVehicleMagic]: {
+        name: 'Instantly Convert all Vehicles to Electric',
+        description: 'Using a global transmutation spell, all personal vehicles instantly become electric, with zero emissions!',
+      },
       [TilePolicyKey.HomeRenewableEnergyRequirement2050]: {
         name: 'Require Green Energy for Homes by 2050',
         description: 'Require homes to run on fully renewable energy by 2050.',

@@ -53,6 +53,11 @@
                             @change="policySelected(policy.key, optKey)">
                           <label :for="`policy-radio-${optKey}-${policy.key}`">
                             <span class="name">
+                              <img v-if="policy.isMagic"
+                                src="@/assets/magic-wand-black.svg"
+                                class="icon -magic-wand"
+                                alt="Magic" width="24" height="24">
+
                               {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
                             </span>
 
@@ -286,6 +291,10 @@ export default class TileOverlay extends Vue { }
       color: $text-grey;
     }
 
+    &:hover, &.-active {
+      label .icon { opacity: 1; }
+    }
+
     // Give the policy card a glow when it's focused
     &:focus-within {
      box-shadow: 0 0 $standard $tiny $white;
@@ -296,7 +305,7 @@ export default class TileOverlay extends Vue { }
       cursor: pointer;
     }
 
-    input[type="radio"], input[type="radio"] + label {
+    input[type="radio"], label {
       display: inline-block;
     }
 
@@ -307,12 +316,28 @@ export default class TileOverlay extends Vue { }
       &:focus { outline: none; }
     }
 
-    input[type="radio"] + label {
+    label {
       margin-top: 0;
       margin-left: $small;
       width: calc(100% - 1.5rem);
 
-      .name { font-weight: bold; }
+      .name {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        gap: $small;
+      }
+
+      .icon {
+        // Fade out all icons from black to make them roughly match the grey
+        opacity: 0.5;
+        transition: opacity 0.3s;
+
+        &.-magic-wand {
+          position: relative;
+          top: -0.25rem;
+        }
+      }
 
       p {
         margin-top: $tiny;

@@ -81,7 +81,7 @@ export class Simulator {
    * Returns the current year as a number (e.g. 2021, 2030).
    */
   public static getCurrentYear(): number {
-    return (new Date()).getFullYear()
+    return (new Date()).getFullYear();
   }
 
   /**

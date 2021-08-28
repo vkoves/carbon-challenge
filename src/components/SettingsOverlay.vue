@@ -91,7 +91,8 @@ export default class AnalyticsOverlay extends Vue {
 .check-cont {
   display: flex;
   gap: $standard;
-  margin-top: $standard;
+  margin-top: $large;
+  margin-bottom: $standard;
 
   input {
     width: 1.25rem;
@@ -104,5 +105,7 @@ export default class AnalyticsOverlay extends Vue {
     font-weight: bold;
     margin-top: 0.1rem;
   }
+
+  input, label { cursor: pointer; }
 }
 </style>

@@ -1,5 +1,7 @@
 import { IOptionPolicy, TileOption } from '../interfaces/tile-interfaces';
 
+const CurrentYear = (new Date()).getFullYear();
+
 /**
  * An enum distinguishing each tile policy and letting us specify translations.
  * The enum value is the same as the key so that errors are clear when a
@@ -26,6 +28,7 @@ export enum TilePolicyKey {
   // Home tile policies
   HomeElectricVehicleRequirement2050 = 'HomeElectricVehicleRequirement2050',
   HomeElectricVehicleIncentive = 'HomeElectricVehicleIncentive',
+  HomeElectricVehicleMagic = 'HomeElectricVehicleMagic',
   HomeRenewableEnergyRequirement2050 = 'HomeRenewableEnergyRequirement2050',
   HomeRenewableEnergyIncentive = 'HomeRenewableEnergyIncentive',
   HomeAirTravelIncentive = 'HomeAirTravelIncentive',
@@ -142,6 +145,12 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       key: TilePolicyKey.HomeElectricVehicleIncentive,
       target: 50,
       targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.HomeElectricVehicleMagic,
+      target: 100,
+      targetYear: CurrentYear,
+      isMagic: true,
     },
     CustomPolicy,
   ],

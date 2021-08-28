@@ -122,6 +122,10 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.HomeElectricVehicleMagic]: {
+        name: '',
+        description: '',
+      },
       [TilePolicyKey.HomeRenewableEnergyRequirement2050]: {
         name: '',
         description: '',
