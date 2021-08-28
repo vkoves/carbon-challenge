@@ -295,6 +295,11 @@ export default class TileOverlay extends Vue { }
       color: $text-grey;
     }
 
+    // Give the policy card a glow when it's focused
+    &:focus-within {
+     box-shadow: 0 0 $standard $tiny $blue;
+    }
+
     // Make it clear that the whole policy card is clickable with a cursor
     &, input, label {
       cursor: pointer;
@@ -307,6 +312,8 @@ export default class TileOverlay extends Vue { }
     input[type="radio"] {
       margin-left: 0;
       float: left;
+
+      &:focus { outline: none; }
     }
 
     input[type="radio"] + label {
@@ -314,9 +321,7 @@ export default class TileOverlay extends Vue { }
       margin-left: $small;
       width: calc(100% - 1.5rem);
 
-      .name {
-        font-weight: bold;
-      }
+      .name { font-weight: bold; }
 
       p {
         margin-top: $tiny;
