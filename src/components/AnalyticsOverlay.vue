@@ -37,6 +37,14 @@
           <dd>
             {{ estDegWarming.toFixed(2) }} {{ SimulatorUnits.Temperature }}
           </dd>
+
+          <dt>Total Tile Option Weight:</dt>
+          <dd>{{ totalWeight }}%</dd>
+
+          <p>
+            The total weight sets a maximum for the amount of emissions a user could
+            possibly cut, so it's important this is as close to 100% as possible
+          </p>
         </dl>
       </div>
     </div>
@@ -92,6 +100,8 @@ export default class AnalyticsOverlay extends Vue {
   estDegWarming: number = 0;
   tempCalcMethod: TempCalcMethod | null = null;
 
+  totalWeight: number = 0;
+
   // Expose needed constants and enums to template
   SimEndYear = SimEndYear;
   SimulatorUnits = SimulatorUnits;
@@ -100,7 +110,12 @@ export default class AnalyticsOverlay extends Vue {
   tiles: Array<TileObj> = [];
 
   calculateValues(): void {
-    this.totalEmissions = Simulator.getTotalEmissions(this.tiles);
+    const totalEmissionsData = Simulator.getTotalEmissionsData(this.tiles);
+
+    console.log({ totalEmissionsData });
+
+    this.totalEmissions = totalEmissionsData.total;
+
     this.tempCalcMethod = Simulator.getThermometerDegreesMethod(this.tiles);
     this.estDegWarming = Simulator.getThermometerDegrees(this.tiles);
 
@@ -113,9 +128,7 @@ export default class AnalyticsOverlay extends Vue {
         });
     });
 
-    // The total weight sets a maximum for the amount of emissions a user could
-    // possibly cut, so it's important this is as close to 100% as possible
-    console.info(`totalWeight: ${totalWeight}%`);
+    this.totalWeight = totalWeight;
   }
 
   mounted(): void {

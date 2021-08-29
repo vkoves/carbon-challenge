@@ -20,6 +20,39 @@ export interface IPolicyDeltaEstimates {
  [policyKey: string]: number
 }
 
+export interface IPolicyDatum {
+  year: number;
+  delta: number;
+}
+
+export interface IPolicyEmissionsWithBreakdown {
+  total: number,
+  data: Array<IPolicyDatum>,
+}
+
+/**
+ * A data point for debugging the total emissions, containing the year of this
+ * calculation and the delta emissions for each tile option type.
+ *
+ * Example:
+ * {
+ *   year: 2030,
+ *   // no change
+ *   [TileOption.Aviation]: 0,
+ *   // save 5 Gigatonnes of emissions compared to the start year
+ *   [TileOption.EnergyResidential]: -5,
+ * }
+ */
+export interface ITotalEmissionsDatum {
+  year: number;
+  [tileOptionType: string]: number;
+}
+
+export interface ITotalEmissionsWithBreakdown {
+  total: number;
+  data: Array<ITotalEmissionsDatum>;
+}
+
 /**
  * All data is based on Our World in Data emissions by sector in April 2021, which
  * was showing emissions for 2016.
@@ -147,13 +180,15 @@ export class Simulator {
    * For example setting a tile to increase the share of electirc cars would
    * return a negative  number.
    */
-  public static getOptionTotalEmissionDelta(tileOption: IOption): number {
+  public static getOptionTotalEmissionDelta(
+    tileOption: IOption
+  ): IPolicyEmissionsWithBreakdown {
     return Simulator.getPolicyEmissionsDelta({
       current: tileOption.current,
       target: tileOption.target,
       targetYear: tileOption.targetYear,
       weightPrcnt: tileOption.weightPrcnt,
-    })
+    });
   }
 
   /**
@@ -169,7 +204,7 @@ export class Simulator {
     target,
     targetYear,
     weightPrcnt,
-  }: IWeightedPolicy): number {
+  }: IWeightedPolicy): IPolicyEmissionsWithBreakdown {
     const totalSimYears = Simulator.getTotalSimulationYears();
     const startYear = Simulator.getCurrentYear();
 
@@ -215,12 +250,32 @@ export class Simulator {
 
     let totalEmissionsDelta = 0;
 
-    emissionDeltaArr.forEach((delta: IDeltaObj) => {
-      totalEmissionsDelta -= (delta.valuePrcnt / 100)
-        * (weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes;
+    let deltaArrFinal: Array<IPolicyDatum>;
+
+    deltaArrFinal = emissionDeltaArr.map((delta: IDeltaObj) => ({
+        year: delta.year,
+        // Make sure the final delta is negative, since this is a subtractive
+        // process
+        delta: -1 * (delta.valuePrcnt / 100)
+          * (weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes,
+    }));
+
+    deltaArrFinal.forEach((policyDatum: IPolicyDatum) => {
+      totalEmissionsDelta += policyDatum.delta;
     });
 
-    return totalEmissionsDelta;
+    return {
+      total: totalEmissionsDelta,
+      data: deltaArrFinal,
+    };
+  }
+
+  /**
+   * Get just the final emissions number from getTotalEmissionsData, in
+   * Gigatonnes CO2 emitted by 2100.
+   */
+  public static getTotalEmissions(currentTiles: Array<TileObj>): number {
+    return Simulator.getTotalEmissionsData(currentTiles).total;
   }
 
   /**
@@ -234,20 +289,43 @@ export class Simulator {
    * This is necessary since some emissions sources cannot be changed within
    * our simulator and to make the system more reliable.
    */
-  public static getTotalEmissions(currentTiles: Array<TileObj>): number {
+  public static getTotalEmissionsData(currentTiles: Array<TileObj>): ITotalEmissionsWithBreakdown {
     let totalTileDelta = 0;
+
+    let tileData: Array<ITotalEmissionsDatum> = [];
+
 
     // Loop through each tile and then each option underneath it
     currentTiles.forEach((tile: TileObj) => {
       Object.values(tile.options).forEach((tileOption: IOption) => {
-        totalTileDelta += Simulator.getOptionTotalEmissionDelta(tileOption);
+        const optionData = Simulator.getOptionTotalEmissionDelta(tileOption);
+
+        totalTileDelta += optionData.total;
+
+        // If the tileData hasn't been set yet, start with the yar and the first
+        // option
+        if (tileData.length === 0) {
+          tileData = optionData.data.map((datum: IPolicyDatum) => ({
+            year: datum.year,
+            [tileOption.optionType as string]: datum.delta,
+          }));
+        }
+        // Otherwise just add this tile option
+        else {
+          optionData.data.forEach((datum: IPolicyDatum, index: number) => {
+            tileData[index][tileOption.optionType  as string] = datum.delta;
+          });
+        }
       });
     });
 
     const origEmissions = OrigYearlyEmissionsGigaTonnes
       * Simulator.getTotalSimulationYears();
 
-    return origEmissions + totalTileDelta;
+    return {
+      total: origEmissions + totalTileDelta,
+      data: tileData,
+    };
   }
 
 
@@ -278,7 +356,7 @@ export class Simulator {
           target: policy.target,
           targetYear: policy.targetYear,
           weightPrcnt: option.weightPrcnt,
-        });
+        }).total;
 
         // Round off to the nearest giggatonne, since this is for the UI
         policyDeltas[policy.key] = Math.round(policyEmissionDelta);
