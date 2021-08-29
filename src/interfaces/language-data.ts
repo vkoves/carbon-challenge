@@ -32,6 +32,8 @@ export interface ILanguageData {
   simulator: {
     avgTempLabel: string;
     close: string;
+    analytics: string;
+    settings: string;
 
     tileOverlay: {
       current: string;

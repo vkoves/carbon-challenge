@@ -25,6 +25,9 @@ export const EnglishLanguageData: ILanguageData = {
   simulator: {
     avgTempLabel: 'Avg. Global Increase by 2100',
     close: 'Close',
+    analytics: 'Analytics',
+    settings: 'Settings',
+
     tileOverlay: {
       current: 'Current',
       target: 'Target Emissions Reduction',
@@ -32,6 +35,7 @@ export const EnglishLanguageData: ILanguageData = {
       emissionPrcntLabel: 'orig.',
       policiesLabel: 'Policy',
     },
+
     // Should include all values from the TileType enum
     tileTypes: {
       power: 'Power Plant',

@@ -1,18 +1,36 @@
 <template>
   <main id="main-content">
     <div class="title-cont">
-      <h1>{{ $t('title') }}</h1>
+      <h1>
+        {{ $t('title') }}
+
+        <transition name="fade">
+          <img v-if="settings.magicModeEnabled"
+            src="@/assets/magic-wand.svg"
+            class="setting-indicator -magic-mode"
+            title="Magic mode is enabled!"
+            alt="Magic mode enabled" width="24" height="24">
+        </transition>
+        <transition name="fade">
+          <img v-if="settings.customPoliciesEnabled"
+            src="@/assets/graph.svg"
+            class="setting-indicator -cust-policies"
+            alt="Custom policies enabled"
+            title="Custom policies are enabled!"
+            width="24" height="24">
+        </transition>
+      </h1>
 
       <div class="btn-cont">
         <button class="btn -transparent -small -flex"
           @click="showingAnalytics = true">
-          Analytics
+          {{ $t('simulator.analytics') }}
           <img src="@/assets/graph.svg" alt="" width="24" height="24">
         </button>
 
         <button class="btn -transparent -small -flex"
           @click="showingSettings = true">
-          Settings
+          {{ $t('simulator.settings') }}
           <img src="@/assets/settings.svg" alt="" width="24" height="24">
         </button>
       </div>
@@ -131,6 +149,15 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  .setting-indicator {
+    margin-left: $standard;
+
+    &.-magic-mode {
+      animation: bob 2s ease-in-out 0s infinite alternate;
+      animation-iteration-count: infinite;
+    }
+  }
 
   .btn-cont {
     display: flex;

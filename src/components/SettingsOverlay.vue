@@ -25,8 +25,8 @@
 
             <p id="magic-mode-desc">
               Magic mode lets you use policies that <em>instantly</em> change
-              things in the world. Curious what would happen if we instantly
-              switched the grid to 100% renewable power? Find out!
+              things in the world. Curious what would happen if we could
+              instantly switch the grid to 100% renewable power? Find out!
             </p>
           </div>
         </div>

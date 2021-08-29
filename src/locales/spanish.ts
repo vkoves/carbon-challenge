@@ -25,6 +25,9 @@ export const SpanishLanguageData: ILanguageData = {
   simulator: {
     avgTempLabel: 'Aumento global promedio para 2100',
     close: 'Cerrar',
+    analytics: 'Analítica',
+    settings: 'Ajustes',
+
     tileOverlay: {
       current: 'Actual',
       target: 'Objetivo',
@@ -32,6 +35,7 @@ export const SpanishLanguageData: ILanguageData = {
       emissionPrcntLabel: 'orig.',
       policiesLabel: '',
     },
+
     // Should include all values from the TileType enum
     tileTypes: {
       power: 'Planta de energía',
@@ -42,6 +46,7 @@ export const SpanishLanguageData: ILanguageData = {
       factory: 'Fábrica',
       empty: 'Vacío',
     },
+
     // Optional descriptions of each tile type, explaining what falls under this
     // tile and where expected options may be if they fall under another tile.
     // Should include all values from the TileType enum
