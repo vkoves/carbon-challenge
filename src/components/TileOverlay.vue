@@ -39,8 +39,11 @@
 
                     <!-- Loop through available policies for the option -->
                     <template v-for="(policy) in option.policies">
-                      <!-- Only render the "Custom" policy if we're allowing that -->
-                      <div v-if="policy.key !== TilePolicyKey.Custom || (settings.customPoliciesEnabled)"
+                      <!-- Only render the "Custom" policy if we're allowing that
+                        and only render magic policies if magic mode is on -->
+                      <div v-if="(policy.key !== TilePolicyKey.Custom
+                        || settings.customPoliciesEnabled)
+                        && (!policy.isMagic || settings.magicModeEnabled)"
                         class="policy-card"
                         :class="{ '-active': option.currPolicyKey === policy.key  }"
                         :key="policy.key"
@@ -192,8 +195,6 @@ const AnimDurationMs = 300;
 
       this.policyEmissions
         = Simulator.calculateAllPolicyEmissionDeltas(this.tile);
-
-      console.log({ policyEmissions: this.policyEmissions });
 
       this.showingTileMenu = true;
 
