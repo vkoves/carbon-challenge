@@ -1,90 +1,94 @@
 <template>
-  <div @click="closeOverlay()"
+  <div @click="closeOverlay" @keydown.esc="closeOverlay"
     class="overlay" :class="{ '-open': showingTileMenu }">
     <transition name="slide-fade">
       <section class="sidebar" v-show="showingTileMenu"
         @click="handleSidebarClick">
-        <button @click="closeOverlay()" class="btn -small" ref="closeBtn">
-          {{ $t('simulator.close') }}
-        </button>
-
-        <div v-if="tile">
-          <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
-
-          <p v-if="$t(`simulator.tileTypeDescriptions.${tile.type}`)">
-            {{ $t(`simulator.tileTypeDescriptions.${tile.type}`) }}
-          </p>
-
+        <focus-trap :returnFocusOnDeactivate="true" v-model:active="trapFocus" initialFocus="#sidebar-close">
           <form @submit="submitOptions">
-            <div class="form-inner">
-              <div v-for="(option, optKey, index) in tile.options" :key="optKey"
-                :class="{ '-first': index === 0 }">
-                <div class="title-cont">
-                  <h3>
-                    {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
-                  </h3>
+            <button id="sidebar-close" type="button" @click="closeOverlay" class="btn -small">
+              {{ $t('simulator.close') }}
+            </button>
 
-                  <span class="option-percent">
-                    {{ option.weightPrcnt.toFixed(1) }}%
-                    {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
-                    CO<sub>2</sub>
-                  </span>
+            <template v-if="tile">
+              <h2>{{ $t(`simulator.tileTypes.${tile.type}`) }}</h2>
+
+              <p v-if="$t(`simulator.tileTypeDescriptions.${tile.type}`)">
+                {{ $t(`simulator.tileTypeDescriptions.${tile.type}`) }}
+              </p>
+
+              <div class="form-inner">
+                <div v-for="(option, optKey, index) in tile.options" :key="optKey"
+                  :class="{ '-first': index === 0 }">
+                  <div class="title-cont">
+                    <h3>
+                      {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
+                    </h3>
+
+                    <span class="option-percent">
+                      {{ option.weightPrcnt.toFixed(1) }}%
+                      {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
+                      CO<sub>2</sub>
+                    </span>
+                  </div>
+
+                  <fieldset>
+                    <legend>
+                      {{ $t('simulator.tileOverlay.policiesLabel') }}
+                    </legend>
+
+                    <!-- Loop through available policies for the option -->
+                    <template v-for="(policy) in option.policies">
+                      <!-- Only render the "Custom" policy if we're allowing that -->
+                      <div v-if="policy.key !== TilePolicyKey.Custom || (settings.customPoliciesEnabled)"
+                        class="policy-card"
+                        :class="{ '-active': option.currPolicyKey === policy.key  }"
+                        :key="policy.key"
+                        @click="policySelected(policy.key, optKey)">
+
+                        <input type="radio"
+                          :name="optKey"
+                          :id="`policy-radio-${optKey}-${policy.key}`"
+                          :checked="option.currPolicyKey === policy.key"
+                          @change="policySelected(policy.key, optKey)">
+
+                        <div class="label-cont">
+                          <label :for="`policy-radio-${optKey}-${policy.key}`">
+                              <img v-if="policy.isMagic"
+                                src="@/assets/magic-wand-black.svg"
+                                class="icon -magic-wand"
+                                alt="Magic" width="24" height="24">
+
+                              {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
+                          </label>
+
+                          <div class="emission-change" v-if="policyEmissions[policy.key]">
+                            {{ policyEmissions[policy.key] }} Gigatonnes CO<sub>2</sub>
+                          </div>
+
+                          <!-- Only show the description of the current policy -->
+                          <p v-if="option.currPolicyKey === policy.key">
+                            {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
+                          </p>
+                        </div>
+
+                        <!-- Show the custom policy controls if this is the custom
+                          policy and it is selected -->
+                        <CustomPolicyControls
+                          v-if="policy.key === TilePolicyKey.Custom
+                            && option.currPolicyKey === TilePolicyKey.Custom"
+                          :option="option"
+                          :optionKey="optKey"
+                          :isMagicMode="settings.magicModeEnabled">
+                        </CustomPolicyControls>
+                      </div>
+                    </template>
+                  </fieldset>
                 </div>
-
-                <fieldset>
-                  <legend>
-                    {{ $t('simulator.tileOverlay.policiesLabel') }}
-                  </legend>
-
-                  <!-- Loop through available policies for the option -->
-                  <template v-for="(policy) in option.policies">
-                    <!-- Only render the "Custom" policy if we're allowing that -->
-                    <div v-if="policy.key !== TilePolicyKey.Custom || (isAllowingCustom)"
-                      class="policy-card"
-                      :class="{ '-active': option.currPolicyKey === policy.key  }"
-                      :key="policy.key"
-                      @click="policySelected(policy.key, optKey)">
-                      <input type="radio"
-                        :name="optKey"
-                        :id="`policy-radio-${optKey}-${policy.key}`"
-                        :checked="option.currPolicyKey === policy.key"
-                        @change="policySelected(policy.key, optKey)">
-                      <label :for="`policy-radio-${optKey}-${policy.key}`">
-                        <span class="name">
-                          {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
-                        </span>
-
-                        <p>
-                          {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
-                        </p>
-                      </label>
-
-                      <!-- Show the custom policy controls if this is the custom
-                        policy and it is selected -->
-                      <CustomPolicyControls
-                        v-if="policy.key === TilePolicyKey.Custom
-                          && option.currPolicyKey === TilePolicyKey.Custom"
-                        :option="option"
-                        :optionKey="optKey"
-                        :isMagicMode="isMagicMode">
-                      </CustomPolicyControls>
-                    </div>
-                  </template>
-                </fieldset>
               </div>
-            </div>
-
-            <div class="btns">
-              <button type="button" @click="cancel()"
-                class="btn -grey -small">
-                Cancel
-              </button>
-              <button type="submit" class="btn -small">
-                Update
-              </button>
-            </div>
+            </template>
           </form>
-        </div>
+        </focus-trap>
       </section>
     </transition>
   </div>
@@ -92,11 +96,18 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-// eslint-disable-next-line no-unused-vars
-import { TileObj } from '../classes/tile-obj';
+
+import { FocusTrap } from 'focus-trap-vue';
+
 import { TilePolicyKey } from '@/constants/tile-policies';
 // eslint-disable-next-line no-unused-vars
 import { IOption, IOptionPolicy, TileOption } from '@/interfaces/tile-interfaces';
+// eslint-disable-next-line no-unused-vars
+import { ISimulatorSettings } from '@/interfaces/settings';
+// eslint-disable-next-line no-unused-vars
+import { TileObj } from '@/classes/tile-obj';
+// eslint-disable-next-line no-unused-vars
+import { IPolicyDeltaEstimates, Simulator } from '@/classes/simulator';
 
 import CustomPolicyControls from './CustomPolicyControls.vue';
 
@@ -104,72 +115,49 @@ const AnimDurationMs = 300;
 
 @Options({
   props: {
-    /**
-     *  The tile whose options we're rendering
-     */
+    /**  The tile whose options we're rendering */
     tile: {} as TileObj,
 
-    /**
-     * Whether magic mode is on, which allows changing the current emissions
-     * reductions (like a policy that instantly turns us to renewable energy)
-     */
-    isMagicMode: Boolean,
-
-
-    /**
-     * Whether custom policies are allowed, which are more complex
-     */
-    isAllowingCustom: Boolean,
+    /** The current simulator settings */
+    settings: {} as ISimulatorSettings,
   },
 
   components: {
     CustomPolicyControls,
+    FocusTrap,
   },
 
   data: () => ({
-    lastFocusedElem: null,
     showingTileMenu: false,
+    trapFocus: false,
+
+    policyEmissions: {} as IPolicyDeltaEstimates,
 
     // Expose constants/enums to the template
     TilePolicyKey: TilePolicyKey,
   }),
 
   emits: {
-    closed(tileId: number): number { return tileId; },
+    closed(): void { },
     tileUpdated(newTile: TileObj): TileObj { return newTile; },
   },
 
   methods: {
-    // Reset this tile to its previous state and then close the overlay
-    cancel() {
-      // TODO: Make cancel reset tile values
-
-      this.closeOverlay();
-    },
-
     closeOverlay() {
       this.showingTileMenu = false;
-
-      // On close of the overlay, refocus the last element
-      if (this.lastFocusedElem) {
-        this.lastFocusedElem.focus();
-      }
+      this.trapFocus = false;
 
       // Emit closed event after fade animation is done
       setTimeout(() => {
-        this.$emit('closed', this.tile.id);
+        this.$emit('closed');
       }, AnimDurationMs);
     },
 
+    /**
+     * Absorb click events to the sidebar content to prevent closing it
+     */
     handleSidebarClick(clickEvent: MouseEvent) {
       clickEvent.stopPropagation();
-    },
-
-    submitOptions(submitEvent: Event) {
-      submitEvent.preventDefault();
-
-      this.$emit('tileUpdated', this.tile);
-      this.closeOverlay();
     },
 
     policySelected(policyKey: TilePolicyKey, optionKey: TileOption) {
@@ -181,14 +169,17 @@ const AnimDurationMs = 300;
       const selectedPolicy = (tileOption.policies || [])
           .find((policy: IOptionPolicy) => policy.key === policyKey);
 
-      // The custom policy doesn't have a target or targetYear, so verify the
-      // selectedPolicy has one
+      // The custom policy doesn't have a target or targetYear (it mutates the
+      // tile option directly) so verify the selectedPolicy has one before
+      // overriding the tile option
       if (selectedPolicy
         && typeof selectedPolicy.target === 'number'
         && typeof selectedPolicy.targetYear === 'number') {
         tileOption.target = selectedPolicy.target;
         tileOption.targetYear = selectedPolicy.targetYear;
       }
+
+      this.$emit('tileUpdated', this.tile);
     }
   },
 
@@ -199,15 +190,17 @@ const AnimDurationMs = 300;
         return;
       }
 
+      this.policyEmissions
+        = Simulator.calculateAllPolicyEmissionDeltas(this.tile);
+
+      console.log({ policyEmissions: this.policyEmissions });
+
       this.showingTileMenu = true;
 
+      // Enable focus trap once the animation is done
       setTimeout(() => {
-        // Focus the first focusable element in the overlay - the close button
-        // TODO: Make the overlay trap focus
-        this.lastFocusedElem = document.activeElement;
-
-        this.$refs.closeBtn.focus();
-      });
+        this.trapFocus = true;
+      }, AnimDurationMs);
     }
   }
 })
@@ -242,11 +235,18 @@ export default class TileOverlay extends Vue { }
   .sidebar {
     padding: 3rem 5rem;
     height: 100%;
-    min-width: 37.5rem;
-    width: 40%;
+    min-width: 40%;
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(0.2rem);
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      height: 100%;
+      width: 32rem;
+    }
 
     h2, h3 { margin-top: $large; }
 
@@ -258,15 +258,17 @@ export default class TileOverlay extends Vue { }
 
     .option-percent {
       margin-left: $small;
+      flex-shrink: 0;
     }
 
     .form-inner {
       display: block;
       overflow: auto;
-      max-height: 62vh;
+      width: 100%;
       padding: $large;
       margin-top: $standard;
       background-color: rgba(0, 0, 0, 0.5);
+      box-sizing: border-box;
 
       div.-first h3 { margin-top: 0; }
     }
@@ -275,23 +277,22 @@ export default class TileOverlay extends Vue { }
   fieldset { margin-top: $standard; }
 
   .policy-card {
+    display: flex;
     background: $white;
-    color: $text-grey-light;
+    color: $text-grey;
     padding: $standard;
     border-radius: 0.5rem;
     margin: $standard 0;
     border-left: solid 0.75rem $light-grey;
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    transition: border-color 0.3s;
 
-    &:hover {
-      background-color: $light-grey;
-      border-color: $mid-grey;
-      color: $text-grey;
-    }
+    &:hover { border-color: $mid-grey; }
 
-    &.-active {
-      border-color: $dark-blue;
-      color: $text-grey;
+    &.-active { border-color: $dark-blue; }
+
+    // Give the policy card a glow when it's focused
+    &:focus-within {
+     box-shadow: 0 0 $standard $tiny $white;
     }
 
     // Make it clear that the whole policy card is clickable with a cursor
@@ -299,39 +300,49 @@ export default class TileOverlay extends Vue { }
       cursor: pointer;
     }
 
-    input[type="radio"], input[type="radio"] + label {
+    input[type="radio"], label {
       display: inline-block;
     }
 
     input[type="radio"] {
       margin-left: 0;
-      float: left;
+      flex-shrink: 0;
+
+      &:focus { outline: none; }
     }
 
-    input[type="radio"] + label {
+    .label-cont {
       margin-top: 0;
       margin-left: $small;
       width: calc(100% - 1.5rem);
 
-      .name {
+      label {
+        display: flex;
+        align-items: center;
         font-weight: bold;
+        gap: $small;
+      }
+
+      .icon {
+        &.-magic-wand {
+          position: relative;
+          top: -0.25rem;
+        }
+      }
+
+      .emission-change {
+        font-weight: 500;
+        margin-top: $tiny;
+        font-size: 0.875rem;
       }
 
       p {
-        margin-top: $tiny;
+        margin-top: $small;
         font-size: 0.875rem;
       }
     }
 
     .custom-policy-cont { margin-left: 1.25rem; }
-  }
-
-  .btns {
-    display: flex;
-    align-items: center;
-    margin-top: $standard;
-
-    > button:first-of-type { margin-right: $standard; }
   }
 }
 
@@ -342,8 +353,14 @@ export default class TileOverlay extends Vue { }
     width: 100%;
     padding: $standard $large;
 
-    .title-cont { flex-direction: column; }
-    .form-inner { max-height: 50vh; }
+    .title-cont {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .option-percent { margin-left: 0; }
+    }
+
+    form { width: 100%; }
   }
 }
 </style>

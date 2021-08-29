@@ -23,8 +23,11 @@ export const SpanishLanguageData: ILanguageData = {
   },
 
   simulator: {
-    avgTempLabel: 'Aumento de la temperatura global promedio para 2100',
+    avgTempLabel: 'Aumento global promedio para 2100',
     close: 'Cerrar',
+    analytics: 'Analítica',
+    settings: 'Ajustes',
+
     tileOverlay: {
       current: 'Actual',
       target: 'Objetivo',
@@ -32,6 +35,7 @@ export const SpanishLanguageData: ILanguageData = {
       emissionPrcntLabel: 'orig.',
       policiesLabel: '',
     },
+
     // Should include all values from the TileType enum
     tileTypes: {
       power: 'Planta de energía',
@@ -42,6 +46,7 @@ export const SpanishLanguageData: ILanguageData = {
       factory: 'Fábrica',
       empty: 'Vacío',
     },
+
     // Optional descriptions of each tile type, explaining what falls under this
     // tile and where expected options may be if they fall under another tile.
     // Should include all values from the TileType enum
@@ -83,6 +88,8 @@ export const SpanishLanguageData: ILanguageData = {
         name: 'Personalizada',
         description: '',
       },
+
+      // Factory policies
       [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
         name: 'Requerir toda la carga eléctrica para 2050',
         description:
@@ -94,6 +101,10 @@ export const SpanishLanguageData: ILanguageData = {
           'Proporcionar incentivos fiscales para vehículos eléctricos de carga, recortando gasolina '+
           'impulsará camiones a la mitad para 2100.',
       },
+      [TilePolicyKey.FactoryElectricFreightMagic]: {
+        name: '',
+        description: '',
+      },
       [TilePolicyKey.FactoryShippingElectricRequirement2050]: {
         name: '',
         description: '',
@@ -102,6 +113,12 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.FactoryRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
+
+      // Farm policies
       [TilePolicyKey.FarmManureManagement2050]: {
         name: '',
         description: '',
@@ -114,11 +131,21 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.FarmRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
+
+      // Home policies
       [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
         name: '',
         description: '',
       },
       [TilePolicyKey.HomeElectricVehicleIncentive]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.HomeElectricVehicleMagic]: {
         name: '',
         description: '',
       },
@@ -130,10 +157,20 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.HomeRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
       [TilePolicyKey.HomeAirTravelIncentive]: {
         name: '',
         description: '',
       },
+      [TilePolicyKey.HomeAirTravelMagic]: {
+        name: '',
+        description: '',
+      },
+
+      // Office policies
       [TilePolicyKey.OfficeRenewableEnergyRequirement2050]: {
         name: '',
         description: '',
@@ -142,6 +179,12 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.OfficeRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
+
+      // Power policies
       [TilePolicyKey.PowerFugitiveEmissionsBan2050]: {
         name: '',
         description: '',

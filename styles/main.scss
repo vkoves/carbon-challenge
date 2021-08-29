@@ -5,6 +5,7 @@
 // Imported CSS files we want to globally share
 @import 'reset';
 @import 'animations';
+@import 'overlay';
 
 // Variables
 @import 'variables/colors';
@@ -63,6 +64,7 @@ a {
 p {
   margin-top: $standard;
   max-width: 37.5rem; // about 600px
+  line-height: 1.5;
 }
 
 strong { font-weight: bold; }
@@ -111,11 +113,19 @@ button, a.btn {
 
   &:hover, &:focus {
     outline-color: transparent;
+    outline-width: 0px;
     box-shadow: 0 0 0.125rem 0.3rem $white;
   }
 
   &.-small { font-size: 1rem; }
 
+  &.-flex {
+    display: inline-flex;
+    gap: $small;
+    align-items: center;
+  }
+
+  // Color variants
   &.-transparent {
     background: none;
     color: $white;
@@ -140,7 +150,13 @@ select, .btn {
 
   &:hover, &:focus {
     outline-color: transparent;
+    outline-width: 0px;
     box-shadow: 0 0 0.125rem 0.3rem $white;
+  }
+
+  // Use the .-light varaint to indicate we need a dark focus
+  &.-light:focus, &.-light:hover {
+    box-shadow: 0 0 0.125rem 0.3rem $blue;
   }
 }
 

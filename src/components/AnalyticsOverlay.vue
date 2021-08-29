@@ -1,55 +1,64 @@
 <template>
-  <div class="overlay">
-    <!-- TODO: Move all text to come from i18n -->
-    <div class="debug-cont">
-      <div class="title">
-        <h1>Debug View</h1>
+  <focus-trap :returnFocusOnDeactivate="true" initialFocus="#analytics-close">
+    <div class="overlay" @click="closeOverlay" @keydown.esc="closeOverlay">
+      <!-- TODO: Move all text to come from i18n -->
+      <div class="overlay-content -large" @click="absorbClick">
+        <div class="title">
+          <h1>Analytics</h1>
 
-        <button class="btn -blue" @click="closeOverlay()">Close</button>
+          <button id="analytics-close" class="btn -blue -light"
+            @click="closeOverlay">
+            Close
+          </button>
+        </div>
+
+        <h2>Total Warming Calculation</h2>
+
+        <dl>
+          <dt>Total Emissions</dt>
+          <dd>
+            {{ Math.round(totalEmissions) }} {{ SimulatorUnits.Emissions }}
+          </dd>
+
+          <dt>Degree Warming Calculation Method</dt>
+          <dd>
+            <span v-if="tempCalcMethod === TempCalcMethod.OverBudgetsEstimated">
+              Over Known Budgets - Manually Estimated
+            </span>
+            <span v-if="tempCalcMethod === TempCalcMethod.TwoDegBudget">
+              Near 2°C, used official carbon budget
+            </span>
+            <span v-if="tempCalcMethod === TempCalcMethod.OneAndAHalfDegBudget">
+              Near 1.5°C, used official carbon budget
+            </span>
+          </dd>
+
+          <dt>Est. Deg. Warming (by {{ SimEndYear }})</dt>
+          <dd>
+            {{ estDegWarming.toFixed(2) }} {{ SimulatorUnits.Temperature }}
+          </dd>
+        </dl>
       </div>
-
-      <h2>Total Warming Calculation</h2>
-
-      <dl>
-        <dt>Total Emissions</dt>
-        <dd>
-          {{ Math.round(totalEmissions) }} {{ SimulatorUnits.Emissions }}
-        </dd>
-
-        <dt>Degree Warming Calculation Method</dt>
-        <dd>
-          <span v-if="tempCalcMethod === TempCalcMethod.OverBudgetsEstimated">
-            Over Known Budgets - Manually Estimated
-          </span>
-          <span v-if="tempCalcMethod === TempCalcMethod.TwoDegBudget">
-            Near 2°C, used official carbon budget
-          </span>
-          <span v-if="tempCalcMethod === TempCalcMethod.OneAndAHalfDegBudget">
-            Near 1.5°C, used official carbon budget
-          </span>
-        </dd>
-
-        <dt>Est. Deg. Warming (by {{ SimEndYear }})</dt>
-        <dd>
-          {{ estDegWarming.toFixed(2) }} {{ SimulatorUnits.Temperature }}
-        </dd>
-      </dl>
     </div>
-  </div>
+  </focus-trap>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+
+import { FocusTrap } from 'focus-trap-vue';
+
 // eslint-disable-next-line no-unused-vars
 import { TileObj } from '@/classes/tile-obj';
 // eslint-disable-next-line no-unused-vars
 import { IOption } from '@/interfaces/tile-interfaces';
 
 import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes/simulator';
-// import { TileObj } from '@/classes/tile-obj';
 
 @Options({
-  name: 'DebugView',
+  name: 'AnalyticsOverlay',
+
+  components: { FocusTrap },
 
   props: {
     tiles: [],
@@ -60,9 +69,16 @@ import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes
   },
 
   methods: {
+    /**
+     * Absorb click events to the content to prevent closing it
+     */
+    absorbClick(clickEvent: MouseEvent) {
+      clickEvent.stopPropagation();
+    },
+
     closeOverlay() {
       this.$emit('closed');
-    }
+    },
   }
 })
 
@@ -71,7 +87,7 @@ import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes
  * assumptions so you can peek under the hood of the simulator and see why it
  * got the total it did.
  */
-export default class DebugView extends Vue {
+export default class AnalyticsOverlay extends Vue {
   totalEmissions: number = 0;
   estDegWarming: number = 0;
   tempCalcMethod: TempCalcMethod | null = null;
@@ -111,44 +127,14 @@ export default class DebugView extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import './styles/variables/colors';
 @import './styles/variables/spacing';
 
+h2 { margin-top: $standard; }
 
-.overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.25);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-}
-
-.debug-cont {
-  flex-basis: 800px;
-  max-width: 90%;
-  margin: 0 auto 5rem auto;
-  background-color: #000;
-  border-radius: 0.5rem;
-  padding: 1rem;
-
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .btn { margin-top: 0; }
-  }
-
-  dl {
-    dt {
-      font-weight: bold;
-      margin-top: 0.5rem;
-    }
+dl {
+  dt {
+    font-weight: bold;
+    margin-top: $small;
   }
 }
 </style>

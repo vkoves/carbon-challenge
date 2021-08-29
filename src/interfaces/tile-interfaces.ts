@@ -51,6 +51,17 @@ export enum TileOption {
 }
 
 /**
+ * The bare-bones of an emissions policy with a weight that we can run
+ * calculations on. The tile options implement this.
+ */
+export interface IWeightedPolicy {
+  current: number;
+  target: number;
+  targetYear: number;
+  weightPrcnt: number;
+}
+
+/**
  * A policy that can be activated to reduce the emissions of an option.
  *
  * Example: For the EnergyResidential tile option, we may have a policy like:
@@ -77,6 +88,10 @@ export interface IOptionPolicy {
   key: TilePolicyKey;
   target: number | null;
   targetYear: number | null;
+
+  // Whether this policy is only allowed in magic mode, which typically means
+  // it's targetYear is the current year
+  isMagic?: boolean;
 }
 
 
@@ -110,13 +125,13 @@ export interface IOptionPolicy {
  * A single UI option may change multiple of these at once, like if we had
  * buttons for "100% Renewable by 2050", "50% Renewable by 2040", etc.
  */
-export interface IOption {
+export interface IOption extends IWeightedPolicy {
   optionType: TileOption | null;
 
-  /*
-    A percentage (0 - 100) representing the current value of this option.
-    This should come from real data and is only editable in magic mode (since
-    no policy instantly has an impact).
+  /**
+   * A percentage (0 - 100) representing the current value of this option.
+   * This should come from real data and is only editable in magic mode (since
+   * no policy instantly has an impact).
    */
   current: number;
 

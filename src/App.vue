@@ -66,15 +66,18 @@ import { AvailableLanguages } from '@/constants/languages';
 
 @Options({
   name: 'App',
+
   data: () => ({
     AvailableLanguages: AvailableLanguages,
     mobileMenuOpen: false,
   }),
+
   methods: {
     closeMenu(): void {
       this.mobileMenuOpen = false;
     }
   },
+
   mounted() {
     const closeMenuFunc = this.closeMenu;
 

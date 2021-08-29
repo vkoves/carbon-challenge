@@ -2,8 +2,9 @@
   <!-- Show tile as a <div> if it's scenery, <button> if interactive -->
   <button v-if="!tile.isScenery()"
     class="tile"
-    @click="tileSelected()"
-    :style="{ 'animation-delay': animDelay }">
+    :disabled="disabled"
+    :style="{ 'animation-delay': animDelay }"
+    @click="tileSelected()">
     <div class="above-ground -building">
       <div
         :class="[
@@ -47,6 +48,7 @@ const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
   props: {
     tile: {} as TileObj,
     tileNum: 0,
+    disabled: false,
   },
 
   data: () => ({

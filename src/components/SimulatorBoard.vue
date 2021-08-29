@@ -1,11 +1,40 @@
 <template>
   <main id="main-content">
-    <h1>{{ $t('title') }}</h1>
+    <div class="title-cont">
+      <h1>
+        {{ $t('title') }}
 
-    <button class="btn -small -grey"
-      @click="showingDebugView = true">
-      Debug View
-    </button>
+        <transition name="fade">
+          <img v-if="settings.magicModeEnabled"
+            src="@/assets/magic-wand.svg"
+            class="setting-indicator -magic-mode"
+            title="Magic mode is enabled!"
+            alt="Magic mode enabled" width="24" height="24">
+        </transition>
+        <transition name="fade">
+          <img v-if="settings.customPoliciesEnabled"
+            src="@/assets/graph.svg"
+            class="setting-indicator -cust-policies"
+            alt="Custom policies enabled"
+            title="Custom policies are enabled!"
+            width="24" height="24">
+        </transition>
+      </h1>
+
+      <div class="btn-cont">
+        <button class="btn -transparent -small -flex"
+          @click="showingAnalytics = true">
+          {{ $t('simulator.analytics') }}
+          <img src="@/assets/graph.svg" alt="" width="24" height="24">
+        </button>
+
+        <button class="btn -transparent -small -flex"
+          @click="showingSettings = true">
+          {{ $t('simulator.settings') }}
+          <img src="@/assets/settings.svg" alt="" width="24" height="24">
+        </button>
+      </div>
+    </div>
 
     <div class="main-cont">
       <Thermometer :tiles="tiles"></Thermometer>
@@ -16,6 +45,7 @@
             v-bind:key="tile.id"
             :tile="tile"
             :tileNum="index"
+            :disabled="selectedTile"
             :class="{ '-active': tile.id === selectedTile?.id }"
             @selected="selectTile(tile)" />
         </div>
@@ -24,12 +54,17 @@
 
     <TileOverlay
       :tile="selectedTile"
+      :settings="settings"
       @closed="tileOverlayClosed($event)"
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
-    <DebugView v-if="showingDebugView"
+    <AnalyticsOverlay v-if="showingAnalytics"
       :tiles="tiles"
-      @closed="showingDebugView = false"></DebugView>
+      @closed="showingAnalytics = false"></AnalyticsOverlay>
+
+    <SettingsOverlay v-if="showingSettings"
+      :settings="settings"
+      @closed="showingSettings = false"></SettingsOverlay>
   </main>
 </template>
 
@@ -38,8 +73,11 @@ import { Options, Vue } from 'vue-class-component';
 import { Simulator } from '@/classes/simulator';
 // eslint-disable-next-line no-unused-vars
 import { TileObj } from '@/classes/tile-obj';
+// eslint-disable-next-line no-unused-vars
+import { ISimulatorSettings } from '@/interfaces/settings';
 
-import DebugView from './DebugView.vue';
+import AnalyticsOverlay from './AnalyticsOverlay.vue';
+import SettingsOverlay from './SettingsOverlay.vue';
 import Tile from './Tile.vue';
 import TileOverlay from './TileOverlay.vue';
 import Thermometer from './Thermometer.vue';
@@ -48,7 +86,8 @@ import Thermometer from './Thermometer.vue';
   name: 'SimulatorBoard',
 
   components: {
-    DebugView,
+    AnalyticsOverlay,
+    SettingsOverlay,
     Thermometer,
     Tile,
     TileOverlay,
@@ -56,9 +95,17 @@ import Thermometer from './Thermometer.vue';
 
   data: () => ({
     tiles: Simulator.generateTiles() as Array<TileObj>,
+
     selectedTile: null,
+
+    settings: {
+      magicModeEnabled: true,
+      customPoliciesEnabled: false,
+    } as ISimulatorSettings,
+
     showingTileMenu: false,
-    showingDebugView: false,
+    showingAnalytics: false,
+    showingSettings: false,
   }),
 
   methods: {
@@ -74,13 +121,11 @@ import Thermometer from './Thermometer.vue';
       this.tiles = this.tiles.slice();
     },
 
-    tileOverlayClosed(tileId: number) {
-      // If the selectedTile is the same as it was when we closed the overlay,
-      // clear the selected tile. This safety check is in place to fix issues
-      // where selecting one tile during the close animation broke things
-      if (this.selectedTile.id === tileId) {
-        this.selectedTile = null;
-      }
+    // Clear the selectedTile once the overlay finishes closing to prevent
+    // clearing the UI while it's hiding. To prevent glitches we also disabled
+    // selecting a new tile until there's no selectedTile
+    tileOverlayClosed() {
+      this.selectedTile = null;
     }
   }
 })
@@ -98,6 +143,31 @@ main {
   padding: 6rem;
   color: $white;
   overflow: hidden;
+}
+
+.title-cont {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .setting-indicator {
+    margin-left: $standard;
+
+    &.-magic-mode {
+      animation: bob 2s ease-in-out 0s infinite alternate;
+      animation-iteration-count: infinite;
+    }
+  }
+
+  .btn-cont {
+    display: flex;
+    gap: $standard;
+
+    button {
+      margin-top: 0;
+      padding: $small;
+    }
+  }
 }
 
 .main-cont {

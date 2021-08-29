@@ -42,8 +42,10 @@
 }
 
 
-// A skewed fall in animation for the board tiles - since it's rotated 45 degrees
-// this has to move on the X and Y axis
+/**
+ * A skewed fall in animation for the board tiles - since it's rotated 45
+ * degrees this has to move on the X and Y axis at once.
+ */
 @keyframes tileFallIn {
   0% {
     transform: translate(-150%, -150%);
@@ -58,6 +60,10 @@
   }
 }
 
+/**
+ * A linear fall in animation for buildings - mimics the board tiles but not on
+ * a rotated grid.
+ */
 @keyframes fallIn {
   0% {
     transform: translateY(-150%);
@@ -72,8 +78,21 @@
   }
 }
 
+/**
+ * A basic fade in animation. Useful when you need specific timing that can't
+ * be achieved with transition
+ */
 @keyframes fadeIn {
   from { opacity: 0; }
 
   to { opacity: 1; }
+}
+
+/**
+ * A loopable bob animation that bobs up and down from the start point.
+ */
+@keyframes bob {
+  0% { transform: translateY(10%); }
+
+  100% { transform: translateY(-10%); }
 }

@@ -1,8 +1,24 @@
 /**
  * Code related to game simulation.
  */
+import { TilePolicyKey } from '@/constants/tile-policies';
+import {
+  IOption,
+  IOptionPolicy,
+  IWeightedPolicy,
+  TileOption,
+  TileType
+} from '@/interfaces/tile-interfaces';
 import { TileObj } from '@/classes/tile-obj';
-import { IOption, TileOption, TileType } from '@/interfaces/tile-interfaces';
+
+
+/**
+ * A mapping of certain tile policy keys to their total emissions delta, used
+ * for showing the estimated emissions saved by enacting certain policies.
+ */
+export interface IPolicyDeltaEstimates {
+ [policyKey: string]: number
+}
 
 /**
  * All data is based on Our World in Data emissions by sector in April 2021, which
@@ -81,7 +97,7 @@ export class Simulator {
    * Returns the current year as a number (e.g. 2021, 2030).
    */
   public static getCurrentYear(): number {
-    return (new Date()).getFullYear()
+    return (new Date()).getFullYear();
   }
 
   /**
@@ -114,7 +130,6 @@ export class Simulator {
    * error if not
    */
   public static validateNumInRange(
-    tileOption: IOption,
     key: string,
     value: number,
     min: number,
@@ -122,8 +137,23 @@ export class Simulator {
   ): void {
     if (value > max || value < min) {
       throw new Error(
-        `tileOption.${key} is outside of range (${min} - ${max}) with value ${value}!`)
+        `${key} is outside of range (${min} - ${max}) with value ${value}!`)
     }
+  }
+
+  /**
+   * Given a tile option, returns the difference in total emissions (over the
+   * remaining simulator years) this tile's state creates, in Gigatonnes CO2.
+   * For example setting a tile to increase the share of electirc cars would
+   * return a negative  number.
+   */
+  public static getOptionTotalEmissionDelta(tileOption: IOption): number {
+    return Simulator.getPolicyEmissionsDelta({
+      current: tileOption.current,
+      target: tileOption.target,
+      targetYear: tileOption.targetYear,
+      weightPrcnt: tileOption.weightPrcnt,
+    })
   }
 
   /**
@@ -134,19 +164,22 @@ export class Simulator {
    *
    * TODO: Write unit tests for this function
    */
-  public static getOptionTotalEmissionDelta(tileOption: IOption): number {
+  public static getPolicyEmissionsDelta({
+    current,
+    target,
+    targetYear,
+    weightPrcnt,
+  }: IWeightedPolicy): number {
     const totalSimYears = Simulator.getTotalSimulationYears();
     const startYear = Simulator.getCurrentYear();
 
     // Validate properties are in a valid range
-    Simulator.validateNumInRange(
-      tileOption, 'current', tileOption.current, 0, 100);
-    Simulator.validateNumInRange(
-      tileOption, 'target', tileOption.target, 0, 100);
-    Simulator.validateNumInRange(
-      tileOption, 'targetYear', tileOption.targetYear, startYear, SimEndYear);
+    Simulator.validateNumInRange('current', current, 0, 100);
+    Simulator.validateNumInRange('target', target, 0, 100);
+    Simulator.validateNumInRange('targetYear', targetYear, startYear, SimEndYear);
+    Simulator.validateNumInRange('weightPrcnt', weightPrcnt, 0, 100);
 
-    const yearsFromTodayTillTarget = tileOption.targetYear - startYear;
+    const yearsFromTodayTillTarget = targetYear - startYear;
 
     const emissionDeltaArr: Array<IDeltaObj> = [];
 
@@ -157,10 +190,10 @@ export class Simulator {
 
       // If the current year is beyond the option's target year, we've reached
       // the target
-      if (currYear >= tileOption.targetYear) {
+      if (currYear >= targetYear) {
         emissionDeltaArr.push({
           year: currYear,
-          valuePrcnt: tileOption.target,
+          valuePrcnt: target,
         });
       }
       // Otherwise we're part-way to the target. We assume a linear progression
@@ -175,7 +208,7 @@ export class Simulator {
 
         emissionDeltaArr.push({
           year: currYear,
-          valuePrcnt: (yearsPassed / yearsFromTodayTillTarget) * tileOption.target,
+          valuePrcnt: (yearsPassed / yearsFromTodayTillTarget) * target,
         })
       }
     }
@@ -184,7 +217,7 @@ export class Simulator {
 
     emissionDeltaArr.forEach((delta: IDeltaObj) => {
       totalEmissionsDelta -= (delta.valuePrcnt / 100)
-        * (tileOption.weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes;
+        * (weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes;
     });
 
     return totalEmissionsDelta;
@@ -204,6 +237,7 @@ export class Simulator {
   public static getTotalEmissions(currentTiles: Array<TileObj>): number {
     let totalTileDelta = 0;
 
+    // Loop through each tile and then each option underneath it
     currentTiles.forEach((tile: TileObj) => {
       Object.values(tile.options).forEach((tileOption: IOption) => {
         totalTileDelta += Simulator.getOptionTotalEmissionDelta(tileOption);
@@ -214,6 +248,48 @@ export class Simulator {
       * Simulator.getTotalSimulationYears();
 
     return origEmissions + totalTileDelta;
+  }
+
+
+  /**
+   * Calculate the emissions delta for every single policy on a tile to show a
+   * preview of the impacts in the UI
+   */
+  public static calculateAllPolicyEmissionDeltas(
+    tile: TileObj
+  ): IPolicyDeltaEstimates {
+    const policyDeltas: IPolicyDeltaEstimates = {};
+
+    Object.values(tile.options).forEach((option: IOption) => {
+      (option.policies || []).forEach((policy: IOptionPolicy) => {
+        if (policy.key === TilePolicyKey.Custom
+          || policy.key === TilePolicyKey.None) {
+          return;
+        }
+
+        if (!policy.target || !policy.targetYear) {
+          throw new Error('Trying to calculate policy emissions for policy '
+              + `"${policy.key}" with missing target or targetYear!`);
+          return;
+        }
+
+        const policyEmissionDelta = Simulator.getPolicyEmissionsDelta({
+          current: 0,
+          target: policy.target,
+          targetYear: policy.targetYear,
+          weightPrcnt: option.weightPrcnt,
+        });
+
+        // Round off to the nearest giggatonne, since this is for the UI
+        policyDeltas[policy.key] = Math.round(policyEmissionDelta);
+      })
+    });
+
+    // For simplicity, make sure to include that no policy always has an impact
+    // of zero
+    policyDeltas[TilePolicyKey.None] = 0;
+
+    return policyDeltas;
   }
 
   /**

@@ -13,7 +13,7 @@
         v-model.number="option.current"
         :id="`${optionKey}-current-val`"
         name="current-val"
-        min="0" max="100" step="1" disabled>
+        min="0" max="100" step="1">
       <output class="output" :for="`${optionKey}-current-val`">
         {{ option.current }}%
       </output>
