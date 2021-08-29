@@ -285,6 +285,10 @@ export class Simulator {
       })
     });
 
+    // For simplicity, make sure to include that no policy always has an impact
+    // of zero
+    policyDeltas[TilePolicyKey.None] = 0;
+
     return policyDeltas;
   }
 
