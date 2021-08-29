@@ -45,25 +45,32 @@
                         :class="{ '-active': option.currPolicyKey === policy.key  }"
                         :key="policy.key"
                         @click="policySelected(policy.key, optKey)">
+
                         <input type="radio"
                           :name="optKey"
                           :id="`policy-radio-${optKey}-${policy.key}`"
                           :checked="option.currPolicyKey === policy.key"
                           @change="policySelected(policy.key, optKey)">
-                        <label :for="`policy-radio-${optKey}-${policy.key}`">
-                          <span class="name">
-                            <img v-if="policy.isMagic"
-                              src="@/assets/magic-wand-black.svg"
-                              class="icon -magic-wand"
-                              alt="Magic" width="24" height="24">
 
-                            {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
-                          </span>
+                        <div class="label-cont">
+                          <label :for="`policy-radio-${optKey}-${policy.key}`">
+                              <img v-if="policy.isMagic"
+                                src="@/assets/magic-wand-black.svg"
+                                class="icon -magic-wand"
+                                alt="Magic" width="24" height="24">
 
-                          <p>
+                              {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
+                          </label>
+
+                          <div class="emission-change" v-if="policyEmissions[policy.key]">
+                            {{ policyEmissions[policy.key] }} Gigatonnes CO<sub>2</sub>
+                          </div>
+
+                          <!-- Only show the description of the current policy -->
+                          <p v-if="option.currPolicyKey === policy.key">
                             {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
                           </p>
-                        </label>
+                        </div>
 
                         <!-- Show the custom policy controls if this is the custom
                           policy and it is selected -->
@@ -92,13 +99,15 @@ import { Options, Vue } from 'vue-class-component';
 
 import { FocusTrap } from 'focus-trap-vue';
 
-// eslint-disable-next-line no-unused-vars
-import { TileObj } from '@/classes/tile-obj';
 import { TilePolicyKey } from '@/constants/tile-policies';
 // eslint-disable-next-line no-unused-vars
 import { IOption, IOptionPolicy, TileOption } from '@/interfaces/tile-interfaces';
 // eslint-disable-next-line no-unused-vars
 import { ISimulatorSettings } from '@/interfaces/settings';
+// eslint-disable-next-line no-unused-vars
+import { TileObj } from '@/classes/tile-obj';
+// eslint-disable-next-line no-unused-vars
+import { IPolicyDeltaEstimates, Simulator } from '@/classes/simulator';
 
 import CustomPolicyControls from './CustomPolicyControls.vue';
 
@@ -121,6 +130,8 @@ const AnimDurationMs = 300;
   data: () => ({
     showingTileMenu: false,
     trapFocus: false,
+
+    policyEmissions: {} as IPolicyDeltaEstimates,
 
     // Expose constants/enums to the template
     TilePolicyKey: TilePolicyKey,
@@ -158,8 +169,9 @@ const AnimDurationMs = 300;
       const selectedPolicy = (tileOption.policies || [])
           .find((policy: IOptionPolicy) => policy.key === policyKey);
 
-      // The custom policy doesn't have a target or targetYear, so verify the
-      // selectedPolicy has one
+      // The custom policy doesn't have a target or targetYear (it mutates the
+      // tile option directly) so verify the selectedPolicy has one before
+      // overriding the tile option
       if (selectedPolicy
         && typeof selectedPolicy.target === 'number'
         && typeof selectedPolicy.targetYear === 'number') {
@@ -177,6 +189,11 @@ const AnimDurationMs = 300;
       if (!newVal) {
         return;
       }
+
+      this.policyEmissions
+        = Simulator.calculateAllPolicyEmissionDeltas(this.tile);
+
+      console.log({ policyEmissions: this.policyEmissions });
 
       this.showingTileMenu = true;
 
@@ -218,8 +235,7 @@ export default class TileOverlay extends Vue { }
   .sidebar {
     padding: 3rem 5rem;
     height: 100%;
-    min-width: 37.5rem;
-    width: 40%;
+    min-width: 40%;
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(0.2rem);
@@ -229,6 +245,7 @@ export default class TileOverlay extends Vue { }
       flex-direction: column;
       align-items: flex-start;
       height: 100%;
+      width: 32rem;
     }
 
     h2, h3 { margin-top: $large; }
@@ -247,9 +264,11 @@ export default class TileOverlay extends Vue { }
     .form-inner {
       display: block;
       overflow: auto;
+      width: 100%;
       padding: $large;
       margin-top: $standard;
       background-color: rgba(0, 0, 0, 0.5);
+      box-sizing: border-box;
 
       div.-first h3 { margin-top: 0; }
     }
@@ -258,28 +277,18 @@ export default class TileOverlay extends Vue { }
   fieldset { margin-top: $standard; }
 
   .policy-card {
+    display: flex;
     background: $white;
-    color: $text-grey-light;
+    color: $text-grey;
     padding: $standard;
     border-radius: 0.5rem;
     margin: $standard 0;
     border-left: solid 0.75rem $light-grey;
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    transition: border-color 0.3s;
 
-    &:hover {
-      background-color: $light-grey;
-      border-color: $mid-grey;
-      color: $text-grey;
-    }
+    &:hover { border-color: $mid-grey; }
 
-    &.-active {
-      border-color: $dark-blue;
-      color: $text-grey;
-    }
-
-    &:hover, &.-active {
-      label .icon { opacity: 1; }
-    }
+    &.-active { border-color: $dark-blue; }
 
     // Give the policy card a glow when it's focused
     &:focus-within {
@@ -297,17 +306,17 @@ export default class TileOverlay extends Vue { }
 
     input[type="radio"] {
       margin-left: 0;
-      float: left;
+      flex-shrink: 0;
 
       &:focus { outline: none; }
     }
 
-    label {
+    .label-cont {
       margin-top: 0;
       margin-left: $small;
       width: calc(100% - 1.5rem);
 
-      .name {
+      label {
         display: flex;
         align-items: center;
         font-weight: bold;
@@ -315,18 +324,20 @@ export default class TileOverlay extends Vue { }
       }
 
       .icon {
-        // Fade out all icons from black to make them roughly match the grey
-        opacity: 0.5;
-        transition: opacity 0.3s;
-
         &.-magic-wand {
           position: relative;
           top: -0.25rem;
         }
       }
 
-      p {
+      .emission-change {
+        font-weight: 500;
         margin-top: $tiny;
+        font-size: 0.875rem;
+      }
+
+      p {
+        margin-top: $small;
         font-size: 0.875rem;
       }
     }
@@ -348,6 +359,8 @@ export default class TileOverlay extends Vue { }
 
       .option-percent { margin-left: 0; }
     }
+
+    form { width: 100%; }
   }
 }
 </style>
