@@ -22,7 +22,7 @@
       <div class="hero-inner">
         <div class="img-cont">
           <div class="circle"></div>
-          <div class="img -power-green"></div>
+          <div class="img -farm-green"></div>
         </div>
 
         <div class="text-cont">
@@ -56,7 +56,7 @@
 
         <div class="img-cont">
           <div class="circle"></div>
-          <div class="img -farm-green"></div>
+          <div class="img -power-green"></div>
         </div>
       </div>
     </div>
@@ -116,11 +116,12 @@ export default class Intro extends Vue { }
 
     .circle {
       position: absolute;
-      background-color: $blue;
+      background-color: $light-grey;
       bottom: 0;
       border-radius: 10rem;
       width: 100%;
       padding: 50% 0;
+      filter: drop-shadow(2px 4px 0px rgba(0,0,0,0.5));
       transform: scale(1, 0.8);
     }
 
@@ -131,6 +132,7 @@ export default class Intro extends Vue { }
       width: 80%;
       padding: 50% 0;
       left: 10%;
+      filter: drop-shadow(1px 2px 0px rgba(0,0,0,0.5));
 
       &.-farm-green {
         top: -8%;
@@ -140,6 +142,11 @@ export default class Intro extends Vue { }
       &.-power-green {
         top: -15%;
         background-position: 100% 81%;
+      }
+
+      &.-office-green {
+        top: -8%;
+        background-position: 100% 41%;
       }
     }
   }
