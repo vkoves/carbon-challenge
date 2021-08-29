@@ -127,7 +127,7 @@ const AnimDurationMs = 300;
   }),
 
   emits: {
-    closed(tileId: number): number { return tileId; },
+    closed(): void { },
     tileUpdated(newTile: TileObj): TileObj { return newTile; },
   },
 
@@ -138,7 +138,7 @@ const AnimDurationMs = 300;
 
       // Emit closed event after fade animation is done
       setTimeout(() => {
-        this.$emit('closed', this.tile.id);
+        this.$emit('closed');
       }, AnimDurationMs);
     },
 

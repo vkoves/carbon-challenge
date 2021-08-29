@@ -27,6 +27,7 @@
             v-bind:key="tile.id"
             :tile="tile"
             :tileNum="index"
+            :disabled="selectedTile"
             :class="{ '-active': tile.id === selectedTile?.id }"
             @selected="selectTile(tile)" />
         </div>
@@ -102,13 +103,11 @@ import Thermometer from './Thermometer.vue';
       this.tiles = this.tiles.slice();
     },
 
-    tileOverlayClosed(tileId: number) {
-      // If the selectedTile is the same as it was when we closed the overlay,
-      // clear the selected tile. This safety check is in place to fix issues
-      // where selecting one tile during the close animation broke things
-      if (this.selectedTile.id === tileId) {
-        this.selectedTile = null;
-      }
+    // Clear the selectedTile once the overlay finishes closing to prevent
+    // clearing the UI while it's hiding. To prevent glitches we also disabled
+    // selecting a new tile until there's no selectedTile
+    tileOverlayClosed() {
+      this.selectedTile = null;
     }
   }
 })

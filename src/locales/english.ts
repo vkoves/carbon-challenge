@@ -23,7 +23,7 @@ export const EnglishLanguageData: ILanguageData = {
   },
 
   simulator: {
-    avgTempLabel: 'Average Global Temperature Increase by 2100',
+    avgTempLabel: 'Avg. Global Increase by 2100',
     close: 'Close',
     tileOverlay: {
       current: 'Current',

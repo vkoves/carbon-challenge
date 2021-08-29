@@ -126,28 +126,31 @@ export default class Intro extends Vue { }
     }
 
     .img {
-      background-image: url('~@/assets/tile-sheet.png');
-      background-size: 300%;
       position: absolute;
       width: 80%;
-      padding: 50% 0;
       left: 10%;
-      filter: drop-shadow(1px 2px 0px rgba(0,0,0,0.5));
+    }
+  }
 
-      &.-farm-green {
-        top: -8%;
-        background-position: 100% 104%;
-      }
+  .img {
+    background-image: url('~@/assets/tile-sheet.png');
+    background-size: 300%;
+    padding: 50% 0;
+    filter: drop-shadow(1px 2px 0px rgba(0,0,0,0.5));
 
-      &.-power-green {
-        top: -15%;
-        background-position: 100% 81%;
-      }
+    &.-farm-green {
+      top: -8%;
+      background-position: 100% 104%;
+    }
 
-      &.-office-green {
-        top: -8%;
-        background-position: 100% 41%;
-      }
+    &.-power-green {
+      top: -15%;
+      background-position: 100% 81%;
+    }
+
+    &.-office-green {
+      top: -8%;
+      background-position: 100% 41%;
     }
   }
 

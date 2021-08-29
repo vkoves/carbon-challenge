@@ -23,7 +23,7 @@ export const SpanishLanguageData: ILanguageData = {
   },
 
   simulator: {
-    avgTempLabel: 'Aumento de la temperatura global promedio para 2100',
+    avgTempLabel: 'Aumento global promedio para 2100',
     close: 'Cerrar',
     tileOverlay: {
       current: 'Actual',
