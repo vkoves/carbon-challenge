@@ -83,6 +83,8 @@ export const SpanishLanguageData: ILanguageData = {
         name: 'Personalizada',
         description: '',
       },
+
+      // Factory policies
       [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
         name: 'Requerir toda la carga eléctrica para 2050',
         description:
@@ -94,6 +96,10 @@ export const SpanishLanguageData: ILanguageData = {
           'Proporcionar incentivos fiscales para vehículos eléctricos de carga, recortando gasolina '+
           'impulsará camiones a la mitad para 2100.',
       },
+      [TilePolicyKey.FactoryElectricFreightMagic]: {
+        name: '',
+        description: '',
+      },
       [TilePolicyKey.FactoryShippingElectricRequirement2050]: {
         name: '',
         description: '',
@@ -102,6 +108,12 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.FactoryRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
+
+      // Farm policies
       [TilePolicyKey.FarmManureManagement2050]: {
         name: '',
         description: '',
@@ -114,6 +126,12 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.FarmRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
+
+      // Home policies
       [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
         name: '',
         description: '',
@@ -134,10 +152,20 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.HomeRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
       [TilePolicyKey.HomeAirTravelIncentive]: {
         name: '',
         description: '',
       },
+      [TilePolicyKey.HomeAirTravelMagic]: {
+        name: '',
+        description: '',
+      },
+
+      // Office policies
       [TilePolicyKey.OfficeRenewableEnergyRequirement2050]: {
         name: '',
         description: '',
@@ -146,6 +174,12 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.OfficeRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
+
+      // Power policies
       [TilePolicyKey.PowerFugitiveEmissionsBan2050]: {
         name: '',
         description: '',

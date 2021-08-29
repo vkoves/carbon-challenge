@@ -87,6 +87,8 @@ export const EnglishLanguageData: ILanguageData = {
         description:
           'Create your own fully custom policy.',
       },
+
+      // Factory policies
       [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
         name: 'Require All Electric Freight by 2050',
         description:
@@ -97,6 +99,11 @@ export const EnglishLanguageData: ILanguageData = {
         description:
           'Provide tax incentives for electric freight vehicles, cutting gas powered trucks in half by 2050.',
       },
+      [TilePolicyKey.FactoryElectricFreightMagic]: {
+        name: 'Instant Electric Freight Conversion',
+        description:
+          'Using an ancient rune, instantly electrify all freight vehicles.',
+      },
       [TilePolicyKey.FactoryShippingElectricRequirement2050]: {
         name: 'Electrified Shipping Requirement by 2050',
         description:
@@ -106,6 +113,12 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Require Green Energy for Industry by 2050',
         description: 'Require industry to run on fully renewable energy by 2050.',
       },
+      [TilePolicyKey.FactoryRenewableEnergyMagic]: {
+        name: 'Instantly Convert Industry to Green Energy',
+        description: 'Instantly switch all power sources for industry to renewables.',
+      },
+
+      // Farm policies
       [TilePolicyKey.FarmManureManagement2050]: {
         name: 'Manure Management',
         description: 'Require better manure management to halve emissions from livestock and manure by 2050.',
@@ -116,8 +129,14 @@ export const EnglishLanguageData: ILanguageData = {
       },
       [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
         name: 'Require Green Energy for Farming by 2050',
-        description: 'Require farming to run on fully renewable energy by 2050',
+        description: 'Require farming to run on fully renewable energy by 2050.',
       },
+      [TilePolicyKey.FarmRenewableEnergyMagic]: {
+        name: 'Instantly Convert Agriculture to Green Energy',
+        description: 'Instantly switch farms to run completely off of renewable energy.',
+      },
+
+      // Home policies
       [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
         name: 'Electric Vehicle Requirement by 2050',
         description: 'Phase out gas powered vehicles to get to all passenger vehicles being electric by 2050.',
@@ -138,10 +157,20 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Renewable Energy Incentive for Homes',
         description: 'Provide incentives and subsidies to halve emissions from home energy by 2050.',
       },
+      [TilePolicyKey.HomeRenewableEnergyMagic]: {
+        name: 'Instantly Convert Homes to Green Energy',
+        description: 'By distributing cold-fusion reactors to every house from the future, instantly convert all homes to run completely on green energy.',
+      },
       [TilePolicyKey.HomeAirTravelIncentive]: {
         name: 'Air Travel Incentives',
         description: 'Use tax incentives or fees to cut air travel in half by 2050.',
       },
+      [TilePolicyKey.HomeAirTravelMagic]: {
+        name: 'Instantly Electrify Air Travel',
+        description: 'By training a fleet of levitation wizards, make all planes run emission free.',
+      },
+
+      // Office policies
       [TilePolicyKey.OfficeRenewableEnergyRequirement2050]: {
         name: 'Require Green Energy for Offices by 2050',
         description: 'Require office buildings to run on fully renewable energy by 2050.',
@@ -150,6 +179,12 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Renewable Energy Incentives for Offices',
         description: 'Provide tax incentives to cut emissions from office energy in half by 2050.',
       },
+      [TilePolicyKey.OfficeRenewableEnergyMagic]: {
+        name: 'Instantly Convert Offices to Green Energy',
+        description: 'With the help of a great sorcerer, put solar panels on all offices, instantly converting them completely to green energy.',
+      },
+
+      // Power policies
       [TilePolicyKey.PowerFugitiveEmissionsBan2050]: {
         name: 'Fossil Fuel Extraction Ban by 2050',
         description: 'Reduce fossil fuel extraction culminating in a ban by 2050, fully reducing fugitive emissions by 2050.',

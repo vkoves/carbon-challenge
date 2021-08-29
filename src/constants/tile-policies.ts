@@ -17,13 +17,16 @@ export enum TilePolicyKey {
   // Factory tile policies
   FactoryElectricFreightRequirement2050 = 'FactoryElectricFreightRequirement2050',
   FactoryElectricFreightIncentive = 'FactoryElectricFreightIncentive',
+  FactoryElectricFreightMagic = 'FactoryElectricFreightMagic',
   FactoryShippingElectricRequirement2050 = 'FactoryShippingElectricRequirement2050',
   FactoryRenewableEnergyRequirement2050 = 'FactoryRenewableEnergyRequirement2050',
+  FactoryRenewableEnergyMagic = 'FactoryRenewableEnergyMagic',
 
   // Farm tile policies
   FarmManureManagement2050 = 'FarmManureManagement',
   FarmDeforestationElimination2050 = 'FarmDeforestationElimination2050',
   FarmRenewableEnergyRequirement2050 = 'FarmRenewableEnergyRequirement2050',
+  FarmRenewableEnergyMagic = 'FarmRenewableEnergyMagic',
 
   // Home tile policies
   HomeElectricVehicleRequirement2050 = 'HomeElectricVehicleRequirement2050',
@@ -31,11 +34,14 @@ export enum TilePolicyKey {
   HomeElectricVehicleMagic = 'HomeElectricVehicleMagic',
   HomeRenewableEnergyRequirement2050 = 'HomeRenewableEnergyRequirement2050',
   HomeRenewableEnergyIncentive = 'HomeRenewableEnergyIncentive',
+  HomeRenewableEnergyMagic = 'HomeRenewableEnergyMagic',
   HomeAirTravelIncentive = 'HomeAirTravelIncentive',
+  HomeAirTravelMagic = 'HomeAirTravelMagic',
 
   // Office tile policies
   OfficeRenewableEnergyRequirement2050 = 'OfficeRenewableEnergyRequirement2050',
   OfficeRenewableEnergyIncentive = 'OfficeRenewableEnergyIncentive',
+  OfficeRenewableEnergyMagic = 'OfficeRenewableEnergyMagic',
 
   // Power tile policies
   PowerFugitiveEmissionsBan2050 = 'PowerFugitiveEmissionsBan2050',
@@ -83,6 +89,12 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       target: 50,
       targetYear: 2050,
     },
+    {
+      key: TilePolicyKey.FactoryElectricFreightMagic,
+      target: 100,
+      targetYear: CurrentYear,
+      isMagic: true,
+    },
     CustomPolicy,
   ],
   [TileOption.Shipping]: [
@@ -100,6 +112,12 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       key: TilePolicyKey.FactoryRenewableEnergyRequirement2050,
       target: 100,
       targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.FactoryRenewableEnergyMagic,
+      target: 100,
+      targetYear: CurrentYear,
+      isMagic: true,
     },
     CustomPolicy,
   ],
@@ -129,6 +147,12 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       key: TilePolicyKey.FarmRenewableEnergyRequirement2050,
       target: 100,
       targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.FarmRenewableEnergyMagic,
+      target: 100,
+      targetYear: CurrentYear,
+      isMagic: true,
     },
     CustomPolicy,
   ],
@@ -166,6 +190,12 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       target: 50,
       targetYear: 2050,
     },
+    {
+      key: TilePolicyKey.HomeRenewableEnergyMagic,
+      target: 100,
+      targetYear: CurrentYear,
+      isMagic: true,
+    },
     CustomPolicy,
   ],
   [TileOption.Aviation]: [
@@ -174,6 +204,12 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       key: TilePolicyKey.HomeAirTravelIncentive,
       target: 50,
       targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.HomeAirTravelMagic,
+      target: 100,
+      targetYear: CurrentYear,
+      isMagic: true,
     },
     CustomPolicy,
   ],
@@ -190,6 +226,12 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       key: TilePolicyKey.OfficeRenewableEnergyIncentive,
       target: 50,
       targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.OfficeRenewableEnergyMagic,
+      target: 100,
+      targetYear: CurrentYear,
+      isMagic: true,
     },
     CustomPolicy,
   ],
