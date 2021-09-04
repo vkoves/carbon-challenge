@@ -5,11 +5,13 @@ export const EnglishLanguageData: ILanguageData = {
   title: 'The Carbon Challenge',
 
   header: {
-    home: 'Home',
-    simulator: 'Simulator',
-    disclaimers: 'Disclaimers',
     about: 'About',
+    disclaimers: 'Disclaimers',
+    faq: 'FAQ',
+    home: 'Home',
     language: 'Language',
+    simulator: 'Simulator',
+    takeAction: 'Take Action',
   },
 
   intro: {
@@ -20,6 +22,10 @@ export const EnglishLanguageData: ILanguageData = {
 
   about: {
     title: 'About The Carbon Challenge',
+  },
+
+  faq: {
+    title: 'Frequently Asked Questions'
   },
 
   simulator: {

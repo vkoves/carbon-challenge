@@ -4,10 +4,14 @@ import { i18n } from '@/i18n-init';
 
 import App from '@/App.vue'
 
+// Static pages (views)
 import About from '@/views/About.vue'
 import Disclaimers from '@/views/Disclaimers.vue'
-import SimulatorBoard from '@/components/SimulatorBoard.vue'
+import FAQ from '@/views/FAQ.vue'
+import TakeAction from '@/views/TakeAction.vue'
+// Actual components
 import Intro from '@/components/Intro.vue'
+import SimulatorBoard from '@/components/SimulatorBoard.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,7 +19,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Home',
     component: Intro,
     meta: {
-      langKey: 'home'
+      titlei18nKey: 'header.home'
     }
   },
   {
@@ -23,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SimulatorBoard',
     component: SimulatorBoard,
     meta: {
-      langKey: 'simulator'
+      titlei18nKey: 'header.simulator'
     }
   },
   {
@@ -31,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Disclaimers',
     component: Disclaimers,
     meta: {
-      langKey: 'disclaimers'
+      titlei18nKey: 'header.disclaimers'
     }
   },
   {
@@ -39,7 +43,23 @@ const routes: Array<RouteRecordRaw> = [
     name: 'About',
     component: About,
     meta: {
-      langKey: 'about'
+      titlei18nKey: 'header.about'
+    }
+  },
+  {
+    path: '/faq',
+    name: 'FAQ',
+    component: FAQ,
+    meta: {
+      titlei18nKey: 'header.faq'
+    }
+  },
+  {
+    path: '/take-action',
+    name: 'Take Action',
+    component: TakeAction,
+    meta: {
+      titlei18nKey: 'header.takeAction'
     }
   }
 ]
@@ -53,7 +73,7 @@ const router = createRouter({
 router.beforeEach(function(to, from, next) {
 
   const appTitle = i18n.global.t('title');
-  const pageTitle = i18n.global.t('header.' + String(to.meta.langKey));
+  const pageTitle = i18n.global.t(String(to.meta.titlei18nKey));
 
   document.title = `${pageTitle} | ${appTitle}`
 

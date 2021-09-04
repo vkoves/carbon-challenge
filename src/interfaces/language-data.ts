@@ -16,6 +16,8 @@ export interface ILanguageData {
     simulator: string;
     disclaimers: string;
     about: string;
+    faq: string;
+    takeAction: string;
     language: string;
   };
 
@@ -26,6 +28,10 @@ export interface ILanguageData {
   };
 
   about: {
+    title: string;
+  };
+
+  faq: {
     title: string;
   };
 

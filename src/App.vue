@@ -31,6 +31,12 @@
           <router-link to="/about" class="btn -transparent">
             {{ $t('header.about') }}
           </router-link>
+          <router-link to="/faq" class="btn -transparent">
+            {{ $t('header.faq') }}
+          </router-link>
+          <router-link to="/take-action" class="btn -transparent">
+            {{ $t('header.takeAction') }}
+          </router-link>
         </div>
 
         <div class="lang-selector">

@@ -5,11 +5,13 @@ export const SpanishLanguageData: ILanguageData = {
   title: 'El Desafío Del Carbono',
 
   header: {
-    home: 'Hogar',
-    simulator: 'Simulador',
-    disclaimers: 'Advertencias',
     about: 'Sobre',
+    disclaimers: 'Advertencias',
+    faq: 'FAQ',
+    home: 'Hogar',
     language: 'Lingua',
+    simulator: 'Simulador',
+    takeAction: 'Tomar Acción',
   },
 
   intro: {
@@ -20,6 +22,10 @@ export const SpanishLanguageData: ILanguageData = {
 
   about: {
     title: 'Sobre El Desafío Del Carbono',
+  },
+
+  faq: {
+    title: 'Preguntas Frecuentes'
   },
 
   simulator: {
