@@ -127,6 +127,10 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.FactoryDIPReduction]: {
+        name: '',
+        description:  '',
+      },
 
       // Farm policies
       [TilePolicyKey.FarmManureManagement2050]: {
@@ -145,6 +149,27 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.FarmAgriculturalSoilReducedFertilizer]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmAgriculturalSoilNoFertilizer]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmCroplandManagement]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmCropBurningReduction]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmCropBurningBan]: {
+        name: '',
+        description: '',
+      },
+
 
       // Home policies
       [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
@@ -176,6 +201,10 @@ export const SpanishLanguageData: ILanguageData = {
         description: '',
       },
       [TilePolicyKey.HomeAirTravelMagic]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.HomeWasteManagement]: {
         name: '',
         description: '',
       },
