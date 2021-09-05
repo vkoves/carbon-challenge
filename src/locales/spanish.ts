@@ -39,7 +39,7 @@ export const SpanishLanguageData: ILanguageData = {
       current: 'Actual',
       target: 'Objetivo',
       targetYear: 'Año objetivo',
-      emissionPrcntLabel: 'orig.',
+      emissionPrcntLabel: 'de.',
       policiesLabel: '',
     },
 

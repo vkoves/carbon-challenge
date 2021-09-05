@@ -39,7 +39,7 @@ export const EnglishLanguageData: ILanguageData = {
       current: 'Current',
       target: 'Target Emissions Reduction',
       targetYear: 'Target Year',
-      emissionPrcntLabel: 'orig.',
+      emissionPrcntLabel: 'of',
       policiesLabel: 'Policy',
     },
 
