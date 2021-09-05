@@ -45,6 +45,9 @@
             The total weight sets a maximum for the amount of emissions a user could
             possibly cut, so it's important this is as close to 100% as possible
           </p>
+
+          <figure id="emissions-chart">
+          </figure>
         </dl>
       </div>
     </div>
@@ -56,12 +59,22 @@ import { Options, Vue } from 'vue-class-component';
 
 import { FocusTrap } from 'focus-trap-vue';
 
+import * as d3 from 'd3';
+
 // eslint-disable-next-line no-unused-vars
 import { TileObj } from '@/classes/tile-obj';
 // eslint-disable-next-line no-unused-vars
 import { IOption } from '@/interfaces/tile-interfaces';
 
-import { TempCalcMethod, Simulator, SimulatorUnits, SimEndYear } from '@/classes/simulator';
+import {
+  // eslint-disable-next-line no-unused-vars
+  ITotalEmissionsDatum,
+  OrigYearlyEmissionsGigaTonnes,
+  SimEndYear,
+  Simulator,
+  SimulatorUnits,
+  TempCalcMethod,
+} from '@/classes/simulator';
 
 @Options({
   name: 'AnalyticsOverlay',
@@ -112,7 +125,9 @@ export default class AnalyticsOverlay extends Vue {
   calculateValues(): void {
     const totalEmissionsData = Simulator.getTotalEmissionsData(this.tiles);
 
-    console.log({ totalEmissionsData });
+    console.log({ 'totalEmissionsData': totalEmissionsData.data });
+
+    this.graphEmissionsOverTime(totalEmissionsData.data);
 
     this.totalEmissions = totalEmissionsData.total;
 
@@ -129,6 +144,52 @@ export default class AnalyticsOverlay extends Vue {
     });
 
     this.totalWeight = totalWeight;
+  }
+
+  graphEmissionsOverTime(emissionsData: Array<ITotalEmissionsDatum>): void {
+    // set the dimensions and margins of the graph
+    const margin = { top: 30, right: 30, bottom: 70, left: 60 };
+    const width = 800 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#emissions-chart")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")");
+
+    // X axis
+    var xScale = d3.scaleBand()
+      .padding(0.2)
+      .range([ 0, width ])
+      .domain(emissionsData.map((d: ITotalEmissionsDatum) => d.year.toString()));
+    svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(xScale))
+      .selectAll("text")
+        .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("text-anchor", "end");
+
+    // Add Y axis
+    var yScale = d3.scaleLinear()
+      .domain([0, 100])
+      .range([ height, 0]);
+    svg.append("g")
+      .call(d3.axisLeft(yScale));
+
+    // Bars
+    svg.selectAll("mybar")
+      .data(emissionsData)
+      .enter()
+      .append("rect")
+        .attr("x", (d: ITotalEmissionsDatum) => xScale(d.year.toString()) as number)
+        .attr("y", (d: ITotalEmissionsDatum) => yScale(d3.sum(Object.values(d.deltas)) + OrigYearlyEmissionsGigaTonnes))
+        .attr("width", xScale.bandwidth())
+        .attr("height", (d: ITotalEmissionsDatum) => height - yScale(d3.sum(Object.values(d.deltas)) + OrigYearlyEmissionsGigaTonnes))
+        .attr("fill", "#69b3a2");
   }
 
   mounted(): void {

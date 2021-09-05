@@ -45,7 +45,9 @@ export interface IPolicyEmissionsWithBreakdown {
  */
 export interface ITotalEmissionsDatum {
   year: number;
-  [tileOptionType: string]: number;
+  deltas: {
+    [tileOptionType: string]: number;
+  }
 }
 
 export interface ITotalEmissionsWithBreakdown {
@@ -307,13 +309,15 @@ export class Simulator {
         if (tileData.length === 0) {
           tileData = optionData.data.map((datum: IPolicyDatum) => ({
             year: datum.year,
-            [tileOption.optionType as string]: datum.delta,
+            deltas: {
+              [tileOption.optionType as string]: datum.delta,
+            }
           }));
         }
         // Otherwise just add this tile option
         else {
           optionData.data.forEach((datum: IPolicyDatum, index: number) => {
-            tileData[index][tileOption.optionType  as string] = datum.delta;
+            tileData[index].deltas[tileOption.optionType  as string] = datum.delta;
           });
         }
       });
