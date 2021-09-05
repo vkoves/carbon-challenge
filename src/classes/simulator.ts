@@ -222,7 +222,7 @@ export class Simulator {
 
     // Loop through every year of the simulation and calculate emissions in in
     // that year
-    for (let i = 0; i < totalSimYears; i++) {
+    for (let i = 0; i <= totalSimYears; i++) {
       const currYear = startYear + i;
 
       // If the current year is beyond the option's target year, we've reached

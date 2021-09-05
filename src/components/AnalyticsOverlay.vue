@@ -120,7 +120,21 @@ export default class AnalyticsOverlay extends Vue {
   SimulatorUnits = SimulatorUnits;
   TempCalcMethod = TempCalcMethod;
 
+  tickYears = [
+    '2020', '2021', '2030', '2040', '2050', '2060', '2070', '2080', '2090', '2100'
+  ];
+
   tiles: Array<TileObj> = [];
+
+  mounted(): void {
+    const currYear = Simulator.getCurrentYear();
+
+    // Filter ticks to only those in present or future
+    this.tickYears = this.tickYears
+      .filter(tick => Number.parseInt(tick) >= currYear);
+
+    this.calculateValues();
+  }
 
   calculateValues(): void {
     const totalEmissionsData = Simulator.getTotalEmissionsData(this.tiles);
@@ -153,47 +167,43 @@ export default class AnalyticsOverlay extends Vue {
     const height = 500 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    var svg = d3.select("#emissions-chart")
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform",
-              "translate(" + margin.left + "," + margin.top + ")");
+    var svg = d3.select('#emissions-chart')
+      .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+        .attr('transform',
+              'translate(' + margin.left + ',' + margin.top + ')');
 
     // X axis
     var xScale = d3.scaleBand()
       .padding(0.2)
       .range([ 0, width ])
       .domain(emissionsData.map((d: ITotalEmissionsDatum) => d.year.toString()));
-    svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(xScale))
-      .selectAll("text")
-        .attr("transform", "translate(-10,0)rotate(-45)")
-        .style("text-anchor", "end");
+    svg.append('g')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(d3.axisBottom(xScale).tickValues(this.tickYears))
+      .selectAll('text')
+        .attr('transform', 'translate(-10,0)rotate(-45)')
+        .style('text-anchor', 'end');
 
     // Add Y axis
     var yScale = d3.scaleLinear()
       .domain([0, 100])
       .range([ height, 0]);
-    svg.append("g")
+    svg.append('g')
       .call(d3.axisLeft(yScale));
 
     // Bars
-    svg.selectAll("mybar")
+    svg.selectAll('mybar')
       .data(emissionsData)
       .enter()
-      .append("rect")
-        .attr("x", (d: ITotalEmissionsDatum) => xScale(d.year.toString()) as number)
-        .attr("y", (d: ITotalEmissionsDatum) => yScale(d3.sum(Object.values(d.deltas)) + OrigYearlyEmissionsGigaTonnes))
-        .attr("width", xScale.bandwidth())
-        .attr("height", (d: ITotalEmissionsDatum) => height - yScale(d3.sum(Object.values(d.deltas)) + OrigYearlyEmissionsGigaTonnes))
-        .attr("fill", "#69b3a2");
-  }
-
-  mounted(): void {
-    this.calculateValues();
+      .append('rect')
+        .attr('x', (d: ITotalEmissionsDatum) => xScale(d.year.toString()) as number)
+        .attr('y', (d: ITotalEmissionsDatum) => yScale(d3.sum(Object.values(d.deltas)) + OrigYearlyEmissionsGigaTonnes))
+        .attr('width', xScale.bandwidth())
+        .attr('height', (d: ITotalEmissionsDatum) => height - yScale(d3.sum(Object.values(d.deltas)) + OrigYearlyEmissionsGigaTonnes))
+        .attr('fill', '#69b3a2');
   }
 }
 </script>
