@@ -1,4 +1,5 @@
 import { ILanguageData } from '@/interfaces/language-data';
+import { TileOption } from '@/interfaces/tile-interfaces';
 import { TilePolicyKey } from '@/constants/tile-policies';
 
 export const EnglishLanguageData: ILanguageData = {
@@ -71,26 +72,30 @@ export const EnglishLanguageData: ILanguageData = {
 
     // Should include all values from the TileOption enum
     tileOptionTitles: {
-      aviation: 'Aviation',
-      deforestation: 'Deforestation',
-      energyAgriculture: 'Energy for Agriculture',
-      energyCommercialBuildings: 'Energy for Commercial Buildings',
-      energyIndustry: 'Energy for Industry',
-      energyResidential: 'Energy for Residential Buildings',
-      freightRoadTransport: 'Freight Trucking',
-      fugitiveEmissions: 'Fugitive Emissions from Energy Production',
-      livestockAndManure: 'Livestock and Manure',
-      passengerRoadTransport: 'Passenger Vehicles',
-      shipping: 'Shipping',
-      unallocatedFuelCombustion: 'Unallocated Fuel Combustion',
+      [TileOption.Aviation]: 'Aviation',
+      [TileOption.Deforestation]: 'Deforestation',
+      [TileOption.EnergyAgriculture]: 'Energy for Agriculture',
+      [TileOption.EnergyCommercialBuildings]: 'Energy for Commercial Buildings',
+      [TileOption.EnergyIndustry]: 'Energy for Industry',
+      [TileOption.EnergyResidential]: 'Energy for Residential Buildings',
+      [TileOption.FreightRoadTransport]: 'Freight Trucking',
+      [TileOption.FugitiveEmissions]: 'Fugitive Emissions from Energy Production',
+      [TileOption.LivestockAndManure]: 'Livestock and Manure',
+      [TileOption.PassengerRoadTransport]: 'Passenger Vehicles',
+      [TileOption.Shipping]: 'Shipping',
+      [TileOption.UnallocatedFuelCombustion]: 'Unallocated Fuel Combustion',
+      [TileOption.AgriculturalSoils]: 'Agricultural Soils',
+      [TileOption.CropBurning]: 'Crop Burning',
+      [TileOption.Cropland]: 'Cropland',
+      [TileOption.DirectIndustrialProcesses]: 'Direct Industrial Processes',
+      [TileOption.Waste]: 'Waste',
     },
 
     // Should contain all values from TilePolicyKey
     tilePolicies: {
       [TilePolicyKey.None]: {
         name: 'None',
-        description:
-          'Keep related emissions the same for the forseable future.',
+        description: '',
       },
       [TilePolicyKey.Custom]: {
         name: 'Custom',

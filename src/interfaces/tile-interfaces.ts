@@ -36,18 +36,23 @@ export enum TileType {
  * sure that the language files are updated along with this enum!
  */
 export enum TileOption {
+  AgriculturalSoils = 'agriculturalSoils',
   Aviation = 'aviation',
-  FreightRoadTransport = 'freightRoadTransport',
+  CropBurning = 'cropBurning',
+  Cropland = 'cropland',
   Deforestation = 'deforestation',
+  DirectIndustrialProcesses = 'directIndustrialProcesses',
   EnergyAgriculture = 'energyAgriculture',
   EnergyCommercialBuildings = 'energyCommercialBuildings',
   EnergyIndustry = 'energyIndustry',
   EnergyResidential = 'energyResidential',
+  FreightRoadTransport = 'freightRoadTransport',
   FugitiveEmissions = 'fugitiveEmissions',
   LivestockAndManure = 'livestockAndManure',
   PassengerRoadTransport = 'passengerRoadTransport',
   Shipping = 'shipping',
   UnallocatedFuelCombustion = 'unallocatedFuelCombustion',
+  Waste = 'waste',
 }
 
 /**

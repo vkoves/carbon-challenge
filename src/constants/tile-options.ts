@@ -51,7 +51,6 @@ export const TileOptions: { [ type: string ]: IOptions } = {
       weightPrcnt: RoadTransportTotalWeight * 0.4,
       policies: TilePolicies[TileOption.FreightRoadTransport]
     }),
-    //
     [TileOption.Shipping]: createOption({
       optionType: TileOption.Shipping,
       weightPrcnt: 1.7,
@@ -62,6 +61,11 @@ export const TileOptions: { [ type: string ]: IOptions } = {
       optionType: TileOption.EnergyIndustry,
       weightPrcnt:  24.2,
       policies: TilePolicies[TileOption.EnergyIndustry]
+    }),
+    [TileOption.DirectIndustrialProcesses]: createOption({
+      optionType: TileOption.DirectIndustrialProcesses,
+      weightPrcnt:  5.2,
+      policies: TilePolicies[TileOption.DirectIndustrialProcesses]
     }),
   },
 
@@ -82,6 +86,21 @@ export const TileOptions: { [ type: string ]: IOptions } = {
       weightPrcnt: 1.7,
       policies: TilePolicies[TileOption.EnergyAgriculture]
     }),
+    [TileOption.Cropland]: createOption({
+      optionType: TileOption.Cropland,
+      weightPrcnt: 1.4,
+      policies: TilePolicies[TileOption.Cropland]
+    }),
+    [TileOption.CropBurning]: createOption({
+      optionType: TileOption.CropBurning,
+      weightPrcnt: 3.5,
+      policies: TilePolicies[TileOption.CropBurning]
+    }),
+    [TileOption.AgriculturalSoils]: createOption({
+      optionType: TileOption.AgriculturalSoils,
+      weightPrcnt: 4.1,
+      policies: TilePolicies[TileOption.AgriculturalSoils]
+    }),
   },
 
   [TileType.Home]: {
@@ -100,8 +119,13 @@ export const TileOptions: { [ type: string ]: IOptions } = {
     // "Energy use in buildings > Residential buildings"
     [TileOption.Aviation]: createOption({
       optionType: TileOption.Aviation,
-      weightPrcnt: 10.9,
+      weightPrcnt: 1.9,
       policies: TilePolicies[TileOption.Aviation]
+    }),
+    [TileOption.Waste]: createOption({
+      optionType: TileOption.Waste,
+      weightPrcnt: 3.2,
+      policies: TilePolicies[TileOption.Waste]
     }),
   },
 

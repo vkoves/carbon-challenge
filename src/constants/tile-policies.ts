@@ -21,12 +21,16 @@ export enum TilePolicyKey {
   FactoryShippingElectricRequirement2050 = 'FactoryShippingElectricRequirement2050',
   FactoryRenewableEnergyRequirement2050 = 'FactoryRenewableEnergyRequirement2050',
   FactoryRenewableEnergyMagic = 'FactoryRenewableEnergyMagic',
+  // DirectIndustrialProcesses
 
   // Farm tile policies
   FarmManureManagement2050 = 'FarmManureManagement',
   FarmDeforestationElimination2050 = 'FarmDeforestationElimination2050',
   FarmRenewableEnergyRequirement2050 = 'FarmRenewableEnergyRequirement2050',
   FarmRenewableEnergyMagic = 'FarmRenewableEnergyMagic',
+  // AgriculturalSoils
+  // Cropland
+  // CropBurning
 
   // Home tile policies
   HomeElectricVehicleRequirement2050 = 'HomeElectricVehicleRequirement2050',
@@ -37,6 +41,7 @@ export enum TilePolicyKey {
   HomeRenewableEnergyMagic = 'HomeRenewableEnergyMagic',
   HomeAirTravelIncentive = 'HomeAirTravelIncentive',
   HomeAirTravelMagic = 'HomeAirTravelMagic',
+  // Waste
 
   // Office tile policies
   OfficeRenewableEnergyRequirement2050 = 'OfficeRenewableEnergyRequirement2050',
@@ -121,6 +126,9 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
     },
     CustomPolicy,
   ],
+  [TileOption.DirectIndustrialProcesses]: [
+    NonePolicy,
+  ],
 
   // Farm options
   [TileOption.LivestockAndManure]: [
@@ -155,6 +163,15 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       isMagic: true,
     },
     CustomPolicy,
+  ],
+  [TileOption.Cropland]: [
+    NonePolicy,
+  ],
+  [TileOption.CropBurning]: [
+    NonePolicy,
+  ],
+  [TileOption.AgriculturalSoils]: [
+    NonePolicy,
   ],
 
   // Home options
@@ -212,6 +229,9 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       isMagic: true,
     },
     CustomPolicy,
+  ],
+  [TileOption.Waste]: [
+    NonePolicy,
   ],
 
   // Office options
