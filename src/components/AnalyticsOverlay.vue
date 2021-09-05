@@ -222,15 +222,21 @@ export default class AnalyticsOverlay extends Vue {
   barClick(event: PointerEvent, datum: ITotalEmissionsDatum) {
     const totalEmissions = this.emissionsFromDatum(datum).toFixed(2);
 
-    const tooltipOffset = 15;
+    // Tooltips default to the right, but past 2070 we'll flip it
+    const isTooltipLeft = datum.year >= 2070;
+    const tooltipWidth = (d3.select('.tooltip').node() as HTMLDivElement).offsetWidth;
+
+    const tooltipOffset = 3;
     const tooltipLeft = this.xScale(datum.year.toString())
       + this.graphMargins.left
-      + tooltipOffset;
+      + (isTooltipLeft ? -tooltipWidth : this.xScale.bandwidth())
+      + (isTooltipLeft ? -tooltipOffset : tooltipOffset)
 
     d3.select('.tooltip')
       .html(`<h1>${datum.year}</h1> Emissions: ${totalEmissions} Gigatonnes`)
       .style('left', tooltipLeft + 'px')
-      .classed('-visible', true);
+      .classed('-visible', true)
+      .classed('-left', isTooltipLeft);
 
     d3.selectAll('.bar')
       .classed('-active', false);
@@ -286,6 +292,13 @@ figure ::v-deep {
       left: -$tipWidth;
       top: 20px;
       content: "";
+    }
+
+    &.-left {
+      &::before {
+        left: 100%;
+        transform: rotate(180deg);
+      }
     }
 
     &.-visible { opacity: 1; }
