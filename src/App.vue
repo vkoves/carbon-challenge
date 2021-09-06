@@ -129,7 +129,7 @@ header {
   }
 
   .mobile-header {
-    padding: 1rem;
+    padding: $small;
     background-color: $dark-blue;
     transition: border 0.3s;
     border-bottom: solid 0.125rem transparent;
@@ -192,9 +192,13 @@ header {
       + a { margin-left: $small; }
     }
   }
+}
 
-  // Mobile styling
-  @media (max-width: $mobile-max-width) {
+// Mobile styling
+@media (max-width: $mobile-max-width) {
+  body { padding-top: 3.75rem; }
+
+  header {
     padding: 0;
 
     .btn.-transparent { border: none; }
@@ -230,4 +234,5 @@ header {
     }
   }
 }
+
 </style>

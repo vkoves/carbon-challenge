@@ -229,6 +229,21 @@ main {
 
 // Mobile styling
 @media (max-width: $mobile-max-width) {
-  main { padding: 3rem; }
+  main { padding: 1rem; }
+
+  .title-cont { flex-wrap: wrap; }
+
+  .main-cont {
+    margin-top: 4rem;
+    flex-direction: column-reverse;
+  }
+
+  .simulator-board {
+    // The raw board size. Keep in mind this gets distorted due to rotation + skew
+    $boardSizeMobile: min(52vw, 60vh);
+
+    width: $boardSizeMobile;
+    height: $boardSizeMobile;
+  }
 }
 </style>

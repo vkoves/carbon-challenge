@@ -142,7 +142,7 @@ export default class Tile extends Vue { }
   .tile-img:not(.empty) {
     position: absolute;
     width: 100%;
-    height: 110%;
+    height: 100%;
     font-size: 0;
     color: transparent;
     margin: auto;
@@ -187,8 +187,8 @@ export default class Tile extends Vue { }
     &.farm {
       background-position-y: 102%;
       // Move the farm back on the tile
-      top: -20%;
-      right: -15%;
+      top: -10%;
+      right: -10%;
     }
   }
 }

@@ -176,4 +176,11 @@ export default class Thermometer extends Vue {
 
   .label { margin-top: 0; }
 }
+
+// Mobile styling
+@media (max-width: $mobile-max-width) {
+  .thermometer-cont { margin-top: 4rem; }
+
+  .thermometer { display: none; }
+}
 </style>
