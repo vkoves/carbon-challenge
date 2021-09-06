@@ -1,13 +1,19 @@
 <template>
-  <div class="thermometer">
-    <div class="stem">
-      <div class="stem-inner"
-        v-bind:style="{ height: avgTempAdjusted + '%' }"></div>
+  <div class="thermometer-cont">
+    <div class="thermometer">
+      <div class="stem">
+        <div class="stem-inner"
+          v-bind:style="{ height: avgTempAdjusted + '%' }"></div>
+        <div class="tick"></div>
+        <div class="tick"></div>
+        <div class="tick"></div>
+      </div>
+      <div class="bulb"></div>
     </div>
-    <div class="bulb"></div>
 
     <div class="text">
       <div class="temp">{{ avgTempRise.toFixed(2) }} °C</div>
+      <p class="label">{{ $t('simulator.avgTempLabel') }}</p>
 
       <div class="emoji">
         <span v-if="avgTempRise < TempThresholds.great">
@@ -24,7 +30,6 @@
         </span>
       </div>
 
-      <!-- <p class="label">{{ $t('simulator.avgTempLabel') }}</p> -->
     </div>
   </div>
 </template>
@@ -76,6 +81,7 @@ export default class Thermometer extends Vue {
     thermometer. */
   avgTempAdjusted: number = 0;
 
+  // What 100% of the .stem-inner height equates to in degrees
   static readonly MaxTempRise: number = 3;
 
   calculateTemperature(): void {
@@ -96,6 +102,11 @@ export default class Thermometer extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import './styles/variables/colors';
+@import './styles/variables/spacing';
+
+.thermometer-cont {
+  margin-top: $large;
+}
 
 .thermometer {
   $thermometer-width: 5rem;
@@ -104,7 +115,7 @@ export default class Thermometer extends Vue {
 
   position: relative;
   width: $thermometer-width;
-  margin-right: 2rem;
+  margin: 0 $standard;
   flex-shrink: 0;
 
   $red: red;
@@ -118,7 +129,7 @@ export default class Thermometer extends Vue {
     position: relative;
     overflow: hidden;
     width: $inner-width + $border-width * 2;
-    height: 85%;
+    height: 25rem;
     margin: auto;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
@@ -147,23 +158,22 @@ export default class Thermometer extends Vue {
     position: relative;
     top: -1rem;
   }
+}
 
-  .text {
-    text-align: center;
-    font-size: 0.8rem;
-    padding-top: 0.5rem;
+.text {
+  text-align: center;
+  font-size: 0.8rem;
 
-    .emoji {
-      font-size: 2rem;
-      margin-top: 0.5rem;
-    }
-
-    .temp {
-      font-size: 1.25rem;
-      font-weight: bold;
-    }
-
-    .label { margin-top: 0.25rem; }
+  .emoji {
+    font-size: 2.5rem;
+    margin-top: $standard;
   }
+
+  .temp {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .label { margin-top: 0; }
 }
 </style>

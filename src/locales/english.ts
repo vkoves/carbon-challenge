@@ -30,7 +30,7 @@ export const EnglishLanguageData: ILanguageData = {
   },
 
   simulator: {
-    avgTempLabel: 'Avg. Global Increase by 2100',
+    avgTempLabel: 'Warming by 2100',
     close: 'Close',
     analytics: 'Analytics',
     settings: 'Settings',
