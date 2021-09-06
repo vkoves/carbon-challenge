@@ -49,9 +49,14 @@
 
         <figure id="emissions-chart">
 
-          <div class="tooltip">
+          <div class="tooltip"
+            :class="{ '-visible': tooltipOpen, '-left': isTooltipLeft }">
             <template v-if="tooltipData">
-              <h1>{{ tooltipData.datum.year }}</h1>
+              <div class="title-row">
+                <h1>{{ tooltipData.datum.year }}</h1>
+
+                <button @click="closeTooltip" class="btn -grey -small">Close</button>
+              </div>
 
               Total Emissions: {{ tooltipData.totalEmissions.toFixed(2) }} GT (Gigatonnes)
 
@@ -141,6 +146,9 @@ interface ITooltipData {
 
   data: () => ({
     tooltipData: undefined,
+
+    tooltipOpen: false,
+    isTooltipLeft: false,
   }),
 
   props: {
@@ -162,6 +170,13 @@ interface ITooltipData {
     closeOverlay() {
       this.$emit('closed');
     },
+
+    closeTooltip() {
+      this.tooltipOpen = false;
+
+      d3.selectAll('.bar')
+        .classed('-active', false);
+    }
   }
 })
 
@@ -186,8 +201,10 @@ export default class AnalyticsOverlay extends Vue {
     '2021', '2030', '2040', '2050', '2060', '2070', '2080', '2090', '2100'
   ];
 
+  isTooltipLeft: boolean = false;
   tiles: Array<TileObj> = [];
   tooltipData?: ITooltipData;
+  tooltipOpen: boolean = false;
 
   xScale: any;
   yScale: any;
@@ -335,21 +352,18 @@ export default class AnalyticsOverlay extends Vue {
       + (isTooltipLeft ? -tooltipWidth : this.xScale.bandwidth())
       + (isTooltipLeft ? -tooltipOffset : tooltipOffset);
 
-    this.tooltipData = {
-      totalEmissions,
-      datum,
-    };
-
     d3.select('.tooltip')
-      .style('left', tooltipLeft + 'px')
-      .classed('-visible', true)
-      .classed('-left', isTooltipLeft);
+      .style('left', tooltipLeft + 'px');
 
     d3.selectAll('.bar')
       .classed('-active', false);
 
-    d3.select(`.bar[data-year="${datum.year}"]`)
+    d3.selectAll(`.bar[data-year="${datum.year}"]`)
       .classed('-active', true);
+
+    this.tooltipData = { totalEmissions, datum };
+    this.tooltipOpen = true;
+    this.isTooltipLeft = isTooltipLeft;
   }
 }
 </script>
@@ -400,29 +414,28 @@ figure ::v-deep {
   }
 
   .bar {
-    transition: fill 0.3s;
-    fill: $blue;
+    transition: filter 0.3s;
     cursor: pointer;
     stroke: $white;
 
-    &:hover { fill: $dark-blue; }
-    &.-active { fill: $dark-blue; }
+    &.-active { filter: brightness(0.7) }
   }
 
   .tooltip {
+    visibility: hidden;
     position: absolute;
     padding: $standard;
-    top: 50px;
+    bottom: 50px;
     min-width: 14rem;
     border-radius: 0.25rem;
     background-color: $white;
     border: solid 1px $light-grey;
     filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, left 0.3s;
 
     &::before {
-      $tipWidth: 10px;
+      $tipWidth: 0.625rem;
 
       position: absolute;
       display: inline-block;
@@ -431,8 +444,13 @@ figure ::v-deep {
       border-bottom: $tipWidth solid transparent;
       border-right-color: rgb(255 255 255);
       left: -$tipWidth;
-      top: 20px;
+      bottom: 1.5rem;
       content: "";
+    }
+
+    &.-visible {
+      visibility: visible;
+      opacity: 1;
     }
 
     &.-left {
@@ -442,9 +460,16 @@ figure ::v-deep {
       }
     }
 
-    &.-visible { opacity: 1; }
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: $standard;
 
-    h1 { font-size: 1.25rem; }
+      button { margin-top: 0; }
+    }
+
+    h1 { font-size: 1.5rem; }
 
     ul {
       margin-top: $standard;
