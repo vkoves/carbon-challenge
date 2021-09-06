@@ -124,6 +124,9 @@ const AnimDurationMs = 300;
 
     /** The current simulator settings */
     settings: {} as ISimulatorSettings,
+
+    /** Whether Escape was pressed globally, which should close this overlay */
+    escPressed: false,
   },
 
   components: {
@@ -203,6 +206,13 @@ const AnimDurationMs = 300;
       setTimeout(() => {
         this.trapFocus = true;
       }, AnimDurationMs);
+    },
+
+    // Close the overlay if escape was pressed in the parent
+    escPressed: function(isPressed: boolean) {
+      if (isPressed) {
+        this.closeOverlay();
+      }
     }
   }
 })

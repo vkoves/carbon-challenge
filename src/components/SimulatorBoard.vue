@@ -55,6 +55,7 @@
     <TileOverlay
       :tile="selectedTile"
       :settings="settings"
+      :escPressed="escPressed"
       @closed="tileOverlayClosed($event)"
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
@@ -103,17 +104,18 @@ import Thermometer from './Thermometer.vue';
       customPoliciesEnabled: false,
     } as ISimulatorSettings,
 
-    showingTileMenu: false,
+    escPressed: false,
+
     showingAnalytics: false,
     showingSettings: false,
   }),
 
   methods: {
-    selectTile(tile: TileObj) {
+    selectTile(tile: TileObj): void {
       this.selectedTile = tile;
     },
 
-    tileUpdated(tile: TileObj) {
+    tileUpdated(tile: TileObj): void {
       // Make sure the tile updates any computed properties based on its options
       tile.recalculateProperties();
 
@@ -121,12 +123,44 @@ import Thermometer from './Thermometer.vue';
       this.tiles = this.tiles.slice();
     },
 
-    // Clear the selectedTile once the overlay finishes closing to prevent
-    // clearing the UI while it's hiding. To prevent glitches we also disabled
-    // selecting a new tile until there's no selectedTile
-    tileOverlayClosed() {
+    /**
+     * Clear the selectedTile once the overlay finishes closing to prevent
+     * clearing the UI while it's hiding. To prevent glitches we also disabled
+     * selecting a new tile until there's no selectedTile
+     */
+    tileOverlayClosed(): void {
       this.selectedTile = null;
-    }
+    },
+
+    /**
+     * Close all overlays - triggered on press of the Esc key on the document
+     */
+    closeOverlays(): void {
+      this.showingAnalytics = false;
+      this.showingSettings = false;
+
+      this.escPressed = true;
+
+      // We only set escPressed very momentarily, as it's basically an event
+      // emitter down into child components
+      setTimeout(() => {
+        this.escPressed = false;
+      }, 50);
+    },
+
+    /**
+     * A listener for the keypress on the document, so we can close child
+     * overlays on press of Escape even if the overlay isn't focused
+     */
+    handleGlobalKeydown(keyEvent: KeyboardEvent): void {
+      if (keyEvent.key === 'Escape') {
+        this.closeOverlays();
+      }
+    },
+  },
+
+  mounted(): void {
+    document.addEventListener('keydown', this.handleGlobalKeydown);
   }
 })
 
