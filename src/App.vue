@@ -25,9 +25,6 @@
           <router-link to="/simulator" class="btn -transparent">
             {{ $t('header.simulator') }}
           </router-link>
-          <router-link to="/disclaimers" class="btn -transparent">
-            {{ $t('header.disclaimers') }}
-          </router-link>
           <router-link to="/about" class="btn -transparent">
             {{ $t('header.about') }}
           </router-link>
@@ -113,7 +110,12 @@ export default class App extends Vue { }
   border-bottom-left-radius: 0;
 }
 
+// Since the header is sticky, add <body> padding to compensate
+body { padding-top: 4.5rem; }
+
 header {
+  position: fixed;
+  top: 0;
   background-color: $dark-blue;
   padding: 0.75rem 2rem;
   width: 100%;
@@ -152,6 +154,7 @@ header {
     background-color: $white;
     border: solid 0.125rem $dark-blue;
     color: $dark-blue;
+    transition: padding 0.3s, font-size 0.3s, box-shadow 0.3s;
 
     + a { margin-left: 1rem; }
   }
@@ -182,12 +185,17 @@ header {
     .menu-inner { display: flex !important; }
   }
 
+  @media (max-width: $small-desktop-max-width) {
+    a.btn {
+      padding: $tiny $standard;
+
+      + a { margin-left: $small; }
+    }
+  }
+
   // Mobile styling
   @media (max-width: $mobile-max-width) {
-    // On mobile, the <header> is sticky and leaves padding to it's mobile child
-    position: fixed;
     padding: 0;
-    top: 0;
 
     .btn.-transparent { border: none; }
 
@@ -221,10 +229,5 @@ header {
       select { width: 40%; }
     }
   }
-}
-
-@media (max-width: $mobile-max-width) {
-  // Since the header becomes sticky, add <body> padding to compensate
-  body { padding-top: 4.5rem; }
 }
 </style>

@@ -41,10 +41,31 @@ sub {
   font-size: smaller;
 }
 
+// For <figure> elements wrapping a <blockquote> and <figcaption>
+.quote-block {
+  padding: $standard;
+  margin-top: $standard;
+  border-left: solid 0.25rem $dark-blue;
+  background-color: $light-grey;
+
+  blockquote > p {
+    &:first-of-type { margin-top: 0; }
+    &::before { content: '\201C'; }
+    &::after { content: '\201D'; }
+  }
+
+  .quote-cite {
+    margin-left: $standard;
+      margin-top: $standard;
+    font-weight: bold;
+  }
+}
+
 ul.bulleted {
   list-style: disc;
   margin-left: $large;
   margin-top: $standard;
+  line-height: 1.5;
 
   li { margin-top: $small; }
 }
@@ -169,7 +190,7 @@ select, .btn {
 }
 
 .page {
-  padding: 8rem 5rem;
+  padding: 5rem;
 
   .page-inner {
     background-color: $white;
@@ -181,10 +202,13 @@ select, .btn {
 
   h2 { margin-top: 1.5rem; }
 
-  // Mobile styling
+  // Mobile styling cuts padding to make inner white content full width
   @media (max-width: $mobile-max-width) {
-    padding: 7rem 2rem;
+    padding: 0;
 
-    .page-inner { padding: 2rem; }
+    .page-inner {
+      padding: 2rem;
+      border-radius: 0;
+    }
   }
 }

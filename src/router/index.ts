@@ -6,7 +6,6 @@ import App from '@/App.vue'
 
 // Static pages (views)
 import About from '@/views/About.vue'
-import Disclaimers from '@/views/Disclaimers.vue'
 import FAQ from '@/views/FAQ.vue'
 import TakeAction from '@/views/TakeAction.vue'
 // Actual components
@@ -28,14 +27,6 @@ const routes: Array<RouteRecordRaw> = [
     component: SimulatorBoard,
     meta: {
       titlei18nKey: 'header.simulator'
-    }
-  },
-  {
-    path: '/disclaimers',
-    name: 'Disclaimers',
-    component: Disclaimers,
-    meta: {
-      titlei18nKey: 'header.disclaimers'
     }
   },
   {

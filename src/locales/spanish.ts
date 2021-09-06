@@ -7,7 +7,6 @@ export const SpanishLanguageData: ILanguageData = {
 
   header: {
     about: 'Sobre',
-    disclaimers: 'Advertencias',
     faq: 'FAQ',
     home: 'Hogar',
     language: 'Lingua',
