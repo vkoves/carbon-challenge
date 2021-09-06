@@ -382,10 +382,28 @@ $officeColor:   #5c76ff;
 $factoryColor:  #bd8d6b;
 $farmColor:     #5cb860;
 
-figure ::v-deep {
+figure {
   position: relative;
 
-  svg { width: 100%; }
+  :deep(svg) {
+    width: 100%;
+
+    .bar-cont {
+      &.-factory rect { fill: $factoryColor; }
+      &.-farm rect { fill: $farmColor; }
+      &.-home rect { fill: $homeColor; }
+      &.-office rect { fill: $officeColor; }
+      &.-power rect { fill: $powerColor; }
+    }
+
+    .bar {
+      transition: filter 0.3s;
+      cursor: pointer;
+      stroke: $white;
+
+      &.-active { filter: brightness(0.7) }
+    }
+  }
 
   .legend-square {
     position: relative;
@@ -403,22 +421,6 @@ figure ::v-deep {
     &.-home { background: $homeColor; }
     &.-office { background: $officeColor; }
     &.-power { background: $powerColor; }
-  }
-
-  .bar-cont {
-    &.-factory rect { fill: $factoryColor; }
-    &.-farm rect { fill: $farmColor; }
-    &.-home rect { fill: $homeColor; }
-    &.-office rect { fill: $officeColor; }
-    &.-power rect { fill: $powerColor; }
-  }
-
-  .bar {
-    transition: filter 0.3s;
-    cursor: pointer;
-    stroke: $white;
-
-    &.-active { filter: brightness(0.7) }
   }
 
   .tooltip {
