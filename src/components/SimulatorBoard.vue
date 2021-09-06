@@ -233,17 +233,19 @@ main {
 
   .title-cont { flex-wrap: wrap; }
 
-  .main-cont {
-    margin-top: 4rem;
-    flex-direction: column-reverse;
-  }
-
   .simulator-board {
     // The raw board size. Keep in mind this gets distorted due to rotation + skew
-    $boardSizeMobile: min(52vw, 60vh);
+    $boardSizeMobile: min(52vw, 50vh);
 
     width: $boardSizeMobile;
     height: $boardSizeMobile;
+  }
+
+  @media (orientation: portrait) {
+    .main-cont {
+      margin-top: 4rem;
+      flex-direction: column-reverse;
+    }
   }
 }
 </style>
