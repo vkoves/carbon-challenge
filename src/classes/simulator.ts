@@ -1,5 +1,8 @@
 /**
  * Code related to game simulation.
+ * All data is based on Our World in Data emissions by sector in April 2021, which
+ * was showing emissions for 2016. See here:
+ * https://ourworldindata.org/ghg-emissions-by-sector
  */
 import { TilePolicyKey } from '@/constants/tile-policies';
 import {
@@ -65,11 +68,6 @@ export interface ITotalEmissionsWithBreakdown {
 }
 
 /**
- * All data is based on Our World in Data emissions by sector in April 2021, which
- * was showing emissions for 2016.
- */
-
-/**
  * The total emissions in our "start year" (the year we use for the weight data)
  * in gigatonnes (billion tonnes) of eq. CO2.
  */
@@ -88,6 +86,10 @@ export const OrigYearlyEmissionsGigaTonnes = 49.4;
  * reasonable considering that emissions have a cascading effect, so emissions
  * beyond the 2°C threshold likely have greater effects than the emissions up
  * to that point.
+ *
+ * Also this does yield a fairly accurate temperature estimate that is quite
+ * close to the IPCC budgets shown. As in the emissions they budget would only
+ * yield 2°C of warming shows only a little bit over 2°C in the simulator.
  */
 export const HighEstDegreesWarmingPerGigaTonne = 0.002;
 
@@ -125,12 +127,6 @@ const DefaultBoardLayout: Array<TileType> = [
     TileType.Empty, TileType.Empty, TileType.Power, TileType.Lake,
     TileType.Empty, TileType.Factory, TileType.Forest, TileType.Forest,
 ]
-
-export enum TempCalcMethod {
-  OverBudgetsEstimated,
-  TwoDegBudget,
-  OneAndAHalfDegBudget,
-}
 
 /**
  * The core simulator class, which handles all of the calculation and data \
@@ -394,35 +390,13 @@ export class Simulator {
   }
 
   /**
-   * Returns which carbon budget was used to estimate the current degrees of
-   * warming, if any, or if we just used the over 2 deg. budget estimation
-   * formula.
-   */
-  public static getThermometerDegreesMethod(
-    currentTiles: Array<TileObj>
-  ): TempCalcMethod {
-    // TODO: Make this return the carbon budgets if the total emissions is within
-    // the point we can use the budgets
-    return TempCalcMethod.OverBudgetsEstimated;
-  }
-
-  /**
    * Returns the estimate degrees of average global temperature rise. Should
-   * typically be in the range of 1 - 3.
-   *
-   * Some implementation details:
-   *
-   * 1. Loosely based off of carbon budgets from here:
-   *
-   * https://carbontracker.org/carbon-budgets-where-are-we-now/
-   *
-   * 2. Above the 2°C budget threshold, we use Viktor's
-   * HighEstDegreesWarmingPerGigaTonne
+   * typically be in the range of 1 - 3. This uses the
+   * HighEstDegreesWarmingPerGigaTonne to compute a more precise de
    */
   public static getThermometerDegrees(
     currentTiles: Array<TileObj>
   ): number {
-    // TODO: Make this actually use the carbon budgets when appropriate
     return Simulator.getTotalEmissions(currentTiles)
       * HighEstDegreesWarmingPerGigaTonne;
   }
