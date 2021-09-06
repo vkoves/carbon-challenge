@@ -29,9 +29,9 @@
   padding: $large;
   color: $text-grey;
 
-  // Large overlays are 800px wide
+  // Large overlays are 1000px wide
   &.-large {
-    flex-basis: 50rem;
+    flex-basis: 62.5rem;
   }
 
   .title {

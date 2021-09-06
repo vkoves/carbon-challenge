@@ -44,9 +44,8 @@ export class TileObj {
    * its green variant or the default polluting variant. We show the tile as
    * green if the score is > 0.5.
    *
-   * TODO: Enhance this and add unit tests to confirm it works with a variety
-   * of options, as currently this ignores the targetYear and original value
-   * entirely.
+   * This basically is equivalent to an average of the option target values
+   * clamped to 0 - 1. (e.g. targets of 100, 50, and 0 yields 0.5)
    */
   totalGreenScore(): number {
     // Guard against not having options (empty tile)
@@ -56,14 +55,12 @@ export class TileObj {
 
     const optionsArr = Object.values(this.options);
 
-    const optionsCount = optionsArr.length;
-
     let targetTotal = 0;
 
     optionsArr
-      .forEach((opt: IOption) => targetTotal += opt.target);
+      .forEach((opt: IOption) => targetTotal += (opt.target / 100));
 
-    return targetTotal / optionsCount;
+    return targetTotal / optionsArr.length;
   }
 
   /**

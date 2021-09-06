@@ -1,4 +1,5 @@
 import { ILanguageData } from '@/interfaces/language-data';
+import { TileOption } from '@/interfaces/tile-interfaces';
 import { TilePolicyKey } from '@/constants/tile-policies';
 
 export const SpanishLanguageData: ILanguageData = {
@@ -38,7 +39,7 @@ export const SpanishLanguageData: ILanguageData = {
       current: 'Actual',
       target: 'Objetivo',
       targetYear: 'Año objetivo',
-      emissionPrcntLabel: 'orig.',
+      emissionPrcntLabel: 'de.',
       policiesLabel: '',
     },
 
@@ -68,20 +69,23 @@ export const SpanishLanguageData: ILanguageData = {
     },
     // Should include all values from the TileOption enum
     tileOptionTitles: {
-      // TODO: Fill these out
-      aviation: '',
-      commercialRoadTransport: '',
-      deforestation: '',
-      energyAgriculture: '',
-      energyCommercialBuildings: '',
-      energyIndustry: '',
-      energyResidential: '',
-      freightRoadTransport: '',
-      fugitiveEmissions: '',
-      livestockAndManure: '',
-      passengerRoadTransport: '',
-      shipping: '',
-      unallocatedFuelCombustion: '',
+      [TileOption.Aviation]: 'Aviación',
+      [TileOption.Deforestation]: 'Deforestación',
+      [TileOption.EnergyAgriculture]: 'Energía para la agricultura',
+      [TileOption.EnergyCommercialBuildings]: 'Energía para edificios comerciales',
+      [TileOption.EnergyIndustry]: 'Energía para la industria',
+      [TileOption.EnergyResidential]: 'Energía para edificios residenciales',
+      [TileOption.FreightRoadTransport]: 'Transporte de mercancías',
+      [TileOption.FugitiveEmissions]: 'Emisiones fugitivas de la producción de energía',
+      [TileOption.LivestockAndManure]: 'Ganadería y estiércol',
+      [TileOption.PassengerRoadTransport]: 'Vehículos de pasajeros',
+      [TileOption.Shipping]: 'Envío',
+      [TileOption.UnallocatedFuelCombustion]: 'Combustión de combustible no asignado',
+      [TileOption.AgriculturalSoils]: 'Suelos agrícolas',
+      [TileOption.CropBurning]: 'Quema de cultivos',
+      [TileOption.Cropland]: 'Tierras de cultivo',
+      [TileOption.DirectIndustrialProcesses]: 'Procesos industriales directos',
+      [TileOption.Waste]: 'Residuos',
     },
 
     // Should contain all values from TilePolicyKey
@@ -123,6 +127,10 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.FactoryDIPReduction]: {
+        name: '',
+        description:  '',
+      },
 
       // Farm policies
       [TilePolicyKey.FarmManureManagement2050]: {
@@ -141,6 +149,27 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
+      [TilePolicyKey.FarmAgriculturalSoilReducedFertilizer]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmAgriculturalSoilNoFertilizer]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmCroplandManagement]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmCropBurningReduction]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmCropBurningBan]: {
+        name: '',
+        description: '',
+      },
+
 
       // Home policies
       [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
@@ -172,6 +201,10 @@ export const SpanishLanguageData: ILanguageData = {
         description: '',
       },
       [TilePolicyKey.HomeAirTravelMagic]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.HomeWasteManagement]: {
         name: '',
         description: '',
       },

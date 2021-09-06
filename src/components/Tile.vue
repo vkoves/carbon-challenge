@@ -114,6 +114,9 @@ export default class Tile extends Vue { }
     outline-color: $white;
   }
 
+  // Fade out images on non-interactive tiles so it's clearly not interactive
+  &.-empty .above-ground { opacity: 0.5; }
+
   .above-ground {
     width: 100%;
     height: 100%;

@@ -1,4 +1,5 @@
 import { ILanguageData } from '@/interfaces/language-data';
+import { TileOption } from '@/interfaces/tile-interfaces';
 import { TilePolicyKey } from '@/constants/tile-policies';
 
 export const EnglishLanguageData: ILanguageData = {
@@ -29,7 +30,7 @@ export const EnglishLanguageData: ILanguageData = {
   },
 
   simulator: {
-    avgTempLabel: 'Avg. Global Increase by 2100',
+    avgTempLabel: 'Warming by 2100',
     close: 'Close',
     analytics: 'Analytics',
     settings: 'Settings',
@@ -38,7 +39,7 @@ export const EnglishLanguageData: ILanguageData = {
       current: 'Current',
       target: 'Target Emissions Reduction',
       targetYear: 'Target Year',
-      emissionPrcntLabel: 'orig.',
+      emissionPrcntLabel: 'of',
       policiesLabel: 'Policy',
     },
 
@@ -71,26 +72,30 @@ export const EnglishLanguageData: ILanguageData = {
 
     // Should include all values from the TileOption enum
     tileOptionTitles: {
-      aviation: 'Aviation',
-      deforestation: 'Deforestation',
-      energyAgriculture: 'Energy for Agriculture',
-      energyCommercialBuildings: 'Energy for Commercial Buildings',
-      energyIndustry: 'Energy for Industry',
-      energyResidential: 'Energy for Residential Buildings',
-      freightRoadTransport: 'Freight Trucking',
-      fugitiveEmissions: 'Fugitive Emissions from Energy Production',
-      livestockAndManure: 'Livestock and Manure',
-      passengerRoadTransport: 'Passenger Vehicles',
-      shipping: 'Shipping',
-      unallocatedFuelCombustion: 'Unallocated Fuel Combustion',
+      [TileOption.Aviation]: 'Aviation',
+      [TileOption.Deforestation]: 'Deforestation',
+      [TileOption.EnergyAgriculture]: 'Energy for Agriculture',
+      [TileOption.EnergyCommercialBuildings]: 'Energy for Commercial Buildings',
+      [TileOption.EnergyIndustry]: 'Energy for Industry',
+      [TileOption.EnergyResidential]: 'Energy for Residential Buildings',
+      [TileOption.FreightRoadTransport]: 'Freight Trucking',
+      [TileOption.FugitiveEmissions]: 'Fugitive Emissions from Energy Production',
+      [TileOption.LivestockAndManure]: 'Livestock and Manure',
+      [TileOption.PassengerRoadTransport]: 'Passenger Vehicles',
+      [TileOption.Shipping]: 'Shipping',
+      [TileOption.UnallocatedFuelCombustion]: 'Unallocated Fuel Combustion',
+      [TileOption.AgriculturalSoils]: 'Agricultural Soils',
+      [TileOption.CropBurning]: 'Crop Burning',
+      [TileOption.Cropland]: 'Cropland',
+      [TileOption.DirectIndustrialProcesses]: 'Direct Industrial Processes',
+      [TileOption.Waste]: 'Waste',
     },
 
     // Should contain all values from TilePolicyKey
     tilePolicies: {
       [TilePolicyKey.None]: {
         name: 'None',
-        description:
-          'Keep related emissions the same for the forseable future.',
+        description: '',
       },
       [TilePolicyKey.Custom]: {
         name: 'Custom',
@@ -99,15 +104,15 @@ export const EnglishLanguageData: ILanguageData = {
       },
 
       // Factory policies
-      [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
-        name: 'Require All Electric Freight by 2050',
-        description:
-          'Require all road freight vehicles to be electric by 2050.',
-      },
       [TilePolicyKey.FactoryElectricFreightIncentive]: {
         name: 'Electric Freight Incentives',
         description:
           'Provide tax incentives for electric freight vehicles, cutting gas powered trucks in half by 2050.',
+      },
+      [TilePolicyKey.FactoryElectricFreightRequirement2050]: {
+        name: 'Require All Electric Freight by 2050',
+        description:
+          'Require all road freight vehicles to be electric by 2050.',
       },
       [TilePolicyKey.FactoryElectricFreightMagic]: {
         name: 'Instant Electric Freight Conversion',
@@ -127,6 +132,10 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Instantly Convert Industry to Green Energy',
         description: 'Instantly switch all power sources for industry to renewables.',
       },
+      [TilePolicyKey.FactoryDIPReduction]: {
+        name: 'Greener Industrial Processes',
+        description:  'Use new methods for industrial processes like creating cement to cut emissions by 70% by 2050',
+      },
 
       // Farm policies
       [TilePolicyKey.FarmManureManagement2050]: {
@@ -145,27 +154,47 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Instantly Convert Agriculture to Green Energy',
         description: 'Instantly switch farms to run completely off of renewable energy.',
       },
+      [TilePolicyKey.FarmAgriculturalSoilReducedFertilizer]: {
+        name: 'Reduced Fertilizer',
+        description: 'Reduce Nitrous Oxide emissions by requiring reduced fertilizer use',
+      },
+      [TilePolicyKey.FarmAgriculturalSoilNoFertilizer]: {
+        name: 'Artificial Fertilizer Ban by 2050',
+        description: 'Stop Nitrous Oxide emissions from agriculture by completely banning aritifial fertilizers by 2050.',
+      },
+      [TilePolicyKey.FarmCroplandManagement]: {
+        name: 'Farm Cropland Management',
+        description: 'Improve techniques for manging cropland to ensure soils retain all their carbon by 2050',
+      },
+      [TilePolicyKey.FarmCropBurningReduction]: {
+        name: 'Reduced Crop Burning',
+        description: 'Enact policies to reduce crop burning by 50% by 2050',
+      },
+      [TilePolicyKey.FarmCropBurningBan]: {
+        name: 'Ban on Crop Burning',
+        description: 'Completely ban crop burning by 2050, completely eliminating those emissions.',
+      },
 
       // Home policies
-      [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
-        name: 'Electric Vehicle Requirement by 2050',
-        description: 'Phase out gas powered vehicles to get to all passenger vehicles being electric by 2050.',
-      },
       [TilePolicyKey.HomeElectricVehicleIncentive]: {
         name: 'Tax Incentives for Electric Vehicles',
         description: 'Provide tax incentives and subsidies for electric vehicles to cut gas powered vehicles in half by 2050.',
+      },
+      [TilePolicyKey.HomeElectricVehicleRequirement2050]: {
+        name: 'Electric Vehicle Requirement by 2050',
+        description: 'Phase out gas powered vehicles to get to all passenger vehicles being electric by 2050.',
       },
       [TilePolicyKey.HomeElectricVehicleMagic]: {
         name: 'Instantly Electrify All Passenger Vehicles',
         description: 'Using a global transmutation spell, all personal vehicles instantly become electric, with zero emissions!',
       },
-      [TilePolicyKey.HomeRenewableEnergyRequirement2050]: {
-        name: 'Require Green Energy for Homes by 2050',
-        description: 'Require homes to run on fully renewable energy by 2050.',
-      },
       [TilePolicyKey.HomeRenewableEnergyIncentive]: {
         name: 'Renewable Energy Incentive for Homes',
         description: 'Provide incentives and subsidies to halve emissions from home energy by 2050.',
+      },
+      [TilePolicyKey.HomeRenewableEnergyRequirement2050]: {
+        name: 'Require Green Energy for Homes by 2050',
+        description: 'Require homes to run on fully renewable energy by 2050.',
       },
       [TilePolicyKey.HomeRenewableEnergyMagic]: {
         name: 'Instantly Convert Homes to Green Energy',
@@ -179,15 +208,19 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Instantly Electrify Air Travel',
         description: 'By training a fleet of levitation wizards, make all planes run emission free.',
       },
+      [TilePolicyKey.HomeWasteManagement]: {
+        name: 'Greener Waste Management',
+        description: 'Improve management of waste (including landfills and waste water) to reduce emissions 80% by 2050',
+      },
 
       // Office policies
-      [TilePolicyKey.OfficeRenewableEnergyRequirement2050]: {
-        name: 'Require Green Energy for Offices by 2050',
-        description: 'Require office buildings to run on fully renewable energy by 2050.',
-      },
       [TilePolicyKey.OfficeRenewableEnergyIncentive]: {
         name: 'Renewable Energy Incentives for Offices',
         description: 'Provide tax incentives to cut emissions from office energy in half by 2050.',
+      },
+      [TilePolicyKey.OfficeRenewableEnergyRequirement2050]: {
+        name: 'Require Green Energy for Offices by 2050',
+        description: 'Require office buildings to run on fully renewable energy by 2050.',
       },
       [TilePolicyKey.OfficeRenewableEnergyMagic]: {
         name: 'Instantly Convert Offices to Green Energy',
@@ -195,17 +228,17 @@ export const EnglishLanguageData: ILanguageData = {
       },
 
       // Power policies
-      [TilePolicyKey.PowerFugitiveEmissionsBan2050]: {
-        name: 'Fossil Fuel Extraction Ban by 2050',
-        description: 'Reduce fossil fuel extraction culminating in a ban by 2050, fully reducing fugitive emissions by 2050.',
-      },
       [TilePolicyKey.PowerFugitiveEmissionsClampDown]: {
         name: 'Fugitive Emissions Clampdown',
         description: 'Clamp down on fugitive emissions from fossil fuel production, halving related emissions by 2050.',
       },
+      [TilePolicyKey.PowerFugitiveEmissionsBan2050]: {
+        name: 'Fossil Fuel Extraction Ban by 2050',
+        description: 'Reduce fossil fuel extraction culminating in a ban by 2050, fully reducing fugitive emissions by 2050.',
+      },
       [TilePolicyKey.PowerUnallocatedFuelReduction2050]: {
         name: 'Reduce Unallocated Fuel Emissions',
-        description: 'Use tax incentives and subsidies to reduce emissions from home heating and other unallocated sources',
+        description: 'Use tax incentives and subsidies to cut emissions from home heating and other unallocated sources in half by 2050.',
       },
     }
   }

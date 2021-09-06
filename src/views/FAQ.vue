@@ -9,7 +9,7 @@
         Carbon Challenge.
       </p>
 
-      <ul>
+      <ul class="bulleted">
         <li>
 
         </li>

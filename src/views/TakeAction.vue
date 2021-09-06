@@ -19,7 +19,7 @@
         combat climate change.
       </p>
 
-      <ul>
+      <ul class="bulleted">
         <li>
           <a href="https://call4climate.com/">Call4Climate (USA)</a> -
           Call4Climate is a hotline that connects you to your representatives in
@@ -30,7 +30,7 @@
 
       <h2>Individual Actions</h2>
 
-      <ul>
+      <ul class="bulleted">
         <li>
           <strong>Electrify Your Appliances</strong> - you might have home
           appliances like a stove, water heater, or dryer that burn fossil fuels

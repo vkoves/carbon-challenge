@@ -36,18 +36,23 @@ export enum TileType {
  * sure that the language files are updated along with this enum!
  */
 export enum TileOption {
+  AgriculturalSoils = 'agriculturalSoils',
   Aviation = 'aviation',
-  FreightRoadTransport = 'freightRoadTransport',
+  CropBurning = 'cropBurning',
+  Cropland = 'cropland',
   Deforestation = 'deforestation',
+  DirectIndustrialProcesses = 'directIndustrialProcesses',
   EnergyAgriculture = 'energyAgriculture',
   EnergyCommercialBuildings = 'energyCommercialBuildings',
   EnergyIndustry = 'energyIndustry',
   EnergyResidential = 'energyResidential',
+  FreightRoadTransport = 'freightRoadTransport',
   FugitiveEmissions = 'fugitiveEmissions',
   LivestockAndManure = 'livestockAndManure',
   PassengerRoadTransport = 'passengerRoadTransport',
   Shipping = 'shipping',
   UnallocatedFuelCombustion = 'unallocatedFuelCombustion',
+  Waste = 'waste',
 }
 
 /**
@@ -126,7 +131,16 @@ export interface IOptionPolicy {
  * buttons for "100% Renewable by 2050", "50% Renewable by 2040", etc.
  */
 export interface IOption extends IWeightedPolicy {
-  optionType: TileOption | null;
+  /**
+   * The type of this option
+   */
+  optionType: TileOption;
+
+  /**
+   * The type of tile this corresponds to - useful for aggregating back a set
+   * of options back to their corresponding types
+   */
+  tileType: TileType;
 
   /**
    * A percentage (0 - 100) representing the current value of this option.

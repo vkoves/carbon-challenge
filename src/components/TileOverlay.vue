@@ -69,8 +69,9 @@
                             {{ policyEmissions[policy.key] }} Gigatonnes CO<sub>2</sub>
                           </div>
 
-                          <!-- Only show the description of the current policy -->
-                          <p v-if="option.currPolicyKey === policy.key">
+                          <!-- Only show the description of the current policy,
+                            if it's not "None" -->
+                          <p v-if="option.currPolicyKey === policy.key && policy.key !== TilePolicyKey.None">
                             {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
                           </p>
                         </div>
@@ -279,6 +280,7 @@ export default class TileOverlay extends Vue { }
 
   .policy-card {
     display: flex;
+    flex-wrap: wrap;
     background: $white;
     color: $text-grey;
     padding: $standard;
@@ -343,7 +345,10 @@ export default class TileOverlay extends Vue { }
       }
     }
 
-    .custom-policy-cont { margin-left: 1.25rem; }
+    .custom-policy-cont {
+      margin-left: 1.25rem;
+      width: 100%;
+    }
   }
 }
 
