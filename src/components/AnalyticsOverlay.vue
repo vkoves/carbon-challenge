@@ -38,14 +38,20 @@
             {{ estDegWarming.toFixed(2) }} {{ SimulatorUnits.Temperature }}
           </dd>
 
-          <dt>Total Tile Option Weight:</dt>
-          <dd>{{ totalWeight }}%</dd>
+          <!-- The total tile option weight is really only important to
+              developers working on the app -->
+          <!--
+            <dt>Total Tile Option Weight:</dt>
+            <dd>{{ totalWeight }}%</dd>
 
-          <p>
-            The total weight sets a maximum for the amount of emissions a user could
-            possibly cut, so it's important this is as close to 100% as possible
-          </p>
+            <p>
+              The total weight sets a maximum for the amount of emissions a user could
+              possibly cut, so it's important this is as close to 100% as possible
+            </p>
+          -->
         </dl>
+
+        <h2>Emissions by Sector/Tile Breakdown</h2>
 
         <figure id="emissions-chart">
 
@@ -58,7 +64,8 @@
                 <button @click="closeTooltip" class="btn -grey -small">Close</button>
               </div>
 
-              Total Emissions: {{ tooltipData.totalEmissions.toFixed(2) }} GT (Gigatonnes)
+              <strong>Total Emissions:</strong>
+              {{ tooltipData.totalEmissions.toFixed(2) }} GT (Gigatonnes)
 
               <ul>
                 <li>
@@ -428,7 +435,7 @@ figure {
     position: absolute;
     padding: $standard;
     bottom: 50px;
-    min-width: 14rem;
+    min-width: 19rem;
     border-radius: 0.25rem;
     background-color: $white;
     border: solid 1px $light-grey;

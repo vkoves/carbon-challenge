@@ -36,8 +36,8 @@ export const SpanishLanguageData: ILanguageData = {
     settings: 'Ajustes',
 
     tileOverlay: {
-      current: 'Actual',
-      target: 'Objetivo',
+      current: 'Reducción de emisiones actuales',
+      target: 'Reducción de emisiones objetivo',
       targetYear: 'Año objetivo',
       emissionPrcntLabel: 'de.',
       policiesLabel: '',

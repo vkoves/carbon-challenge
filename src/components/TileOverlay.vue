@@ -82,8 +82,7 @@
                           v-if="policy.key === TilePolicyKey.Custom
                             && option.currPolicyKey === TilePolicyKey.Custom"
                           :option="option"
-                          :optionKey="optKey"
-                          :isMagicMode="settings.magicModeEnabled">
+                          :optionKey="optKey">
                         </CustomPolicyControls>
                       </div>
                     </template>
