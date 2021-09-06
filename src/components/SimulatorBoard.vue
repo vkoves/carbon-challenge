@@ -99,7 +99,7 @@ import Thermometer from './Thermometer.vue';
     selectedTile: null,
 
     settings: {
-      magicModeEnabled: true,
+      magicModeEnabled: false,
       customPoliciesEnabled: false,
     } as ISimulatorSettings,
 

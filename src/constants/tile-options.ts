@@ -1,15 +1,29 @@
 import { IOption, IOptions, IOptionPolicy, TileType, TileOption } from '../interfaces/tile-interfaces';
-import { TilePolicies, TilePolicyKey } from './tile-policies';
+import {
+  CustomPolicy,
+  NonePolicy,
+  TilePolicies,
+  TilePolicyKey
+} from './tile-policies';
 
-const EmptyOption: IOption = {
-  optionType: null,
+/**
+ * The params we need to create a new option. Everything else comes from the
+ * defaults in DefaultOptionValues
+ */
+interface ICreateOptionParams {
+  tileType: TileType;
+  optionType: TileOption;
+  weightPrcnt: number;
+  policies: Array<IOptionPolicy>;
+}
+
+const DefaultOptionValues = {
   current: 0,
   target: 0,
   targetYear: 2050,
   weightPrcnt: 0,
   currPolicyKey: TilePolicyKey.None,
 };
-
 
 /**
  * # Data I Need
@@ -31,10 +45,20 @@ const EmptyOption: IOption = {
 const RoadTransportTotalWeight = 11.9;
 
 /**
- * Create a new option, using EmptyOption to fill in default values
+ * Create a new option, using DefaultOptionValues to fill in default values
  */
-function createOption(optParams: any): IOption {
-  return Object.assign({}, EmptyOption, optParams);
+function createOption(optParams: ICreateOptionParams): IOption {
+  return Object.assign({}, DefaultOptionValues, optParams);
+}
+
+/**
+ * Get the policies for a certain tile option, ensuring the NonePolicy is added
+ * as the first option and custom is added as the last
+ */
+function getPolicies(policyKey: TileOption): Array<IOptionPolicy> {
+  return [ NonePolicy ]
+    .concat(TilePolicies[policyKey])
+    .concat([ CustomPolicy ]);
 }
 
 /**
@@ -47,94 +71,109 @@ export const TileOptions: { [ type: string ]: IOptions } = {
   [TileType.Factory]: {
     // "Transport > Road transport" * 40% commercial
     [TileOption.FreightRoadTransport]: createOption({
+      tileType: TileType.Factory,
       optionType: TileOption.FreightRoadTransport,
       weightPrcnt: RoadTransportTotalWeight * 0.4,
-      policies: TilePolicies[TileOption.FreightRoadTransport]
+      policies: getPolicies(TileOption.FreightRoadTransport)
     }),
     [TileOption.Shipping]: createOption({
+      tileType: TileType.Factory,
       optionType: TileOption.Shipping,
       weightPrcnt: 1.7,
-      policies: TilePolicies[TileOption.Shipping]
+      policies: getPolicies(TileOption.Shipping)
     }),
     // This comes from "Energy use in industry"
     [TileOption.EnergyIndustry]: createOption({
+      tileType: TileType.Factory,
       optionType: TileOption.EnergyIndustry,
       weightPrcnt:  24.2,
-      policies: TilePolicies[TileOption.EnergyIndustry]
+      policies: getPolicies(TileOption.EnergyIndustry)
     }),
     [TileOption.DirectIndustrialProcesses]: createOption({
+      tileType: TileType.Factory,
       optionType: TileOption.DirectIndustrialProcesses,
       weightPrcnt:  5.2,
-      policies: TilePolicies[TileOption.DirectIndustrialProcesses]
+      policies: getPolicies(TileOption.DirectIndustrialProcesses)
     }),
   },
 
   [TileType.Farm]: {
     [TileOption.LivestockAndManure]: createOption({
+      tileType: TileType.Farm,
       optionType: TileOption.LivestockAndManure,
       weightPrcnt: 5.8,
-      policies: TilePolicies[TileOption.LivestockAndManure]
+      policies: getPolicies(TileOption.LivestockAndManure)
     }),
     [TileOption.Deforestation]: createOption({
+      tileType: TileType.Farm,
       optionType: TileOption.Deforestation,
       weightPrcnt: 2.2,
-      policies: TilePolicies[TileOption.Deforestation]
+      policies: getPolicies(TileOption.Deforestation)
     }),
     // Called "Energy use in agriculture and fishing"
     [TileOption.EnergyAgriculture]: createOption({
+      tileType: TileType.Farm,
       optionType: TileOption.EnergyAgriculture,
       weightPrcnt: 1.7,
-      policies: TilePolicies[TileOption.EnergyAgriculture]
+      policies: getPolicies(TileOption.EnergyAgriculture)
     }),
     [TileOption.Cropland]: createOption({
+      tileType: TileType.Farm,
       optionType: TileOption.Cropland,
       weightPrcnt: 1.4,
-      policies: TilePolicies[TileOption.Cropland]
+      policies: getPolicies(TileOption.Cropland)
     }),
     [TileOption.CropBurning]: createOption({
+      tileType: TileType.Farm,
       optionType: TileOption.CropBurning,
       weightPrcnt: 3.5,
-      policies: TilePolicies[TileOption.CropBurning]
+      policies: getPolicies(TileOption.CropBurning)
     }),
     [TileOption.AgriculturalSoils]: createOption({
+      tileType: TileType.Farm,
       optionType: TileOption.AgriculturalSoils,
       weightPrcnt: 4.1,
-      policies: TilePolicies[TileOption.AgriculturalSoils]
+      policies: getPolicies(TileOption.AgriculturalSoils)
     }),
   },
 
   [TileType.Home]: {
     // "Transport > Road transport" * 60% passenger
     [TileOption.PassengerRoadTransport]: createOption({
+      tileType: TileType.Home,
       optionType: TileOption.PassengerRoadTransport,
       weightPrcnt: RoadTransportTotalWeight * 0.6,
-      policies: TilePolicies[TileOption.PassengerRoadTransport]
+      policies: getPolicies(TileOption.PassengerRoadTransport)
     }),
     // "Energy use in buildings > Residential buildings"
     [TileOption.EnergyResidential]: createOption({
+      tileType: TileType.Home,
       optionType: TileOption.EnergyResidential,
       weightPrcnt: 10.9,
-      policies: TilePolicies[TileOption.EnergyResidential]
+      policies: getPolicies(TileOption.EnergyResidential)
     }),
     // "Energy use in buildings > Residential buildings"
     [TileOption.Aviation]: createOption({
+      tileType: TileType.Home,
       optionType: TileOption.Aviation,
       weightPrcnt: 1.9,
-      policies: TilePolicies[TileOption.Aviation]
+      policies: getPolicies(TileOption.Aviation)
     }),
     [TileOption.Waste]: createOption({
+      tileType: TileType.Home,
       optionType: TileOption.Waste,
       weightPrcnt: 3.2,
-      policies: TilePolicies[TileOption.Waste]
+      policies: getPolicies(TileOption.Waste)
     }),
   },
 
   [TileType.Office]: {
     // "Energy use in buildings > Commercial buildings"
     [TileOption.EnergyCommercialBuildings]: createOption({
+      tileType: TileType.Office,
       optionType: TileOption.EnergyCommercialBuildings,
       weightPrcnt: 6.6,
-      policies: TilePolicies[TileOption.EnergyCommercialBuildings]
+      policies: getPolicies(TileOption.EnergyCommercialBuildings)
     }),
   },
 
@@ -143,14 +182,16 @@ export const TileOptions: { [ type: string ]: IOptions } = {
   // (home tile)
   [TileType.Power]: {
     [TileOption.FugitiveEmissions]: createOption({
+      tileType: TileType.Power,
       optionType: TileOption.FugitiveEmissions,
       weightPrcnt: 5.8,
-      policies: TilePolicies[TileOption.FugitiveEmissions]
+      policies: getPolicies(TileOption.FugitiveEmissions)
     }),
     [TileOption.UnallocatedFuelCombustion]: createOption({
+      tileType: TileType.Power,
       optionType: TileOption.UnallocatedFuelCombustion,
       weightPrcnt: 7.8,
-      policies: TilePolicies[TileOption.UnallocatedFuelCombustion]
+      policies: getPolicies(TileOption.UnallocatedFuelCombustion)
     }),
   },
 };

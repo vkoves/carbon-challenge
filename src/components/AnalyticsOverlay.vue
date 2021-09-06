@@ -45,10 +45,46 @@
             The total weight sets a maximum for the amount of emissions a user could
             possibly cut, so it's important this is as close to 100% as possible
           </p>
-
-          <figure id="emissions-chart">
-          </figure>
         </dl>
+
+        <figure id="emissions-chart">
+
+          <div class="tooltip">
+            <template v-if="tooltipData">
+              <h1>{{ tooltipData.datum.year }}</h1>
+
+              Total Emissions: {{ tooltipData.totalEmissions.toFixed(2) }} GT (Gigatonnes)
+
+              <ul>
+                <li>
+                  <div class="legend-square -power"></div>
+                  <strong>Power:</strong>
+                  {{ tooltipData.datum.power.toFixed(2) }} GT
+                </li>
+                <li>
+                  <div class="legend-square -factory"></div>
+                  <strong>Industry:</strong>
+                  {{ tooltipData.datum.factory.toFixed(2) }} GT
+                </li>
+                <li>
+                  <div class="legend-square -home"></div>
+                  <strong>Home:</strong>
+                  {{ tooltipData.datum.home.toFixed(2) }} GT
+                </li>
+                <li>
+                  <div class="legend-square -office"></div>
+                  <strong>Office:</strong>
+                  {{ tooltipData.datum.office.toFixed(2) }} GT
+                </li>
+                <li>
+                  <div class="legend-square -farm"></div>
+                  <strong>Agriculture:</strong>
+                  {{ tooltipData.datum.farm.toFixed(2) }} GT
+                </li>
+              </ul>
+            </template>
+          </div>
+        </figure>
       </div>
     </div>
   </focus-trap>
@@ -68,18 +104,44 @@ import { IOption } from '@/interfaces/tile-interfaces';
 
 import {
   // eslint-disable-next-line no-unused-vars
+  ITileDelta,
+  // eslint-disable-next-line no-unused-vars
   ITotalEmissionsDatum,
-  OrigYearlyEmissionsGigaTonnes,
+  // OrigYearlyEmissionsGigaTonnes,
   SimEndYear,
   Simulator,
   SimulatorUnits,
   TempCalcMethod,
 } from '@/classes/simulator';
 
+interface IEmissionsDatum {
+  year: number;
+  [TileOptionType: string]: number;
+}
+
+/**
+ * The IEmissionsDatum after we apply the D3 stack function to it
+ */
+interface IStackedDatum {
+  0: number;
+  1: number;
+  data: IEmissionsDatum;
+}
+
+interface ITooltipData {
+  totalEmissions: number;
+  datum: IEmissionsDatum;
+}
+
+
 @Options({
   name: 'AnalyticsOverlay',
 
   components: { FocusTrap },
+
+  data: () => ({
+    tooltipData: undefined,
+  }),
 
   props: {
     tiles: [],
@@ -121,12 +183,14 @@ export default class AnalyticsOverlay extends Vue {
   TempCalcMethod = TempCalcMethod;
 
   tickYears = [
-    '2020', '2021', '2030', '2040', '2050', '2060', '2070', '2080', '2090', '2100'
+    '2021', '2030', '2040', '2050', '2060', '2070', '2080', '2090', '2100'
   ];
 
   tiles: Array<TileObj> = [];
+  tooltipData?: ITooltipData;
 
   xScale: any;
+  yScale: any;
 
   graphMargins = { top: 30, right: 30, bottom: 70, left: 60 };
 
@@ -163,13 +227,21 @@ export default class AnalyticsOverlay extends Vue {
   }
 
   graphEmissionsOverTime(emissionsData: Array<ITotalEmissionsDatum>): void {
+    const parsedData: Array<IEmissionsDatum> = emissionsData
+      .map((datum: ITotalEmissionsDatum) => this.emissionsFromDatum(datum));
+
+    const outerWidth = 1000;
+    const outerHeight = 300;
+
     // set the dimensions and margins of the graph
-    const width = 1000 - this.graphMargins.left - this.graphMargins.right;
-    const height = 300 - this.graphMargins.top - this.graphMargins.bottom;
+    const width = outerWidth - this.graphMargins.left - this.graphMargins.right;
+    const height = outerHeight - this.graphMargins.top - this.graphMargins.bottom;
 
     // append the svg object to the body of the page
     var svg = d3.select('#emissions-chart')
       .append('svg')
+        .attr('preserveAspectRatio', 'xMinYMin meet')
+        .attr('viewBox', `0 0 ${outerWidth} ${outerHeight}`)
         .attr('width', width + this.graphMargins.left + this.graphMargins.right)
         .attr('height', height + this.graphMargins.top + this.graphMargins.bottom)
       .append('g')
@@ -179,7 +251,7 @@ export default class AnalyticsOverlay extends Vue {
     // X axis
     this.xScale = d3.scaleBand()
       .range([ 0, width ])
-      .domain(emissionsData.map((d: ITotalEmissionsDatum) => d.year.toString()));
+      .domain(parsedData.map((d: IEmissionsDatum) => d.year.toString()));
 
     svg.append('g')
       .attr('transform', 'translate(0,' + height + ')')
@@ -188,39 +260,70 @@ export default class AnalyticsOverlay extends Vue {
         .attr('transform', 'translate(-10,0)rotate(-45)')
         .style('text-anchor', 'end');
 
+    // TODO: Move this into a constant
+    const emissionGroups = [ 'factory', 'farm', 'home', 'office', 'power' ];
+
     // Add Y axis
-    var yScale = d3.scaleLinear()
+    this.yScale = d3.scaleLinear()
       .domain([0, 55])
       .range([ height, 0]);
+
     svg.append('g')
-      .call(d3.axisLeft(yScale));
+      .call(d3.axisLeft(this.yScale));
 
-    // Bars
-    svg.selectAll('mybar')
-      .data(emissionsData)
+    const stackedData = d3.stack().keys(emissionGroups)(parsedData);
+
+    svg.append('g')
+      .selectAll('g')
+      .data(stackedData)
       .enter()
-      .append('rect')
-        .attr('class', 'bar')
-        .attr('data-year', (d: ITotalEmissionsDatum) => d.year)
-        .attr('x', (d: ITotalEmissionsDatum) => {
-          return this.xScale(d.year.toString()) as number;
-        })
-        .attr('y', (d: ITotalEmissionsDatum) => yScale(this.emissionsFromDatum(d)))
-        .attr('width', this.xScale.bandwidth())
-        .attr('height', (d: ITotalEmissionsDatum) => height - yScale(this.emissionsFromDatum(d)))
-        .on('click', this.barClick.bind(this));
-
-    d3.select('#emissions-chart')
-      .append('div')
-      .attr('class', 'tooltip');
+      .append('g')
+        .attr('class', 'bar-cont')
+        .attr('class', d => `bar-cont -${d.key}`)
+        .selectAll('rect')
+        // enter a second time = loop subgroup per subgroup to add all
+        // rectangles. We also coerce the types here
+        .data((d: unknown) => d as Array<IStackedDatum>)
+        .enter().append('rect')
+          .attr('class', 'bar')
+          .attr('data-year', (d: IStackedDatum) => d.data.year)
+          .attr('x', (d: IStackedDatum) => {
+            return this.xScale(d.data.year.toString());
+          })
+          .attr('y', (d: IStackedDatum) => {
+            return this.yScale(d[1]);
+          })
+          .attr('height', (d: IStackedDatum) => {
+            return this.yScale(d[0]) - this.yScale(d[1]);
+          })
+          .attr('width', this.xScale.bandwidth())
+          .on('click', (event: PointerEvent, d: IStackedDatum) => {
+            return this.barClick(event, d.data);
+          });
   }
 
-  emissionsFromDatum(datum: ITotalEmissionsDatum): number {
-    return d3.sum(Object.values(datum.deltas)) + OrigYearlyEmissionsGigaTonnes;
+  /**
+   * Sum up all of the emissions by each type, since the Simulator returns
+   * emission data broken out by each option for specificity
+   */
+  emissionsFromDatum(datum: ITotalEmissionsDatum): IEmissionsDatum {
+    const emissionsByType: IEmissionsDatum = { year: datum.year };
+
+    Object.entries(datum.emissions).forEach(([ optType, emissions ]) => {
+      emissionsByType[optType] = d3.sum(Object.values(emissions));
+    });
+
+    return emissionsByType;
   }
 
-  barClick(event: PointerEvent, datum: ITotalEmissionsDatum) {
-    const totalEmissions = this.emissionsFromDatum(datum).toFixed(2);
+  barClick(event: PointerEvent, datum: IEmissionsDatum) {
+    // Create a copy of the datum without the year so we can loop through the
+    // other emissions
+    const datumWithoutYear = Object.assign({}, datum);
+    delete datumWithoutYear.year;
+
+    // Add up all the data values (except the year)
+    const totalEmissions = d3.sum(Object.values(datumWithoutYear));
 
     // Tooltips default to the right, but past 2070 we'll flip it
     const isTooltipLeft = datum.year >= 2070;
@@ -230,10 +333,14 @@ export default class AnalyticsOverlay extends Vue {
     const tooltipLeft = this.xScale(datum.year.toString())
       + this.graphMargins.left
       + (isTooltipLeft ? -tooltipWidth : this.xScale.bandwidth())
-      + (isTooltipLeft ? -tooltipOffset : tooltipOffset)
+      + (isTooltipLeft ? -tooltipOffset : tooltipOffset);
+
+    this.tooltipData = {
+      totalEmissions,
+      datum,
+    };
 
     d3.select('.tooltip')
-      .html(`<h1>${datum.year}</h1> Emissions: ${totalEmissions} Gigatonnes`)
       .style('left', tooltipLeft + 'px')
       .classed('-visible', true)
       .classed('-left', isTooltipLeft);
@@ -255,8 +362,42 @@ export default class AnalyticsOverlay extends Vue {
 
 h2 { margin-top: $standard; }
 
+$homeColor:     #ff6b6b;
+$powerColor:    #ffc200;
+$officeColor:   #5c76ff;
+$factoryColor:  #bd8d6b;
+$farmColor:     #5cb860;
+
 figure ::v-deep {
   position: relative;
+
+  svg { width: 100%; }
+
+  .legend-square {
+    position: relative;
+    top: 3px;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: solid 2px $white;
+    border-radius: 1px;
+    box-shadow: 0px 1px 3px rgb(0 0 0 / 25%);
+    margin-right: $standard;
+
+    &.-factory { background: $factoryColor; }
+    &.-farm { background: $farmColor; }
+    &.-home { background: $homeColor; }
+    &.-office { background: $officeColor; }
+    &.-power { background: $powerColor; }
+  }
+
+  .bar-cont {
+    &.-factory rect { fill: $factoryColor; }
+    &.-farm rect { fill: $farmColor; }
+    &.-home rect { fill: $homeColor; }
+    &.-office rect { fill: $officeColor; }
+    &.-power rect { fill: $powerColor; }
+  }
 
   .bar {
     transition: fill 0.3s;
@@ -270,13 +411,13 @@ figure ::v-deep {
 
   .tooltip {
     position: absolute;
-    padding: $small;
-    bottom: 100px;
+    padding: $standard;
+    top: 50px;
     min-width: 14rem;
     border-radius: 0.25rem;
     background-color: $white;
     border: solid 1px $light-grey;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5) ;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
     opacity: 0;
     transition: opacity 0.3s;
 
@@ -304,6 +445,12 @@ figure ::v-deep {
     &.-visible { opacity: 1; }
 
     h1 { font-size: 1.25rem; }
+
+    ul {
+      margin-top: $standard;
+
+      li { margin-top: $small; }
+    }
   }
 }
 

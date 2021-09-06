@@ -41,9 +41,9 @@ sub {
   font-size: smaller;
 }
 
-ul {
+ul.-bulleted {
   list-style: disc;
-  margin-left: $standard;
+  margin-left: $large;
   margin-top: $standard;
 
   li { margin-top: $small; }

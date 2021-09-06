@@ -30,23 +30,32 @@ export interface IPolicyEmissionsWithBreakdown {
   data: Array<IPolicyDatum>,
 }
 
+export interface ITileDelta {
+  [tileOptionType: string]: number;
+}
+
 /**
  * A data point for debugging the total emissions, containing the year of this
- * calculation and the delta emissions for each tile option type.
+ * calculation and the emissions/year for each tile option type.
  *
  * Example:
+ *
+ * ```
  * {
  *   year: 2030,
- *   // no change
- *   [TileOption.Aviation]: 0,
- *   // save 5 Gigatonnes of emissions compared to the start year
- *   [TileOption.EnergyResidential]: -5,
+ *   emissions: {
+  *    [TileType.Home]: {
+ *       [TileOption.Aviation]: 5,
+ *       [TileOption.EnergyResidential]: 15,
+  *    }
+ *   }
  * }
+ * ```
  */
 export interface ITotalEmissionsDatum {
   year: number;
-  deltas: {
-    [tileOptionType: string]: number;
+  emissions: {
+    [tileType: string]: ITileDelta;
   }
 }
 
@@ -296,6 +305,17 @@ export class Simulator {
 
     let tileData: Array<ITotalEmissionsDatum> = [];
 
+    /**
+     * Each delta object is organized by tile type, so we make a function to
+     * create new emission objects
+     */
+    const NewDefaultDeltaObj = () => ({
+      [TileType.Factory]: {},
+      [TileType.Farm]: {},
+      [TileType.Home]: {},
+      [TileType.Office]: {},
+      [TileType.Power]: {},
+    });
 
     // Loop through each tile and then each option underneath it
     currentTiles.forEach((tile: TileObj) => {
@@ -304,22 +324,21 @@ export class Simulator {
 
         totalTileDelta += optionData.total;
 
-        // If the tileData hasn't been set yet, start with the yar and the first
-        // option
+        // If the tileData hasn't been set yet, fill the array with the year and
+        // the tile type objects we'll put option deltas into
         if (tileData.length === 0) {
           tileData = optionData.data.map((datum: IPolicyDatum) => ({
             year: datum.year,
-            deltas: {
-              [tileOption.optionType as string]: datum.delta,
-            }
+            emissions: NewDefaultDeltaObj(),
           }));
         }
-        // Otherwise just add this tile option
-        else {
-          optionData.data.forEach((datum: IPolicyDatum, index: number) => {
-            tileData[index].deltas[tileOption.optionType  as string] = datum.delta;
-          });
-        }
+
+        // Then add this tile option
+        optionData.data.forEach((datum: IPolicyDatum, index: number) => {
+
+          tileData[index].emissions[tileOption.tileType][tileOption.optionType]
+            = OrigYearlyEmissionsGigaTonnes * (tileOption.weightPrcnt / 100) + datum.delta;
+        });
       });
     });
 
