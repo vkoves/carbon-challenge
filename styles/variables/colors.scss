@@ -10,4 +10,9 @@ $mid-grey: #696969;
 
 // Text colors
 $text-grey: #323232;
-$text-grey-light: #6b6767
+$text-grey-light: #6b6767;
+
+// Transparent black colors for shadows
+$shadow-light: rgba(0, 0, 0, 0.25);
+$shadow-medium: rgba(0, 0, 0, 0.5);
+$shadow-dark: rgba(0, 0, 0, 0.75);

@@ -422,7 +422,7 @@ figure {
     border-radius: 0.25rem;
     background-color: $white;
     border: solid 1px $light-grey;
-    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(2px 2px 5px $shadow-medium);
     opacity: 0;
     transition: opacity 0.3s, left 0.3s;
 

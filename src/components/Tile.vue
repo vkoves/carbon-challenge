@@ -111,8 +111,9 @@ export default class Tile extends Vue { }
   &:not(.-empty):hover, &:focus, &.-active {
     border-color: transparent;
     transform: translate(-10%, -10%);
-    box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
+    box-shadow: 0.25rem 0.25rem 0.25rem $shadow-medium;
     border-color: $white;
+    outline: none;
   }
 
   // Fade out images on non-interactive tiles so it's clearly not interactive

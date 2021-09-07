@@ -235,7 +235,7 @@ export default class TileOverlay extends Vue { }
   right: 0;
   z-index: 11; // Draw over <header> on mobile
   transition: background-color 0.3s;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: $shadow-light;
   overflow: hidden;
 
   &:not(.-open) {
@@ -248,7 +248,7 @@ export default class TileOverlay extends Vue { }
     height: 100%;
     min-width: 40%;
     box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: $shadow-dark;
     backdrop-filter: blur(0.2rem);
 
     form {
@@ -278,7 +278,7 @@ export default class TileOverlay extends Vue { }
       width: 100%;
       padding: $large;
       margin-top: $standard;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: $shadow-medium;
       box-sizing: border-box;
 
       div.-first h3 { margin-top: 0; }
@@ -327,7 +327,7 @@ export default class TileOverlay extends Vue { }
     .label-cont {
       margin-top: 0;
       margin-left: $small;
-      width: 90%;
+      width: calc(100% - 2rem);
 
       label {
         display: flex;

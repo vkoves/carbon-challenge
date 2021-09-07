@@ -121,7 +121,7 @@ export default class Intro extends Vue { }
       border-radius: 10rem;
       width: 100%;
       padding: 50% 0;
-      filter: drop-shadow(2px 4px 0px rgba(0,0,0,0.5));
+      filter: drop-shadow(2px 4px 0px $shadow-medium);
       transform: scale(1, 0.8);
     }
 
@@ -136,7 +136,7 @@ export default class Intro extends Vue { }
     background-image: url('~@/assets/tile-sheet.png');
     background-size: 300%;
     padding: 50% 0;
-    filter: drop-shadow(1px 2px 0px rgba(0,0,0,0.5));
+    filter: drop-shadow(1px 2px 0px $shadow-medium);
 
     &.-farm-green {
       top: -8%;
