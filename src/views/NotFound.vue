@@ -1,14 +1,16 @@
 <template>
   <main id="main-content" class="page">
     <div class="page-inner">
-      <h1>404 - Page Not Found!</h1>
+      <h1>{{ $t('notFound.heading') }}</h1>
 
       <p>
-        Hm, we couldn't find that page!
+        {{ $t('notFound.body') }}
       </p>
 
       <p>
-        <a href="/">Return to Carbon Challenge Home</a>
+        <a href="/">
+          {{ $t('notFound.returnText') }}
+        </a>
       </p>
     </div>
   </main>

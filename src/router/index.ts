@@ -53,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/:pathMatch(.*)*',
     component: NotFound,
     meta: {
-      titlei18nKey: 'header.takeAction'
+      titlei18nKey: 'notFound.title'
     }
   }
 ]
