@@ -1,6 +1,6 @@
 <template>
   <div @click="closeOverlay" @keydown.esc="closeOverlay"
-    class="overlay" :class="{ '-open': showingTileMenu }">
+    class="overlay -tile" :class="{ '-open': showingTileMenu }">
     <transition name="slide-fade">
       <section class="sidebar" v-show="showingTileMenu"
         @click="handleSidebarClick">
@@ -230,7 +230,7 @@ export default class TileOverlay extends Vue { }
   justify-content: flex-end;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   top: 0;
   right: 0;
   z-index: 11; // Draw over <header> on mobile

@@ -1,6 +1,6 @@
 <template>
   <focus-trap :returnFocusOnDeactivate="true" initialFocus="#analytics-close">
-    <div class="overlay" @click="closeOverlay" @keydown.esc="closeOverlay">
+    <div class="overlay -analytics" @click="closeOverlay" @keydown.esc="closeOverlay">
       <!-- TODO: Move all text to come from i18n -->
       <div class="overlay-content -large" @click="absorbClick">
         <div class="title">

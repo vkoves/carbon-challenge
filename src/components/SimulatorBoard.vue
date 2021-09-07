@@ -59,13 +59,17 @@
       @closed="tileOverlayClosed($event)"
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
-    <AnalyticsOverlay v-if="showingAnalytics"
-      :tiles="tiles"
-      @closed="showingAnalytics = false"></AnalyticsOverlay>
+    <transition name="fade">
+      <AnalyticsOverlay v-if="showingAnalytics"
+        :tiles="tiles"
+        @closed="showingAnalytics = false"></AnalyticsOverlay>
+    </transition>
 
-    <SettingsOverlay v-if="showingSettings"
-      :settings="settings"
-      @closed="showingSettings = false"></SettingsOverlay>
+    <transition name="fade">
+      <SettingsOverlay v-if="showingSettings"
+        :settings="settings"
+        @closed="showingSettings = false"></SettingsOverlay>
+    </transition>
   </main>
 </template>
 
@@ -174,9 +178,12 @@ export default class SimulatorBoard extends Vue { }
 @import './styles/variables/spacing';
 
 main {
+  // Ensure the simulator always takes up almost the full screen height
+  height: calc(100vh - 70px);
   padding: 6rem;
-  color: $white;
+  box-sizing: border-box;
   overflow: hidden;
+  color: $white;
 }
 
 .title-cont {
@@ -245,6 +252,7 @@ main {
     .main-cont {
       margin-top: 4rem;
       flex-direction: column-reverse;
+      align-items: center;
     }
   }
 }

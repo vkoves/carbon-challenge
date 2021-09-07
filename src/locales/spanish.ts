@@ -29,7 +29,7 @@ export const SpanishLanguageData: ILanguageData = {
   },
 
   simulator: {
-    avgTempLabel: 'Aumento global promedio para 2100',
+    avgTempLabel: 'Calentamiento para el 2100',
     close: 'Cerrar',
     analytics: 'Analítica',
     settings: 'Ajustes',

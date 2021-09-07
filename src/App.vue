@@ -2,7 +2,7 @@
   <a href="#main-content" class="btn -small focus-elem skip-btn">
     Skip to Main Content
   </a>
-  <header>
+  <header :class="{ '-scrolled': isScrolledDown }">
     <div class="mobile-header" :class="{ '-open': mobileMenuOpen }">
       <router-link to="/" class="btn -transparent">
         {{ $t('title') }}
@@ -73,11 +73,19 @@ import { AvailableLanguages } from '@/constants/languages';
   data: () => ({
     AvailableLanguages: AvailableLanguages,
     mobileMenuOpen: false,
+    isScrolledDown: false,
   }),
 
   methods: {
     closeMenu(): void {
       this.mobileMenuOpen = false;
+    },
+
+    /**
+     * Called when the user scrolls
+     */
+    handleScroll() {
+      this.isScrolledDown = window.pageYOffset > 10;
     }
   },
 
@@ -89,6 +97,9 @@ import { AvailableLanguages } from '@/constants/languages';
       closeMenuFunc();
       next();
     });
+
+    // Listen for scroll events to change <header> styling
+    window.addEventListener('scroll', this.handleScroll);
   }
 })
 
@@ -110,17 +121,19 @@ export default class App extends Vue { }
   border-bottom-left-radius: 0;
 }
 
-// Since the header is sticky, add <body> padding to compensate
-body { padding-top: 4.5rem; }
-
 header {
-  position: fixed;
+  position: sticky;
   top: 0;
   background-color: $dark-blue;
   padding: 0.75rem 2rem;
   width: 100%;
   z-index: 10;
   box-sizing: border-box;
+  transition: box-shadow 0.3s;
+
+  &.-scrolled {
+    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.5);
+  }
 
   .menu-inner, .mobile-header {
     display: flex;
@@ -196,8 +209,6 @@ header {
 
 // Mobile styling
 @media (max-width: $mobile-max-width) {
-  body { padding-top: 3.75rem; }
-
   header {
     padding: 0;
 

@@ -62,11 +62,14 @@ const router = createRouter({
 
 // This callback runs before every route change, including on page load.
 router.beforeEach(function(to, from, next) {
-
+  // Run the app and page title through translation before updating title
   const appTitle = i18n.global.t('title');
   const pageTitle = i18n.global.t(String(to.meta.titlei18nKey));
 
   document.title = `${pageTitle} | ${appTitle}`
+
+  // Reset scroll position
+  window.scrollTo(0, 0);
 
   next();
 });
