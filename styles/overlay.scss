@@ -28,6 +28,7 @@
   border-radius: 0.5rem;
   padding: $large;
   color: $text-grey;
+  box-sizing: border-box;
 
   // Large overlays are 1000px wide
   &.-large {

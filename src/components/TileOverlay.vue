@@ -1,6 +1,6 @@
 <template>
   <div @click="closeOverlay" @keydown.esc="closeOverlay"
-    class="overlay" :class="{ '-open': showingTileMenu }">
+    class="overlay -tile" :class="{ '-open': showingTileMenu }">
     <transition name="slide-fade">
       <section class="sidebar" v-show="showingTileMenu"
         @click="handleSidebarClick">
@@ -82,8 +82,7 @@
                           v-if="policy.key === TilePolicyKey.Custom
                             && option.currPolicyKey === TilePolicyKey.Custom"
                           :option="option"
-                          :optionKey="optKey"
-                          :isMagicMode="settings.magicModeEnabled">
+                          :optionKey="optKey">
                         </CustomPolicyControls>
                       </div>
                     </template>
@@ -124,6 +123,9 @@ const AnimDurationMs = 300;
 
     /** The current simulator settings */
     settings: {} as ISimulatorSettings,
+
+    /** Whether Escape was pressed globally, which should close this overlay */
+    escPressed: false,
   },
 
   components: {
@@ -203,6 +205,13 @@ const AnimDurationMs = 300;
       setTimeout(() => {
         this.trapFocus = true;
       }, AnimDurationMs);
+    },
+
+    // Close the overlay if escape was pressed in the parent
+    escPressed: function(isPressed: boolean) {
+      if (isPressed) {
+        this.closeOverlay();
+      }
     }
   }
 })
@@ -221,7 +230,7 @@ export default class TileOverlay extends Vue { }
   justify-content: flex-end;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   top: 0;
   right: 0;
   z-index: 11; // Draw over <header> on mobile

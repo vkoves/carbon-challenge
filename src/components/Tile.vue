@@ -6,12 +6,10 @@
     :style="{ 'animation-delay': animDelay }"
     @click="tileSelected()">
     <div class="above-ground -building">
-      <div
-        :class="[
+      <div :class="[
           'tile-img ' + tile.type,
           { '-green': tile.isGreenVariant }
-        ]"
-        :style="{ 'animation-delay': imgAnimDelay }">
+        ]">
         {{ $t(`simulator.tileTypes.${tile.type}`) }}
       </div>
     </div>
@@ -71,6 +69,9 @@ const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
       return this.tileNum * AnimationOffsetSec + 's';
     },
 
+    /**
+     * The time we should wait to animate in the above-ground image
+     */
     imgAnimDelay(): string {
       return (this.tileNum * AnimationOffsetSec) + GridAnimDelaySec + 's';
     },
@@ -142,7 +143,7 @@ export default class Tile extends Vue { }
   .tile-img:not(.empty) {
     position: absolute;
     width: 100%;
-    height: 110%;
+    height: 100%;
     font-size: 0;
     color: transparent;
     margin: auto;
@@ -181,14 +182,14 @@ export default class Tile extends Vue { }
     }
 
     &.power {
-      background-position-y: 82%;
+      background-position-y: 81%;
     }
 
     &.farm {
       background-position-y: 102%;
       // Move the farm back on the tile
-      top: -20%;
-      right: -15%;
+      top: -10%;
+      right: -10%;
     }
   }
 }

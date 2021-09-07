@@ -1,6 +1,6 @@
 <template>
   <focus-trap :returnFocusOnDeactivate="true" initialFocus="#analytics-close">
-    <div class="overlay" @click="closeOverlay" @keydown.esc="closeOverlay">
+    <div class="overlay -analytics" @click="closeOverlay" @keydown.esc="closeOverlay">
       <!-- TODO: Move all text to come from i18n -->
       <div class="overlay-content -large" @click="absorbClick">
         <div class="title">
@@ -20,32 +20,25 @@
             {{ Math.round(totalEmissions) }} {{ SimulatorUnits.Emissions }}
           </dd>
 
-          <dt>Degree Warming Calculation Method</dt>
-          <dd>
-            <span v-if="tempCalcMethod === TempCalcMethod.OverBudgetsEstimated">
-              Over Known Budgets - Manually Estimated
-            </span>
-            <span v-if="tempCalcMethod === TempCalcMethod.TwoDegBudget">
-              Near 2°C, used official carbon budget
-            </span>
-            <span v-if="tempCalcMethod === TempCalcMethod.OneAndAHalfDegBudget">
-              Near 1.5°C, used official carbon budget
-            </span>
-          </dd>
-
           <dt>Est. Deg. Warming (by {{ SimEndYear }})</dt>
           <dd>
             {{ estDegWarming.toFixed(2) }} {{ SimulatorUnits.Temperature }}
           </dd>
 
-          <dt>Total Tile Option Weight:</dt>
-          <dd>{{ totalWeight }}%</dd>
+          <!-- The total tile option weight is really only important to
+              developers working on the app -->
+          <!--
+            <dt>Total Tile Option Weight:</dt>
+            <dd>{{ totalWeight }}%</dd>
 
-          <p>
-            The total weight sets a maximum for the amount of emissions a user could
-            possibly cut, so it's important this is as close to 100% as possible
-          </p>
+            <p>
+              The total weight sets a maximum for the amount of emissions a user could
+              possibly cut, so it's important this is as close to 100% as possible
+            </p>
+          -->
         </dl>
+
+        <h2>Emissions by Sector/Tile Breakdown</h2>
 
         <figure id="emissions-chart">
 
@@ -58,7 +51,8 @@
                 <button @click="closeTooltip" class="btn -grey -small">Close</button>
               </div>
 
-              Total Emissions: {{ tooltipData.totalEmissions.toFixed(2) }} GT (Gigatonnes)
+              <strong>Total Emissions:</strong>
+              {{ tooltipData.totalEmissions.toFixed(2) }} GT (Gigatonnes)
 
               <ul>
                 <li>
@@ -116,7 +110,6 @@ import {
   SimEndYear,
   Simulator,
   SimulatorUnits,
-  TempCalcMethod,
 } from '@/classes/simulator';
 
 interface IEmissionsDatum {
@@ -188,14 +181,12 @@ interface ITooltipData {
 export default class AnalyticsOverlay extends Vue {
   totalEmissions: number = 0;
   estDegWarming: number = 0;
-  tempCalcMethod: TempCalcMethod | null = null;
 
   totalWeight: number = 0;
 
   // Expose needed constants and enums to template
   SimEndYear = SimEndYear;
   SimulatorUnits = SimulatorUnits;
-  TempCalcMethod = TempCalcMethod;
 
   tickYears = [
     '2021', '2030', '2040', '2050', '2060', '2070', '2080', '2090', '2100'
@@ -228,7 +219,6 @@ export default class AnalyticsOverlay extends Vue {
 
     this.totalEmissions = totalEmissionsData.total;
 
-    this.tempCalcMethod = Simulator.getThermometerDegreesMethod(this.tiles);
     this.estDegWarming = Simulator.getThermometerDegrees(this.tiles);
 
     let totalWeight = 0;
@@ -428,7 +418,7 @@ figure {
     position: absolute;
     padding: $standard;
     bottom: 50px;
-    min-width: 14rem;
+    min-width: 19rem;
     border-radius: 0.25rem;
     background-color: $white;
     border: solid 1px $light-grey;

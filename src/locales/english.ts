@@ -7,7 +7,6 @@ export const EnglishLanguageData: ILanguageData = {
 
   header: {
     about: 'About',
-    disclaimers: 'Disclaimers',
     faq: 'FAQ',
     home: 'Home',
     language: 'Language',
@@ -36,7 +35,7 @@ export const EnglishLanguageData: ILanguageData = {
     settings: 'Settings',
 
     tileOverlay: {
-      current: 'Current',
+      current: 'Current Emissions Reduction',
       target: 'Target Emissions Reduction',
       targetYear: 'Target Year',
       emissionPrcntLabel: 'of',

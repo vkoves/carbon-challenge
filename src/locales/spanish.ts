@@ -7,7 +7,6 @@ export const SpanishLanguageData: ILanguageData = {
 
   header: {
     about: 'Sobre',
-    disclaimers: 'Advertencias',
     faq: 'FAQ',
     home: 'Hogar',
     language: 'Lingua',
@@ -30,14 +29,14 @@ export const SpanishLanguageData: ILanguageData = {
   },
 
   simulator: {
-    avgTempLabel: 'Aumento global promedio para 2100',
+    avgTempLabel: 'Calentamiento para el 2100',
     close: 'Cerrar',
     analytics: 'Analítica',
     settings: 'Ajustes',
 
     tileOverlay: {
-      current: 'Actual',
-      target: 'Objetivo',
+      current: 'Reducción de emisiones actuales',
+      target: 'Reducción de emisiones objetivo',
       targetYear: 'Año objetivo',
       emissionPrcntLabel: 'de.',
       policiesLabel: '',

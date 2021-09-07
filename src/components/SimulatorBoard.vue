@@ -55,16 +55,21 @@
     <TileOverlay
       :tile="selectedTile"
       :settings="settings"
+      :escPressed="escPressed"
       @closed="tileOverlayClosed($event)"
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
-    <AnalyticsOverlay v-if="showingAnalytics"
-      :tiles="tiles"
-      @closed="showingAnalytics = false"></AnalyticsOverlay>
+    <transition name="fade">
+      <AnalyticsOverlay v-if="showingAnalytics"
+        :tiles="tiles"
+        @closed="showingAnalytics = false"></AnalyticsOverlay>
+    </transition>
 
-    <SettingsOverlay v-if="showingSettings"
-      :settings="settings"
-      @closed="showingSettings = false"></SettingsOverlay>
+    <transition name="fade">
+      <SettingsOverlay v-if="showingSettings"
+        :settings="settings"
+        @closed="showingSettings = false"></SettingsOverlay>
+    </transition>
   </main>
 </template>
 
@@ -103,17 +108,18 @@ import Thermometer from './Thermometer.vue';
       customPoliciesEnabled: false,
     } as ISimulatorSettings,
 
-    showingTileMenu: false,
+    escPressed: false,
+
     showingAnalytics: false,
     showingSettings: false,
   }),
 
   methods: {
-    selectTile(tile: TileObj) {
+    selectTile(tile: TileObj): void {
       this.selectedTile = tile;
     },
 
-    tileUpdated(tile: TileObj) {
+    tileUpdated(tile: TileObj): void {
       // Make sure the tile updates any computed properties based on its options
       tile.recalculateProperties();
 
@@ -121,12 +127,44 @@ import Thermometer from './Thermometer.vue';
       this.tiles = this.tiles.slice();
     },
 
-    // Clear the selectedTile once the overlay finishes closing to prevent
-    // clearing the UI while it's hiding. To prevent glitches we also disabled
-    // selecting a new tile until there's no selectedTile
-    tileOverlayClosed() {
+    /**
+     * Clear the selectedTile once the overlay finishes closing to prevent
+     * clearing the UI while it's hiding. To prevent glitches we also disabled
+     * selecting a new tile until there's no selectedTile
+     */
+    tileOverlayClosed(): void {
       this.selectedTile = null;
-    }
+    },
+
+    /**
+     * Close all overlays - triggered on press of the Esc key on the document
+     */
+    closeOverlays(): void {
+      this.showingAnalytics = false;
+      this.showingSettings = false;
+
+      this.escPressed = true;
+
+      // We only set escPressed very momentarily, as it's basically an event
+      // emitter down into child components
+      setTimeout(() => {
+        this.escPressed = false;
+      }, 50);
+    },
+
+    /**
+     * A listener for the keypress on the document, so we can close child
+     * overlays on press of Escape even if the overlay isn't focused
+     */
+    handleGlobalKeydown(keyEvent: KeyboardEvent): void {
+      if (keyEvent.key === 'Escape') {
+        this.closeOverlays();
+      }
+    },
+  },
+
+  mounted(): void {
+    document.addEventListener('keydown', this.handleGlobalKeydown);
   }
 })
 
@@ -140,9 +178,12 @@ export default class SimulatorBoard extends Vue { }
 @import './styles/variables/spacing';
 
 main {
+  // Ensure the simulator always takes up almost the full screen height
+  height: calc(100vh - 70px);
   padding: 6rem;
-  color: $white;
+  box-sizing: border-box;
   overflow: hidden;
+  color: $white;
 }
 
 .title-cont {
@@ -195,6 +236,24 @@ main {
 
 // Mobile styling
 @media (max-width: $mobile-max-width) {
-  main { padding: 3rem; }
+  main { padding: 1rem; }
+
+  .title-cont { flex-wrap: wrap; }
+
+  .simulator-board {
+    // The raw board size. Keep in mind this gets distorted due to rotation + skew
+    $boardSizeMobile: min(52vw, 50vh);
+
+    width: $boardSizeMobile;
+    height: $boardSizeMobile;
+  }
+
+  @media (orientation: portrait) {
+    .main-cont {
+      margin-top: 4rem;
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+  }
 }
 </style>

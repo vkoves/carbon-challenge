@@ -104,15 +104,17 @@ export default class Thermometer extends Vue {
 @import './styles/variables/colors';
 @import './styles/variables/spacing';
 
+
+$thermometer-width: 5rem;
+$inner-width: 1.875rem;
+$border-width: 0.375rem;
+
 .thermometer-cont {
   margin-top: $large;
+  width: $thermometer-width;
 }
 
 .thermometer {
-  $thermometer-width: 5rem;
-  $inner-width: 1.875rem;
-  $border-width: 0.375rem;
-
   position: relative;
   width: $thermometer-width;
   margin: 0 $standard;
@@ -175,5 +177,17 @@ export default class Thermometer extends Vue {
   }
 
   .label { margin-top: 0; }
+}
+
+// Mobile styling
+@media (max-width: $mobile-max-width) {
+  // Hide the thermometer and show text only on mobile
+  .thermometer { display: none; }
+
+  // Increse padding if in portrait mode to space the thermoeter from the game
+  // board
+  @media (orientation: portrait) {
+    .thermometer-cont { margin-top: 4rem; }
+  }
 }
 </style>

@@ -2,7 +2,7 @@
   <a href="#main-content" class="btn -small focus-elem skip-btn">
     Skip to Main Content
   </a>
-  <header>
+  <header :class="{ '-scrolled': isScrolledDown }">
     <div class="mobile-header" :class="{ '-open': mobileMenuOpen }">
       <router-link to="/" class="btn -transparent">
         {{ $t('title') }}
@@ -24,9 +24,6 @@
           </router-link>
           <router-link to="/simulator" class="btn -transparent">
             {{ $t('header.simulator') }}
-          </router-link>
-          <router-link to="/disclaimers" class="btn -transparent">
-            {{ $t('header.disclaimers') }}
           </router-link>
           <router-link to="/about" class="btn -transparent">
             {{ $t('header.about') }}
@@ -76,11 +73,19 @@ import { AvailableLanguages } from '@/constants/languages';
   data: () => ({
     AvailableLanguages: AvailableLanguages,
     mobileMenuOpen: false,
+    isScrolledDown: false,
   }),
 
   methods: {
     closeMenu(): void {
       this.mobileMenuOpen = false;
+    },
+
+    /**
+     * Called when the user scrolls
+     */
+    handleScroll() {
+      this.isScrolledDown = window.pageYOffset > 10;
     }
   },
 
@@ -92,6 +97,9 @@ import { AvailableLanguages } from '@/constants/languages';
       closeMenuFunc();
       next();
     });
+
+    // Listen for scroll events to change <header> styling
+    window.addEventListener('scroll', this.handleScroll);
   }
 })
 
@@ -114,11 +122,18 @@ export default class App extends Vue { }
 }
 
 header {
+  position: sticky;
+  top: 0;
   background-color: $dark-blue;
   padding: 0.75rem 2rem;
   width: 100%;
   z-index: 10;
   box-sizing: border-box;
+  transition: box-shadow 0.3s;
+
+  &.-scrolled {
+    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.5);
+  }
 
   .menu-inner, .mobile-header {
     display: flex;
@@ -127,7 +142,7 @@ header {
   }
 
   .mobile-header {
-    padding: 1rem;
+    padding: $small;
     background-color: $dark-blue;
     transition: border 0.3s;
     border-bottom: solid 0.125rem transparent;
@@ -152,6 +167,7 @@ header {
     background-color: $white;
     border: solid 0.125rem $dark-blue;
     color: $dark-blue;
+    transition: padding 0.3s, font-size 0.3s, box-shadow 0.3s;
 
     + a { margin-left: 1rem; }
   }
@@ -182,12 +198,19 @@ header {
     .menu-inner { display: flex !important; }
   }
 
-  // Mobile styling
-  @media (max-width: $mobile-max-width) {
-    // On mobile, the <header> is sticky and leaves padding to it's mobile child
-    position: fixed;
+  @media (max-width: $small-desktop-max-width) {
+    a.btn {
+      padding: $tiny $standard;
+
+      + a { margin-left: $small; }
+    }
+  }
+}
+
+// Mobile styling
+@media (max-width: $mobile-max-width) {
+  header {
     padding: 0;
-    top: 0;
 
     .btn.-transparent { border: none; }
 
@@ -223,8 +246,4 @@ header {
   }
 }
 
-@media (max-width: $mobile-max-width) {
-  // Since the header becomes sticky, add <body> padding to compensate
-  body { padding-top: 4.5rem; }
-}
 </style>

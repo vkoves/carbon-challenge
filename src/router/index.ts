@@ -6,7 +6,6 @@ import App from '@/App.vue'
 
 // Static pages (views)
 import About from '@/views/About.vue'
-import Disclaimers from '@/views/Disclaimers.vue'
 import FAQ from '@/views/FAQ.vue'
 import TakeAction from '@/views/TakeAction.vue'
 // Actual components
@@ -28,14 +27,6 @@ const routes: Array<RouteRecordRaw> = [
     component: SimulatorBoard,
     meta: {
       titlei18nKey: 'header.simulator'
-    }
-  },
-  {
-    path: '/disclaimers',
-    name: 'Disclaimers',
-    component: Disclaimers,
-    meta: {
-      titlei18nKey: 'header.disclaimers'
     }
   },
   {
@@ -71,11 +62,14 @@ const router = createRouter({
 
 // This callback runs before every route change, including on page load.
 router.beforeEach(function(to, from, next) {
-
+  // Run the app and page title through translation before updating title
   const appTitle = i18n.global.t('title');
   const pageTitle = i18n.global.t(String(to.meta.titlei18nKey));
 
   document.title = `${pageTitle} | ${appTitle}`
+
+  // Reset scroll position
+  window.scrollTo(0, 0);
 
   next();
 });

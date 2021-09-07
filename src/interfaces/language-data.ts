@@ -14,7 +14,6 @@ export interface ILanguageData {
   header: {
     home: string;
     simulator: string;
-    disclaimers: string;
     about: string;
     faq: string;
     takeAction: string;
