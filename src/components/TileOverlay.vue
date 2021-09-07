@@ -290,6 +290,7 @@ export default class TileOverlay extends Vue { }
   .policy-card {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
     background: $white;
     color: $text-grey;
     padding: $standard;
@@ -326,7 +327,7 @@ export default class TileOverlay extends Vue { }
     .label-cont {
       margin-top: 0;
       margin-left: $small;
-      width: calc(100% - 1.5rem);
+      width: 90%;
 
       label {
         display: flex;

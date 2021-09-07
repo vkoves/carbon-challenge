@@ -94,9 +94,9 @@ export default class Tile extends Vue { }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s, box-shadow 0.3s, outline 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
   background: $ground-green;
-  outline: solid 0.25rem lighten($ground-green, 5%);
+  border: solid 0.25rem lighten($ground-green, 5%);
 
   // Default the tiles to hidden, and have them fall onto the game board
   opacity: 0;
@@ -109,10 +109,10 @@ export default class Tile extends Vue { }
 
   // Show a prominent effect on non-empty tiles being hovered or focused
   &:not(.-empty):hover, &:focus, &.-active {
-    outline-color: transparent;
+    border-color: transparent;
     transform: translate(-10%, -10%);
     box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.5);
-    outline-color: $white;
+    border-color: $white;
   }
 
   // Fade out images on non-interactive tiles so it's clearly not interactive
