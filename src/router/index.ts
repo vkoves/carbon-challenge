@@ -7,6 +7,7 @@ import App from '@/App.vue'
 // Static pages (views)
 import About from '@/views/About.vue'
 import FAQ from '@/views/FAQ.vue'
+import NotFound from '@/views/NotFound.vue';
 import TakeAction from '@/views/TakeAction.vue'
 // Actual components
 import Intro from '@/components/Intro.vue'
@@ -15,7 +16,6 @@ import SimulatorBoard from '@/components/SimulatorBoard.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
     component: Intro,
     meta: {
       titlei18nKey: 'header.home'
@@ -23,7 +23,6 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/simulator',
-    name: 'SimulatorBoard',
     component: SimulatorBoard,
     meta: {
       titlei18nKey: 'header.simulator'
@@ -31,7 +30,6 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/about',
-    name: 'About',
     component: About,
     meta: {
       titlei18nKey: 'header.about'
@@ -39,7 +37,6 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/faq',
-    name: 'FAQ',
     component: FAQ,
     meta: {
       titlei18nKey: 'header.faq'
@@ -47,8 +44,14 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/take-action',
-    name: 'Take Action',
     component: TakeAction,
+    meta: {
+      titlei18nKey: 'header.takeAction'
+    }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: NotFound,
     meta: {
       titlei18nKey: 'header.takeAction'
     }
