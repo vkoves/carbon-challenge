@@ -23,13 +23,13 @@
 
       <div class="btn-cont">
         <button class="btn -transparent -small -flex"
-          @click="showingAnalytics = true">
+          @click="currentOverlay = OverlayType.Analytics">
           {{ $t('simulator.analytics') }}
           <img src="@/assets/graph.svg" alt="" width="24" height="24">
         </button>
 
         <button class="btn -transparent -small -flex"
-          @click="showingSettings = true">
+          @click="currentOverlay = OverlayType.Settings">
           {{ $t('simulator.settings') }}
           <img src="@/assets/settings.svg" alt="" width="24" height="24">
         </button>
@@ -62,15 +62,20 @@
       @tile-updated="tileUpdated($event)"></TileOverlay>
 
     <transition name="fade">
-      <AnalyticsOverlay v-if="showingAnalytics"
+      <AnalyticsOverlay v-if="currentOverlay === OverlayType.Analytics"
         :tiles="tiles"
-        @closed="showingAnalytics = false"></AnalyticsOverlay>
+        @closed="currentOverlay = undefined"></AnalyticsOverlay>
     </transition>
 
     <transition name="fade">
-      <SettingsOverlay v-if="showingSettings"
+      <SettingsOverlay v-if="currentOverlay === OverlayType.Settings"
         :settings="settings"
-        @closed="showingSettings = false"></SettingsOverlay>
+        @closed="currentOverlay = undefined"></SettingsOverlay>
+    </transition>
+
+    <transition name="fade">
+      <WarmingOVerlay v-if="currentOverlay === OverlayType.Warming"
+        @closed="currentOverlay = undefined"></WarmingOVerlay>
     </transition>
   </main>
 </template>
@@ -88,6 +93,15 @@ import SettingsOverlay from './SettingsOverlay.vue';
 import Tile from './Tile.vue';
 import TileOverlay from './TileOverlay.vue';
 import Thermometer from './Thermometer.vue';
+
+export enum OverlayType {
+  // eslint-disable-next-line no-unused-vars
+  Analytics = 'analytics',
+  // eslint-disable-next-line no-unused-vars
+  Settings = 'settings',
+  // eslint-disable-next-line no-unused-vars
+  Warming = 'warming',
+}
 
 @Options({
   name: 'SimulatorBoard',
@@ -110,10 +124,15 @@ import Thermometer from './Thermometer.vue';
       customPoliciesEnabled: false,
     } as ISimulatorSettings,
 
+
+    /** The currentOverlay being shown if any. Of type OverlayType. */
+    currentOverlay: undefined,
+
+    /** Whether the Escape key was recently pressed, which closes overlay */
     escPressed: false,
 
-    showingAnalytics: false,
-    showingSettings: false,
+    // Expose OverlayType enum to the template
+    OverlayType: OverlayType,
   }),
 
   methods: {
