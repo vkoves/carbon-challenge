@@ -68,8 +68,7 @@
         However, if you see something really wrong in our calculations, please
         help the Carbon Challenge improve by filing an issue on the
         <a href="https://github.com/vkoves/carbon-challenge">
-          Carbon Challenge GitHub
-        </a>!
+          Carbon Challenge GitHub</a>!
       </p>
 
       <h2>References</h2>
