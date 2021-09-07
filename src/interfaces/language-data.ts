@@ -72,5 +72,12 @@ export interface ILanguageData {
         description: string;
       };
     }
+  },
+
+  notFound: {
+    title: string;
+    heading: string;
+    body: string;
+    returnText: string;
   }
 }

@@ -240,5 +240,12 @@ export const EnglishLanguageData: ILanguageData = {
         description: 'Use tax incentives and subsidies to cut emissions from home heating and other unallocated sources in half by 2050.',
       },
     }
+  },
+
+  notFound: {
+    title: 'Not Found',
+    heading: '404 - Page Not Found!',
+    body: "Hm, we couldn't find that page!",
+    returnText: 'Return to Carbon Challenge Home',
   }
 };

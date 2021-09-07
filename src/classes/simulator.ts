@@ -142,10 +142,10 @@ export class Simulator {
 
   /**
    * Get the number of years left in the simulation time till our end year
-   * (2100). E.g. in 2025 this would return 75.
+   * (2100). E.g. in 2025 this would return 76 (since we also simulate 2100).
    */
   public static getTotalSimulationYears(): number {
-    return SimEndYear - Simulator.getCurrentYear();
+    return SimEndYear - Simulator.getCurrentYear() + 1;
   }
 
   /**
@@ -184,7 +184,7 @@ export class Simulator {
   /**
    * Given a tile option, returns the difference in total emissions (over the
    * remaining simulator years) this tile's state creates, in Gigatonnes CO2.
-   * For example setting a tile to increase the share of electirc cars would
+   * For example setting a tile to increase the share of electric cars would
    * return a negative  number.
    */
   public static getOptionTotalEmissionDelta(
@@ -201,7 +201,7 @@ export class Simulator {
   /**
    * Given a tile option, returns the difference in total emissions (over the
    * remaining simulator years) this tile's state creates, in Gigatonnes CO2.
-   * For example setting a tile to increase the share of electirc cars would
+   * For example setting a tile to increase the share of electric cars would
    * return a negative  number.
    *
    * TODO: Write unit tests for this function
@@ -227,7 +227,7 @@ export class Simulator {
 
     // Loop through every year of the simulation and calculate emissions in in
     // that year
-    for (let i = 0; i <= totalSimYears; i++) {
+    for (let i = 0; i < totalSimYears; i++) {
       const currYear = startYear + i;
 
       // If the current year is beyond the option's target year, we've reached
@@ -295,6 +295,8 @@ export class Simulator {
    *
    * This is necessary since some emissions sources cannot be changed within
    * our simulator and to make the system more reliable.
+   *
+   * TODO: Add unit tests for this
    */
   public static getTotalEmissionsData(currentTiles: Array<TileObj>): ITotalEmissionsWithBreakdown {
     let totalTileDelta = 0;

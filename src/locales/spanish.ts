@@ -236,5 +236,12 @@ export const SpanishLanguageData: ILanguageData = {
         description: '',
       },
     }
-  }
+  },
+
+  notFound: {
+     title: 'No encontrado',
+     heading: '404 - ¡Página no encontrada!',
+     body: "Hm, ¡no pudimos encontrar esa página!",
+     returnText: 'Regresar al inicio del Carbon Challenge',
+   },
 };

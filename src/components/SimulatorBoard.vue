@@ -41,11 +41,13 @@
 
       <div class="boards-cont">
         <div class="simulator-board -main">
+          <!-- Disabled tiles that aren't the selected one when is selected to
+            prevent switching tiles too quickly and breaking the sidebar -->
           <Tile v-for="(tile, index) in tiles"
             v-bind:key="tile.id"
             :tile="tile"
             :tileNum="index"
-            :disabled="selectedTile"
+            :disabled="selectedTile && tile.id !== selectedTile.id"
             :class="{ '-active': tile.id === selectedTile?.id }"
             @selected="selectTile(tile)" />
         </div>
