@@ -203,8 +203,6 @@ export class Simulator {
    * remaining simulator years) this tile's state creates, in Gigatonnes CO2.
    * For example setting a tile to increase the share of electric cars would
    * return a negative  number.
-   *
-   * TODO: Write unit tests for this function
    */
   public static getPolicyEmissionsDelta({
     current,
@@ -295,8 +293,6 @@ export class Simulator {
    *
    * This is necessary since some emissions sources cannot be changed within
    * our simulator and to make the system more reliable.
-   *
-   * TODO: Add unit tests for this
    */
   public static getTotalEmissionsData(currentTiles: Array<TileObj>): ITotalEmissionsWithBreakdown {
     let totalTileDelta = 0;

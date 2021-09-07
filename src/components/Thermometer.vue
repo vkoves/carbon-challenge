@@ -117,7 +117,6 @@ $border-width: 0.375rem;
 .thermometer {
   position: relative;
   width: $thermometer-width;
-  margin: 0 $standard;
   flex-shrink: 0;
 
   $red: red;
