@@ -2,7 +2,6 @@
   <!-- Show tile as a <div> if it's scenery, <button> if interactive -->
   <button v-if="!tile.isScenery()"
     class="tile"
-    :disabled="disabled"
     :style="{ 'animation-delay': animDelay }"
     @click="tileSelected()">
     <div class="above-ground -building">
@@ -46,6 +45,8 @@ const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
   props: {
     tile: {} as TileObj,
     tileNum: 0,
+
+    /** Whether this tile is disabled and should do nothing on click */
     disabled: false,
   },
 
@@ -60,6 +61,10 @@ const GridAnimDelaySec = AnimationOffsetSec * Math.pow(GridWidth, 2);
 
   methods: {
     tileSelected(): void {
+      if (this.disabled) {
+        return;
+      }
+
       this.$emit('selected', this.tile);
     }
   },
