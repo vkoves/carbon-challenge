@@ -42,7 +42,8 @@
             <img src="@/assets/earth.svg" alt=""
               width="20" height="20">
           </label>
-          <select v-model="$i18n.locale" id="lang-select">
+          <select v-model="$i18n.locale" id="lang-select"
+            @change="langagugeChanged">
             <option v-for="langObj in AvailableLanguages"
               :key="`${langObj.locale}`"
               :value="langObj.locale">
@@ -64,6 +65,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 
+import { i18n } from '@/i18n-init';
 import router from '@/router'
 import { AvailableLanguages } from '@/constants/languages';
 
@@ -86,10 +88,27 @@ import { AvailableLanguages } from '@/constants/languages';
      */
     handleScroll() {
       this.isScrolledDown = window.pageYOffset > 10;
-    }
+    },
+
+    /**
+     * Called when the user changes languages - we re-set the document title
+     * from the current route and store the route in localStorage to ensure it
+     * persists over multiple sessions
+     */
+    langagugeChanged() {
+      App.setTitleFromRoute(this.$route);
+
+      localStorage.setItem(App.LocaleStorageKey, this.$i18n.locale);
+    },
   },
 
   mounted() {
+    const cachedLocale = localStorage.getItem(App.LocaleStorageKey);
+
+    if (cachedLocale) {
+      this.$i18n.locale = cachedLocale;
+    }
+
     const closeMenuFunc = this.closeMenu;
 
     // Watch for route changes and close the mobile menu
@@ -103,7 +122,22 @@ import { AvailableLanguages } from '@/constants/languages';
   }
 })
 
-export default class App extends Vue { }
+export default class App extends Vue {
+  static readonly LocaleStorageKey = 'i18n-locale';
+
+  /**
+   * Set the document title based on the current route using the i18n library to
+   * ensure it's translated to the user's desired language
+   */
+  static setTitleFromRoute(route: any) {
+    // Run the app and page title through translation before updating title
+    const appTitle = i18n.global.t('title');
+    const pageTitle = i18n.global.t(String(route.meta.titlei18nKey));
+
+    document.title = `${pageTitle} | ${appTitle}`;
+  }
+
+}
 </script>
 
 <style lang="scss">

@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-import { i18n } from '@/i18n-init';
-
 import App from '@/App.vue'
 
 // Static pages (views)
@@ -65,11 +63,7 @@ const router = createRouter({
 
 // This callback runs before every route change, including on page load.
 router.beforeEach(function(to, from, next) {
-  // Run the app and page title through translation before updating title
-  const appTitle = i18n.global.t('title');
-  const pageTitle = i18n.global.t(String(to.meta.titlei18nKey));
-
-  document.title = `${pageTitle} | ${appTitle}`
+  App.setTitleFromRoute(to);
 
   // Reset scroll position
   window.scrollTo(0, 0);
