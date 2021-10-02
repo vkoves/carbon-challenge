@@ -37,7 +37,8 @@
     </div>
 
     <div class="main-cont">
-      <Thermometer :tiles="tiles"></Thermometer>
+      <Thermometer :tiles="tiles"
+        @helpClick="currentOverlay = OverlayType.Warming"></Thermometer>
 
       <div class="boards-cont">
         <div class="simulator-board -main">
@@ -74,8 +75,8 @@
     </transition>
 
     <transition name="fade">
-      <WarmingOVerlay v-if="currentOverlay === OverlayType.Warming"
-        @closed="currentOverlay = undefined"></WarmingOVerlay>
+      <WarmingOverlay v-if="currentOverlay === OverlayType.Warming"
+        @closed="currentOverlay = undefined"></WarmingOverlay>
     </transition>
   </main>
 </template>
@@ -90,9 +91,10 @@ import { ISimulatorSettings } from '@/interfaces/settings';
 
 import AnalyticsOverlay from './AnalyticsOverlay.vue';
 import SettingsOverlay from './SettingsOverlay.vue';
+import Thermometer from './Thermometer.vue';
 import Tile from './Tile.vue';
 import TileOverlay from './TileOverlay.vue';
-import Thermometer from './Thermometer.vue';
+import WarmingOverlay from './WarmingOverlay.vue';
 
 export enum OverlayType {
   // eslint-disable-next-line no-unused-vars
@@ -112,6 +114,7 @@ export enum OverlayType {
     Thermometer,
     Tile,
     TileOverlay,
+    WarmingOverlay,
   },
 
   data: () => ({
