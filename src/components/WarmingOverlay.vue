@@ -48,8 +48,8 @@
               <strong>Mass extinctions</strong> - in a warming world, the
               climate of an ecosystem can shift faster than plants and animals
               can either adapt or migrate, leading to die-offs of large numbers
-              of species. The oceans are also heavily impacted due to increases
-              in ocean temperature and ocean acidification.
+              of species. Ocean ecosystems are also heavily impacted due to
+              increases in ocean temperature and ocean acidification.
             </li>
           </ul>
 
