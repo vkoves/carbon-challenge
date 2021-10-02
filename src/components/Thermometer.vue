@@ -30,6 +30,12 @@
         </span>
       </div>
 
+      <button class="btn -transparent -small -flex"
+        @click="helpClicked">
+        <img src="@/assets/help-outline.svg"
+          :alt="$t('simulator.tempHelpLabel')"
+          width="24" height="24">
+      </button>
     </div>
   </div>
 </template>
@@ -58,6 +64,16 @@ import { Options, Vue } from 'vue-class-component';
       horrifying: 100,
     }
   }),
+
+  emits: {
+    helpClick(): void { },
+  },
+
+  methods: {
+    helpClicked() {
+      this.$emit('helpClick');
+    }
+  },
 
   watch: {
     // On tiles changed (likely options updated) recalculate temperature
