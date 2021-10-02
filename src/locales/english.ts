@@ -29,10 +29,11 @@ export const EnglishLanguageData: ILanguageData = {
   },
 
   simulator: {
+    analytics: 'Analytics',
     avgTempLabel: 'Warming by 2100',
     close: 'Close',
-    analytics: 'Analytics',
     settings: 'Settings',
+    tempHelpLabel: 'Warming Impacts',
 
     tileOverlay: {
       current: 'Current Emissions Reduction',

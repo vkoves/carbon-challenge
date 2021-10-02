@@ -35,10 +35,11 @@ export interface ILanguageData {
   };
 
   simulator: {
+    analytics: string;
     avgTempLabel: string;
     close: string;
-    analytics: string;
     settings: string;
+    tempHelpLabel: string;
 
     tileOverlay: {
       current: string;

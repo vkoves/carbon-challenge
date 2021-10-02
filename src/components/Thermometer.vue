@@ -33,7 +33,7 @@
       <button class="btn -transparent -small -flex"
         @click="helpClicked">
         <img src="@/assets/help-outline.svg"
-          alt="{{ $t('simulator.settings') }}"
+          :alt="$t('simulator.tempHelpLabel')"
           width="24" height="24">
       </button>
     </div>
