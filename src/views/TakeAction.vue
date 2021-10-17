@@ -32,6 +32,12 @@
 
       <ul class="bulleted">
         <li>
+          <strong>Talk To Your Friends About Climate Change</strong> - No matter
+          what actions you choose to take, from voting to changing your
+          lifestyle, encouraging your friends to do the same can <em>vastly</em>
+          increase your impact!
+        </li>
+        <li>
           <strong>Electrify Your Appliances</strong> - you might have home
           appliances like a stove, water heater, or dryer that burn fossil fuels
           right in your very home, and will emit CO<sub>2</sub> for the
@@ -50,11 +56,6 @@
           significant share of global emissions, so switching to eco-friendly
           options like walking, biking, or public transit can be a big step to
           reducing your emissions.
-        </li>
-        <li>
-          <strong>Talk To Your Friends About Climate Change</strong> - No matter
-          what actions you choose to take, encouraging your friends to do the
-          same can <em>vastly</em> increase your impact!
         </li>
       </ul>
     </div>
