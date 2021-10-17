@@ -38,52 +38,54 @@
           -->
         </dl>
 
-        <h2>Emissions by Sector/Tile Breakdown</h2>
+        <h2>Emissions by Sector/Tile</h2>
 
-        <figure id="emissions-chart">
+        <div class="graph-cont">
+          <figure id="emissions-chart">
 
-          <div class="tooltip"
-            :class="{ '-visible': tooltipOpen, '-left': isTooltipLeft }">
-            <template v-if="tooltipData">
-              <div class="title-row">
-                <h1>{{ tooltipData.datum.year }}</h1>
+            <div class="tooltip"
+              :class="{ '-visible': tooltipOpen, '-left': isTooltipLeft }">
+              <template v-if="tooltipData">
+                <div class="title-row">
+                  <h1>{{ tooltipData.datum.year }}</h1>
 
-                <button @click="closeTooltip" class="btn -grey -small">Close</button>
-              </div>
+                  <button @click="closeTooltip" class="btn -grey -small">Close</button>
+                </div>
 
-              <strong>Total Emissions:</strong>
-              {{ tooltipData.totalEmissions.toFixed(2) }} GT (Gigatonnes)
+                <strong>Total Emissions:</strong>
+                {{ tooltipData.totalEmissions.toFixed(2) }} GT (Gigatonnes)
 
-              <ul>
-                <li>
-                  <div class="legend-square -power"></div>
-                  <strong>Power:</strong>
-                  {{ tooltipData.datum.power.toFixed(2) }} GT
-                </li>
-                <li>
-                  <div class="legend-square -factory"></div>
-                  <strong>Industry:</strong>
-                  {{ tooltipData.datum.factory.toFixed(2) }} GT
-                </li>
-                <li>
-                  <div class="legend-square -home"></div>
-                  <strong>Home:</strong>
-                  {{ tooltipData.datum.home.toFixed(2) }} GT
-                </li>
-                <li>
-                  <div class="legend-square -office"></div>
-                  <strong>Office:</strong>
-                  {{ tooltipData.datum.office.toFixed(2) }} GT
-                </li>
-                <li>
-                  <div class="legend-square -farm"></div>
-                  <strong>Agriculture:</strong>
-                  {{ tooltipData.datum.farm.toFixed(2) }} GT
-                </li>
-              </ul>
-            </template>
-          </div>
-        </figure>
+                <ul>
+                  <li>
+                    <div class="legend-square -power"></div>
+                    <strong>Power:</strong>
+                    {{ tooltipData.datum.power.toFixed(2) }} GT
+                  </li>
+                  <li>
+                    <div class="legend-square -factory"></div>
+                    <strong>Industry:</strong>
+                    {{ tooltipData.datum.factory.toFixed(2) }} GT
+                  </li>
+                  <li>
+                    <div class="legend-square -home"></div>
+                    <strong>Home:</strong>
+                    {{ tooltipData.datum.home.toFixed(2) }} GT
+                  </li>
+                  <li>
+                    <div class="legend-square -office"></div>
+                    <strong>Office:</strong>
+                    {{ tooltipData.datum.office.toFixed(2) }} GT
+                  </li>
+                  <li>
+                    <div class="legend-square -farm"></div>
+                    <strong>Agriculture:</strong>
+                    {{ tooltipData.datum.farm.toFixed(2) }} GT
+                  </li>
+                </ul>
+              </template>
+            </div>
+          </figure>
+        </div>
       </div>
     </div>
   </focus-trap>
@@ -372,8 +374,14 @@ $officeColor:   #5c76ff;
 $factoryColor:  #bd8d6b;
 $farmColor:     #5cb860;
 
+.graph-cont {
+  overflow: auto;
+  padding-top: 2rem;
+}
+
 figure {
   position: relative;
+  width: 1000px;
 
   :deep(svg) {
     width: 100%;
@@ -475,6 +483,23 @@ dl {
   dt {
     font-weight: bold;
     margin-top: $small;
+  }
+}
+
+@media (max-width: $mobile-max-width) {
+  .graph-cont {
+    margin: 1rem -2rem 0 -2rem;
+    border: solid 2px #dcdcdc;
+    background: #ebebeb;
+    padding-top: 1rem;
+  }
+
+  figure .tooltip {
+    min-width: 220px;
+    max-width: 50vw;
+
+    ul { margin-top: 0.5rem; }
+    ul li { margin-top: 0; }
   }
 }
 </style>
