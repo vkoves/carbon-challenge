@@ -122,10 +122,10 @@ export const SimEndYear = 2100;
  * The default layout of board tile types
  */
 const DefaultBoardLayout: Array<TileType> = [
-    TileType.Forest, TileType.Farm, TileType.Empty, TileType.Forest,
+    TileType.ForestD, TileType.Farm, TileType.Empty, TileType.ForestD,
     TileType.Forest, TileType.Home, TileType.Office, TileType.Empty,
     TileType.Empty, TileType.Empty, TileType.Power, TileType.Lake,
-    TileType.Empty, TileType.Factory, TileType.Forest, TileType.Forest,
+    TileType.Empty, TileType.Factory, TileType.ForestD, TileType.ForestD,
 ]
 
 /**
@@ -167,15 +167,15 @@ export class Simulator {
 
   /**
    * Validates a property of a tile option is in a specified range and throws an
-   * error if not
+   * error if not. If the value is undefined, no error is thrown.
    */
   public static validateNumInRange(
     key: string,
-    value: number,
+    value: number | undefined,
     min: number,
     max: number
   ): void {
-    if (value > max || value < min) {
+    if (value !== undefined && (value > max || value < min)) {
       throw new Error(
         `${key} is outside of range (${min} - ${max}) with value ${value}!`)
     }
@@ -195,6 +195,7 @@ export class Simulator {
       target: tileOption.target,
       targetYear: tileOption.targetYear,
       weightPrcnt: tileOption.weightPrcnt,
+      maxCO2Sequestered: tileOption.maxCO2Sequestered,
     });
   }
 
@@ -209,6 +210,7 @@ export class Simulator {
     target,
     targetYear,
     weightPrcnt,
+    maxCO2Sequestered,
   }: IWeightedPolicy): IPolicyEmissionsWithBreakdown {
     const totalSimYears = Simulator.getTotalSimulationYears();
     const startYear = Simulator.getCurrentYear();
@@ -257,12 +259,15 @@ export class Simulator {
 
     let deltaArrFinal: Array<IPolicyDatum>;
 
+    const maxEmissions: number = weightPrcnt
+      ? weightPrcnt / 100 * OrigYearlyEmissionsGigaTonnes
+      : maxCO2Sequestered as number;
+
     deltaArrFinal = emissionDeltaArr.map((delta: IDeltaObj) => ({
         year: delta.year,
         // Make sure the final delta is negative, since this is a subtractive
         // process
-        delta: -1 * (delta.valuePrcnt / 100)
-          * (weightPrcnt / 100) * OrigYearlyEmissionsGigaTonnes,
+        delta: -1 * (delta.valuePrcnt / 100) * maxEmissions,
     }));
 
     deltaArrFinal.forEach((policyDatum: IPolicyDatum) => {
@@ -306,6 +311,7 @@ export class Simulator {
     const NewDefaultDeltaObj = () => ({
       [TileType.Factory]: {},
       [TileType.Farm]: {},
+      [TileType.Forest]: {},
       [TileType.Home]: {},
       [TileType.Office]: {},
       [TileType.Power]: {},
@@ -329,9 +335,16 @@ export class Simulator {
 
         // Then add this tile option
         optionData.data.forEach((datum: IPolicyDatum, index: number) => {
+          let maxEmissions: number = 0;
+
+          // We only have a starting emissions value if we have a weight, as
+          // otherwise this is a carbon sink and we use the delta only
+          if (tileOption.weightPrcnt) {
+            maxEmissions = tileOption.weightPrcnt / 100 * OrigYearlyEmissionsGigaTonnes;
+          }
 
           tileData[index].emissions[tileOption.tileType][tileOption.optionType]
-            = OrigYearlyEmissionsGigaTonnes * (tileOption.weightPrcnt / 100) + datum.delta;
+            = maxEmissions + datum.delta;
         });
       });
     });
@@ -373,6 +386,7 @@ export class Simulator {
           target: policy.target,
           targetYear: policy.targetYear,
           weightPrcnt: option.weightPrcnt,
+          maxCO2Sequestered: option.maxCO2Sequestered,
         }).total;
 
         // Round off to the nearest giggatonne, since this is for the UI

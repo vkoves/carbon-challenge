@@ -47,7 +47,7 @@ export const EnglishLanguageData: ILanguageData = {
     tileTypes: {
       power: 'Power Plant',
       farm: 'Farm',
-      forest: 'Forest',
+      forest: 'Forests',
       home: 'Home',
       office: 'Office',
       factory: 'Factory',
@@ -61,7 +61,7 @@ export const EnglishLanguageData: ILanguageData = {
       power:
         'Emissions that are broadly tied to generating power. Emissions for ' +
         'specific uses are under the Home, Office, and Factory tiles.',
-      farm: '',
+      farm: 'Emissions related to agriculture, including livestock',
       forest: '',
       home: 'Emissions related to homes and individual behaviors like driving.',
       office: '',
@@ -74,6 +74,7 @@ export const EnglishLanguageData: ILanguageData = {
     tileOptionTitles: {
       [TileOption.Aviation]: 'Aviation',
       [TileOption.Deforestation]: 'Deforestation',
+      [TileOption.Reforestation]: 'Reforestation',
       [TileOption.EnergyAgriculture]: 'Energy for Agriculture',
       [TileOption.EnergyCommercialBuildings]: 'Energy for Commercial Buildings',
       [TileOption.EnergyIndustry]: 'Energy for Industry',
@@ -142,10 +143,6 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Manure Management',
         description: 'Require better manure management to halve emissions from livestock and manure by 2050.',
       },
-      [TilePolicyKey.FarmDeforestationElimination2050]: {
-        name: 'Eliminate Deforestation by 2050',
-        description: 'Fully eliminate deforestation by 2050.',
-      },
       [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
         name: 'Require Green Energy for Farming by 2050',
         description: 'Require farming to run on fully renewable energy by 2050.',
@@ -173,6 +170,24 @@ export const EnglishLanguageData: ILanguageData = {
       [TilePolicyKey.FarmCropBurningBan]: {
         name: 'Ban on Crop Burning',
         description: 'Completely ban crop burning by 2050, completely eliminating those emissions.',
+      },
+
+      // Forest policies
+      [TilePolicyKey.ForestDeforestationReduction2050]: {
+        name: 'Reduce Deforestation by 2050',
+        description: 'Cut yearly deforestation in half by 2050.',
+      },
+      [TilePolicyKey.ForestDeforestationElimination2050]: {
+        name: 'Eliminate Deforestation by 2050',
+        description: 'Fully eliminate deforestation by 2050.',
+      },
+      [TilePolicyKey.ForestSomeReforestation2050]: {
+        name: 'Moderate Reforestation by 2050',
+        description: 'Reforest 4 million square kilometeres of forest.'
+      },
+      [TilePolicyKey.ForestMaxReforestation2050]: {
+        name: 'Aggressive Reforestation by 2050',
+        description: 'Reforest 9.5 million square kilometeres of forest.'
       },
 
       // Home policies
@@ -238,7 +253,7 @@ export const EnglishLanguageData: ILanguageData = {
       },
       [TilePolicyKey.PowerUnallocatedFuelReduction2050]: {
         name: 'Reduce Unallocated Fuel Emissions',
-        description: 'Use tax incentives and subsidies to cut emissions from home heating and other unallocated sources in half by 2050.',
+        description: 'Use strict laws to reduce emissions from home heating and other unallocated sources 80% by 2050.',
       },
     }
   },

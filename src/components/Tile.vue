@@ -171,7 +171,7 @@ export default class Tile extends Vue { }
       margin-left: 10%;
     }
 
-    &.forest {
+    &.forest, &.forest-decor {
       background-position: 100% 5%;
     }
 

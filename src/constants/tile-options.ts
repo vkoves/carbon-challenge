@@ -13,7 +13,8 @@ import {
 interface ICreateOptionParams {
   tileType: TileType;
   optionType: TileOption;
-  weightPrcnt: number;
+  weightPrcnt?: number;
+  maxCO2Sequestered?: number;
   policies: Array<IOptionPolicy>;
 }
 
@@ -25,23 +26,36 @@ const DefaultOptionValues = {
   currPolicyKey: TilePolicyKey.None,
 };
 
-/**
- * # Data I Need
- *
- * For each type tile option, I need:
- *
- * - The current value (e.g. the current % of cars that are electric)
- * - The current global policy target year and avg. (e.g. globally we are
- *   targeting 50% of cars to be electric by 2050)
- * - Expected emissions (emissions % times current emissions )
- *
- * I need this for the following tile options:
- *
- * - Factory electrification???
- * - Farm greening
- * - Office electrification
- */
 
+/**
+ * The number of metric tonnes of carbon sequestered by one. From EPA, which
+ * says "0.82 metric ton CO2/acre/year sequestered annually by one acre of
+ * average U.S. forest." Then multiply by the number of acres in a sq. km.,
+ * which is 247.1. Thus the value we are looking for is 0.82 * 247.1 = 202.62.
+ */
+export const TonnesCO2SequesteredPerSqKmPerYear = 202.62;
+
+/**
+ * A gigatonne is 1,000,000,000 tonnes or 10^9, so the multiplier to convert
+ * tonnes to giga tonnes is 10^-9.
+ */
+export const TonnesToGigatonnesMult = Math.pow(10, -9);
+
+/**
+ * 9.5 million sq km comes from the IPPC 1.5 report which lists it as the
+ * maximum reforestation they considered
+ */
+export const MaxReforestationSqKm = 9.5 * Math.pow(10, 6);
+
+/**
+ * The maximum CO2 we allow to be sequestered by reforestation. This comes out
+ * to ~1.9248 GT/year
+ */
+export const MaxReforestationGTCO2SequesteredPerYear
+  = MaxReforestationSqKm * TonnesCO2SequesteredPerSqKmPerYear
+    * TonnesToGigatonnesMult;
+
+/** The total weight of emissions by road transport */
 const RoadTransportTotalWeight = 11.9;
 
 /**
@@ -104,12 +118,6 @@ export const TileOptions: { [ type: string ]: IOptions } = {
       weightPrcnt: 5.8,
       policies: getPolicies(TileOption.LivestockAndManure)
     }),
-    [TileOption.Deforestation]: createOption({
-      tileType: TileType.Farm,
-      optionType: TileOption.Deforestation,
-      weightPrcnt: 2.2,
-      policies: getPolicies(TileOption.Deforestation)
-    }),
     // Called "Energy use in agriculture and fishing"
     [TileOption.EnergyAgriculture]: createOption({
       tileType: TileType.Farm,
@@ -134,6 +142,21 @@ export const TileOptions: { [ type: string ]: IOptions } = {
       optionType: TileOption.AgriculturalSoils,
       weightPrcnt: 4.1,
       policies: getPolicies(TileOption.AgriculturalSoils)
+    }),
+  },
+
+  [TileType.Forest]: {
+    [TileOption.Deforestation]: createOption({
+      tileType: TileType.Forest,
+      optionType: TileOption.Deforestation,
+      weightPrcnt: 2.2,
+      policies: getPolicies(TileOption.Deforestation)
+    }),
+    [TileOption.Reforestation]: createOption({
+      tileType: TileType.Forest,
+      optionType: TileOption.Reforestation,
+      maxCO2Sequestered: MaxReforestationGTCO2SequesteredPerYear,
+      policies: getPolicies(TileOption.Reforestation)
     }),
   },
 

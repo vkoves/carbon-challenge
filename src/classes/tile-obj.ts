@@ -26,7 +26,7 @@ export class TileObj {
    */
   isScenery(): boolean {
     return this.type === TileType.Empty
-      || this.type === TileType.Forest
+      || this.type === TileType.ForestD
       || this.type === TileType.Lake;
   }
 

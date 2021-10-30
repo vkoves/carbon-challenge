@@ -81,6 +81,12 @@
                     <strong>Agriculture:</strong>
                     {{ tooltipData.datum.farm.toFixed(2) }} GT
                   </li>
+
+                  <li>
+                    <div class="legend-square -forest"></div>
+                    <strong>Forests:</strong>
+                    {{ tooltipData.datum.forest.toFixed(2) }} GT
+                  </li>
                 </ul>
               </template>
             </div>
@@ -228,7 +234,9 @@ export default class AnalyticsOverlay extends Vue {
     this.tiles.forEach(tile => {
       Object.values(tile.options)
         .forEach((option: IOption) => {
-          totalWeight += option.weightPrcnt;
+          if (option.weightPrcnt) {
+            totalWeight += option.weightPrcnt;
+          }
         });
     });
 
@@ -270,7 +278,7 @@ export default class AnalyticsOverlay extends Vue {
         .style('text-anchor', 'end');
 
     // TODO: Move this into a constant
-    const emissionGroups = [ 'factory', 'farm', 'home', 'office', 'power' ];
+    const emissionGroups = [ 'factory', 'farm', 'forest', 'home', 'office', 'power' ];
 
     // Add Y axis
     this.yScale = d3.scaleLinear()
@@ -303,7 +311,9 @@ export default class AnalyticsOverlay extends Vue {
             return this.yScale(d[1]);
           })
           .attr('height', (d: IStackedDatum) => {
-            return this.yScale(d[0]) - this.yScale(d[1]);
+            // Prevent negative heights from carbon sinks and just make them 0
+            // height on the graph
+            return Math.max(this.yScale(d[0]) - this.yScale(d[1]), 0);
           })
           .attr('width', this.xScale.bandwidth())
           .on('click', (event: PointerEvent, d: IStackedDatum) => {
@@ -373,6 +383,7 @@ $powerColor:    #ffc200;
 $officeColor:   #5c76ff;
 $factoryColor:  #bd8d6b;
 $farmColor:     #5cb860;
+$forestColor:   #397a3c;
 
 .graph-cont {
   overflow: auto;
@@ -392,6 +403,7 @@ figure {
       &.-home rect { fill: $homeColor; }
       &.-office rect { fill: $officeColor; }
       &.-power rect { fill: $powerColor; }
+      &.-forest rect { fill: $forestColor; }
     }
 
     .bar {
@@ -416,6 +428,7 @@ figure {
 
     &.-factory { background: $factoryColor; }
     &.-farm { background: $farmColor; }
+    &.-forest { background: $forestColor; }
     &.-home { background: $homeColor; }
     &.-office { background: $officeColor; }
     &.-power { background: $powerColor; }
@@ -425,7 +438,7 @@ figure {
     visibility: hidden;
     position: absolute;
     padding: $standard;
-    bottom: 50px;
+    bottom: 0.5rem;
     min-width: 19rem;
     border-radius: 0.25rem;
     background-color: $white;
@@ -444,7 +457,7 @@ figure {
       border-bottom: $tipWidth solid transparent;
       border-right-color: rgb(255 255 255);
       left: -$tipWidth;
-      bottom: 1.5rem;
+      bottom: 5rem;
       content: "";
     }
 

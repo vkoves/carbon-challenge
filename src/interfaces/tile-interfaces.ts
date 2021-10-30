@@ -11,11 +11,12 @@ import { TilePolicyKey } from '../constants/tile-policies';
 export enum TileType {
   // Scenery (non-interactive) tile types
   Empty = 'empty',
-  Forest = 'forest',
+  ForestD = 'forest-decor',
   Lake = 'lake',
   // Actual interactive types
   Factory = 'factory',
   Farm = 'farm',
+  Forest = 'forest',
   Home = 'home',
   Office = 'office',
   Power = 'power',
@@ -50,6 +51,7 @@ export enum TileOption {
   FugitiveEmissions = 'fugitiveEmissions',
   LivestockAndManure = 'livestockAndManure',
   PassengerRoadTransport = 'passengerRoadTransport',
+  Reforestation = 'reforestation',
   Shipping = 'shipping',
   UnallocatedFuelCombustion = 'unallocatedFuelCombustion',
   Waste = 'waste',
@@ -57,13 +59,15 @@ export enum TileOption {
 
 /**
  * The bare-bones of an emissions policy with a weight that we can run
- * calculations on. The tile options implement this.
+ * calculations on. The tile options interface (IOption) implements this, see
+ * that for documentation.
  */
 export interface IWeightedPolicy {
   current: number;
   target: number;
   targetYear: number;
-  weightPrcnt: number;
+  weightPrcnt?: number;
+  maxCO2Sequestered?: number;
 }
 
 /**
@@ -166,12 +170,20 @@ export interface IOption extends IWeightedPolicy {
 
   /**
    * A percentage number expressing the weight of this option as a % of current
-   * global emissions.
+   * global emissions. This could be undefined if this options is a carbon sink that
+   * we can scale up, rather than an emission source we scale down.
    *
    * Example: In 2016, residential building energy use in 2016 was 10.9% of
-   * emissions so this value would be 10.9
+   * emissions so this value would be 10.9.
    */
-  weightPrcnt: number;
+  weightPrcnt?: number;
+
+  /**
+   * The maximum Gigatonnes per year that can be sequestered with this carbon
+   * sequestration policy. This is undefined on most options (since they are carbon
+   * sources) and is only set on carbon sinks like reforestation.
+   */
+  maxCO2Sequestered?: number;
 
   /**
    * An array of potential changes that can be made to this option. These are
