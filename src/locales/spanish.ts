@@ -47,7 +47,7 @@ export const SpanishLanguageData: ILanguageData = {
     tileTypes: {
       power: 'Planta de energía',
       farm: 'Granja',
-      forest: 'Bosque',
+      forest: 'Bosques',
       home: 'Casa',
       office: 'Oficina',
       factory: 'Fábrica',

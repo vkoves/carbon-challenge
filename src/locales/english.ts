@@ -47,7 +47,7 @@ export const EnglishLanguageData: ILanguageData = {
     tileTypes: {
       power: 'Power Plant',
       farm: 'Farm',
-      forest: 'Forest',
+      forest: 'Forests',
       home: 'Home',
       office: 'Office',
       factory: 'Factory',
@@ -61,7 +61,7 @@ export const EnglishLanguageData: ILanguageData = {
       power:
         'Emissions that are broadly tied to generating power. Emissions for ' +
         'specific uses are under the Home, Office, and Factory tiles.',
-      farm: '',
+      farm: 'Emissions related to agriculture, including livestock',
       forest: '',
       home: 'Emissions related to homes and individual behaviors like driving.',
       office: '',
@@ -253,7 +253,7 @@ export const EnglishLanguageData: ILanguageData = {
       },
       [TilePolicyKey.PowerUnallocatedFuelReduction2050]: {
         name: 'Reduce Unallocated Fuel Emissions',
-        description: 'Use tax incentives and subsidies to cut emissions from home heating and other unallocated sources in half by 2050.',
+        description: 'Use strict laws to reduce emissions from home heating and other unallocated sources 80% by 2050.',
       },
     }
   },

@@ -308,7 +308,7 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
   [TileOption.UnallocatedFuelCombustion]: [
     {
       key: TilePolicyKey.PowerUnallocatedFuelReduction2050,
-      target: 50,
+      target: 80,
       targetYear: 2050,
     },
   ],
