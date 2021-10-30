@@ -71,6 +71,7 @@ export const SpanishLanguageData: ILanguageData = {
     tileOptionTitles: {
       [TileOption.Aviation]: 'Aviación',
       [TileOption.Deforestation]: 'Deforestación',
+      [TileOption.Reforestation]: 'Reforestación',
       [TileOption.EnergyAgriculture]: 'Energía para la agricultura',
       [TileOption.EnergyCommercialBuildings]: 'Energía para edificios comerciales',
       [TileOption.EnergyIndustry]: 'Energía para la industria',
@@ -137,10 +138,6 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
-      [TilePolicyKey.FarmDeforestationElimination2050]: {
-        name: '',
-        description: '',
-      },
       [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
         name: '',
         description: '',
@@ -170,6 +167,23 @@ export const SpanishLanguageData: ILanguageData = {
         description: '',
       },
 
+      // Forest policies
+      [TilePolicyKey.ForestDeforestationReduction2050]: {
+        name: 'Reduce Deforestation by 2050',
+        description: 'Cut yearly deforestation in half by 2050.',
+      },
+      [TilePolicyKey.ForestDeforestationElimination2050]: {
+        name: 'Eliminate Deforestation by 2050',
+        description: 'Fully eliminate deforestation by 2050.',
+      },
+      [TilePolicyKey.ForestSomeReforestation2050]: {
+        name: 'Moderate Reforestation by 2050',
+        description: 'Reforest 4 million square kilometeres of forest.'
+      },
+      [TilePolicyKey.ForestMaxReforestation2050]: {
+        name: 'Aggressive Reforestation by 2050',
+        description: 'Reforest 9.5 million square kilometeres of forest.'
+      },
 
       // Home policies
       [TilePolicyKey.HomeElectricVehicleRequirement2050]: {

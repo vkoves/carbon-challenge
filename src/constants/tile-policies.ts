@@ -25,7 +25,6 @@ export enum TilePolicyKey {
 
   // Farm tile policies
   FarmManureManagement2050 = 'FarmManureManagement',
-  FarmDeforestationElimination2050 = 'FarmDeforestationElimination2050',
   FarmRenewableEnergyRequirement2050 = 'FarmRenewableEnergyRequirement2050',
   FarmRenewableEnergyMagic = 'FarmRenewableEnergyMagic',
   FarmAgriculturalSoilReducedFertilizer = 'FarmAgriculturalSoilReducedFertilizer',
@@ -33,6 +32,12 @@ export enum TilePolicyKey {
   FarmCroplandManagement = 'FarmCroplandManagement',
   FarmCropBurningReduction = 'FarmCropBurningReduction',
   FarmCropBurningBan = 'FarmCropBurningBan',
+
+  // Forest tile policies
+  ForestDeforestationReduction2050 = 'ForestDeforestationReduction2050',
+  ForestDeforestationElimination2050 = 'ForestDeforestationElimination2050',
+  ForestSomeReforestation2050 = 'ForestSomeReforestation2050',
+  ForestMaxReforestation2050 = 'ForestMaxReforestation2050',
 
   // Home tile policies
   HomeElectricVehicleRequirement2050 = 'HomeElectricVehicleRequirement2050',
@@ -138,13 +143,6 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       targetYear: 2050,
     },
   ],
-  [TileOption.Deforestation]: [
-    {
-      key: TilePolicyKey.FarmDeforestationElimination2050,
-      target: 100,
-      targetYear: 2050,
-    },
-  ],
   [TileOption.EnergyAgriculture]: [
     {
       key: TilePolicyKey.FarmRenewableEnergyRequirement2050,
@@ -188,6 +186,32 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       target: 100,
       targetYear: 2050,
     }
+  ],
+
+  // Forest options
+  [TileOption.Reforestation]: [
+    {
+      key: TilePolicyKey.ForestSomeReforestation2050,
+      target: 50,
+      targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.ForestMaxReforestation2050,
+      target: 100,
+      targetYear: 2050,
+    },
+  ],
+  [TileOption.Deforestation]: [
+    {
+      key: TilePolicyKey.ForestDeforestationReduction2050,
+      target: 50,
+      targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.ForestDeforestationElimination2050,
+      target: 100,
+      targetYear: 2050,
+    },
   ],
 
   // Home options
