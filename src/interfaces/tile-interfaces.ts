@@ -42,6 +42,7 @@ export enum TileOption {
   CropBurning = 'cropBurning',
   Cropland = 'cropland',
   Deforestation = 'deforestation',
+  DirectAirCapture = 'directAirCapture',
   DirectIndustrialProcesses = 'directIndustrialProcesses',
   EnergyAgriculture = 'energyAgriculture',
   EnergyCommercialBuildings = 'energyCommercialBuildings',
@@ -53,6 +54,7 @@ export enum TileOption {
   PassengerRoadTransport = 'passengerRoadTransport',
   Reforestation = 'reforestation',
   Shipping = 'shipping',
+  SoilSequestration = 'soilSequestration',
   UnallocatedFuelCombustion = 'unallocatedFuelCombustion',
   Waste = 'waste',
 }
