@@ -72,9 +72,13 @@ export const EnglishLanguageData: ILanguageData = {
 
     // Should include all values from the TileOption enum
     tileOptionTitles: {
+      [TileOption.AgriculturalSoils]: 'Agricultural Soils',
       [TileOption.Aviation]: 'Aviation',
+      [TileOption.CropBurning]: 'Crop Burning',
+      [TileOption.Cropland]: 'Cropland',
       [TileOption.Deforestation]: 'Deforestation',
-      [TileOption.Reforestation]: 'Reforestation',
+      [TileOption.DirectAirCapture]: 'Direct Air Capture',
+      [TileOption.DirectIndustrialProcesses]: 'Direct Industrial Processes',
       [TileOption.EnergyAgriculture]: 'Energy for Agriculture',
       [TileOption.EnergyCommercialBuildings]: 'Energy for Commercial Buildings',
       [TileOption.EnergyIndustry]: 'Energy for Industry',
@@ -83,13 +87,10 @@ export const EnglishLanguageData: ILanguageData = {
       [TileOption.FugitiveEmissions]: 'Fugitive Emissions from Energy Production',
       [TileOption.LivestockAndManure]: 'Livestock and Manure',
       [TileOption.PassengerRoadTransport]: 'Passenger Vehicles',
+      [TileOption.Reforestation]: 'Reforestation',
       [TileOption.Shipping]: 'Shipping',
-      [TileOption.UnallocatedFuelCombustion]: 'Unallocated Fuel Combustion',
-      [TileOption.AgriculturalSoils]: 'Agricultural Soils',
-      [TileOption.CropBurning]: 'Crop Burning',
-      [TileOption.Cropland]: 'Cropland',
-      [TileOption.DirectIndustrialProcesses]: 'Direct Industrial Processes',
       [TileOption.SoilSequestration]: 'Soil Carbon Sequestration',
+      [TileOption.UnallocatedFuelCombustion]: 'Unallocated Fuel Combustion',
       [TileOption.Waste]: 'Waste',
     },
 
@@ -194,6 +195,14 @@ export const EnglishLanguageData: ILanguageData = {
       [TilePolicyKey.ForestMaxReforestation2050]: {
         name: 'Aggressive Reforestation by 2050',
         description: 'Reforest 9.5 million square kilometeres of forest.'
+      },
+      [TilePolicyKey.ForestDirectAirCaptureModerate]: {
+        name: 'Moderate Direct Air Capture by 2050',
+        description: 'Make moderate investments in direct air capture technology to remove around a Gigatonne of CO2 per year by 2050.'
+      },
+      [TilePolicyKey.ForestDirectAirCaptureMax]: {
+        name: 'Maximize Direct Air Capture by 2050',
+        description: 'Make significant investments in direct air capture technology to remove around several Gigatonnes of CO2 per year by 2050.'
       },
 
       // Home policies

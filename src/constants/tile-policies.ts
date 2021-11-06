@@ -39,6 +39,8 @@ export enum TilePolicyKey {
   ForestDeforestationElimination2050 = 'ForestDeforestationElimination2050',
   ForestSomeReforestation2050 = 'ForestSomeReforestation2050',
   ForestMaxReforestation2050 = 'ForestMaxReforestation2050',
+  ForestDirectAirCaptureModerate = 'ForestDirectAirCaptureModerate',
+  ForestDirectAirCaptureMax = 'ForestDirectAirCaptureMax',
 
   // Home tile policies
   HomeElectricVehicleRequirement2050 = 'HomeElectricVehicleRequirement2050',
@@ -202,24 +204,36 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
     {
       key: TilePolicyKey.ForestSomeReforestation2050,
       target: 50,
-      targetYear: 2040,
+      targetYear: 2050,
     },
     {
       key: TilePolicyKey.ForestMaxReforestation2050,
       target: 100,
-      targetYear: 2040,
+      targetYear: 2050,
     },
   ],
   [TileOption.Deforestation]: [
     {
       key: TilePolicyKey.ForestDeforestationReduction2050,
       target: 50,
-      targetYear: 2040,
+      targetYear: 2050,
     },
     {
       key: TilePolicyKey.ForestDeforestationElimination2050,
       target: 100,
-      targetYear: 2040,
+      targetYear: 2050,
+    },
+  ],
+  [TileOption.DirectAirCapture]: [
+    {
+      key: TilePolicyKey.ForestDirectAirCaptureModerate,
+      target: 50,
+      targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.ForestDirectAirCaptureMax,
+      target: 100,
+      targetYear: 2050,
     },
   ],
 

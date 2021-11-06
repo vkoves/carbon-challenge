@@ -70,6 +70,7 @@ export const SpanishLanguageData: ILanguageData = {
     // Should include all values from the TileOption enum
     tileOptionTitles: {
       [TileOption.Aviation]: 'Aviación',
+      [TileOption.DirectAirCapture]: 'Captura De Aire Directa',
       [TileOption.Deforestation]: 'Deforestación',
       [TileOption.Reforestation]: 'Reforestación',
       [TileOption.EnergyAgriculture]: 'Energía para la agricultura',
@@ -187,6 +188,14 @@ export const SpanishLanguageData: ILanguageData = {
       [TilePolicyKey.ForestMaxReforestation2050]: {
         name: 'Aggressive Reforestation by 2050',
         description: 'Reforest 9.5 million square kilometeres of forest.'
+      },
+      [TilePolicyKey.ForestDirectAirCaptureModerate]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.ForestDirectAirCaptureMax]: {
+        name: '',
+        description: '',
       },
 
       // Home policies

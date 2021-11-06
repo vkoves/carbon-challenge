@@ -70,6 +70,14 @@ export const MaxReforestationGTCO2SequesteredPerYear
  */
 export const MaxAgricultureGTCO2PerYear = 2;
 
+/**
+ * The maximum Gigatonnes CO2
+ *
+ * Source:
+ * https://www.american.edu/sis/centers/carbon-removal/fact-sheet-direct-air-capture.cfm
+ */
+export const MaxDirectAirCaptureGTCO2PerYearBy2050 = 2.25;
+
 /** The total weight of emissions by road transport */
 const RoadTransportTotalWeight = 11.9;
 
@@ -178,6 +186,12 @@ export const TileOptions: { [ type: string ]: IOptions } = {
       optionType: TileOption.Reforestation,
       maxCO2Sequestered: MaxReforestationGTCO2SequesteredPerYear,
       policies: getPolicies(TileOption.Reforestation)
+    }),
+    [TileOption.DirectAirCapture]: createOption({
+      tileType: TileType.Forest,
+      optionType: TileOption.DirectAirCapture,
+      maxCO2Sequestered: MaxDirectAirCaptureGTCO2PerYearBy2050,
+      policies: getPolicies(TileOption.DirectAirCapture)
     }),
   },
 
