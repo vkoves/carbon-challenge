@@ -138,14 +138,6 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
-      [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
-        name: '',
-        description: '',
-      },
-      [TilePolicyKey.FarmRenewableEnergyMagic]: {
-        name: '',
-        description: '',
-      },
       [TilePolicyKey.FarmAgriculturalSoilReducedFertilizer]: {
         name: '',
         description: '',
@@ -154,15 +146,27 @@ export const SpanishLanguageData: ILanguageData = {
         name: '',
         description: '',
       },
-      [TilePolicyKey.FarmCroplandManagement]: {
-        name: '',
-        description: '',
-      },
       [TilePolicyKey.FarmCropBurningReduction]: {
         name: '',
         description: '',
       },
       [TilePolicyKey.FarmCropBurningBan]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.SoilSequestrationMax]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmRenewableEnergyMagic]: {
+        name: '',
+        description: '',
+      },
+      [TilePolicyKey.FarmCroplandManagement]: {
         name: '',
         description: '',
       },

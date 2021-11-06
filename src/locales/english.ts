@@ -62,7 +62,7 @@ export const EnglishLanguageData: ILanguageData = {
         'Emissions that are broadly tied to generating power. Emissions for ' +
         'specific uses are under the Home, Office, and Factory tiles.',
       farm: 'Emissions related to agriculture, including livestock',
-      forest: '',
+      forest: 'Carbon sinks like forests & direct air capture',
       home: 'Emissions related to homes and individual behaviors like driving.',
       office: '',
       factory:
@@ -89,6 +89,7 @@ export const EnglishLanguageData: ILanguageData = {
       [TileOption.CropBurning]: 'Crop Burning',
       [TileOption.Cropland]: 'Cropland',
       [TileOption.DirectIndustrialProcesses]: 'Direct Industrial Processes',
+      [TileOption.SoilSequestration]: 'Soil Carbon Sequestration',
       [TileOption.Waste]: 'Waste',
     },
 
@@ -143,14 +144,6 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Manure Management',
         description: 'Require better manure management to halve emissions from livestock and manure by 2050.',
       },
-      [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
-        name: 'Require Green Energy for Farming by 2050',
-        description: 'Require farming to run on fully renewable energy by 2050.',
-      },
-      [TilePolicyKey.FarmRenewableEnergyMagic]: {
-        name: 'Instantly Convert Agriculture to Green Energy',
-        description: 'Instantly switch farms to run completely off of renewable energy.',
-      },
       [TilePolicyKey.FarmAgriculturalSoilReducedFertilizer]: {
         name: 'Reduced Fertilizer',
         description: 'Reduce Nitrous Oxide emissions by requiring reduced fertilizer use',
@@ -158,10 +151,6 @@ export const EnglishLanguageData: ILanguageData = {
       [TilePolicyKey.FarmAgriculturalSoilNoFertilizer]: {
         name: 'Artificial Fertilizer Ban by 2050',
         description: 'Stop Nitrous Oxide emissions from agriculture by completely banning aritifial fertilizers by 2050.',
-      },
-      [TilePolicyKey.FarmCroplandManagement]: {
-        name: 'Farm Cropland Management',
-        description: 'Improve techniques for manging cropland to ensure soils retain all their carbon by 2050',
       },
       [TilePolicyKey.FarmCropBurningReduction]: {
         name: 'Reduced Crop Burning',
@@ -171,6 +160,23 @@ export const EnglishLanguageData: ILanguageData = {
         name: 'Ban on Crop Burning',
         description: 'Completely ban crop burning by 2050, completely eliminating those emissions.',
       },
+      [TilePolicyKey.SoilSequestrationMax]: {
+        name: 'Regenerative Agricultural Requirements by 2050',
+        description: 'Require implementing regenerative agricultural practices to gets soils sequestering as much carbon as possible by 2050.',
+      },
+      [TilePolicyKey.FarmRenewableEnergyRequirement2050]: {
+        name: 'Require Green Energy for Farming by 2050',
+        description: 'Require farming to run on fully renewable energy by 2050.',
+      },
+      [TilePolicyKey.FarmRenewableEnergyMagic]: {
+        name: 'Instantly Convert Agriculture to Green Energy',
+        description: 'Instantly switch farms to run completely off of renewable energy.',
+      },
+      [TilePolicyKey.FarmCroplandManagement]: {
+        name: 'Farm Cropland Management',
+        description: 'Improve techniques for manging cropland to ensure soils retain all their carbon by 2050',
+      },
+
 
       // Forest policies
       [TilePolicyKey.ForestDeforestationReduction2050]: {

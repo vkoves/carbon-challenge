@@ -25,7 +25,9 @@
                       {{ $t(`simulator.tileOptionTitles.${optKey}`) }}
                     </h3>
 
-                    <span class="option-percent">
+                    <!-- Show % of original emissions if this is an emissions
+                      source and not a carbon sink -->
+                    <span class="option-percent" v-if="option.weightPrcnt > 0">
                       {{ option.weightPrcnt.toFixed(1) }}%
                       {{ $t('simulator.tileOverlay.emissionPrcntLabel') }}
                       CO<sub>2</sub>

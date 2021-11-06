@@ -53,6 +53,7 @@ export enum TileOption {
   PassengerRoadTransport = 'passengerRoadTransport',
   Reforestation = 'reforestation',
   Shipping = 'shipping',
+  SoilSequestration = 'soilSequestration',
   UnallocatedFuelCombustion = 'unallocatedFuelCombustion',
   Waste = 'waste',
 }

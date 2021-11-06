@@ -25,13 +25,14 @@ export enum TilePolicyKey {
 
   // Farm tile policies
   FarmManureManagement2050 = 'FarmManureManagement',
-  FarmRenewableEnergyRequirement2050 = 'FarmRenewableEnergyRequirement2050',
-  FarmRenewableEnergyMagic = 'FarmRenewableEnergyMagic',
   FarmAgriculturalSoilReducedFertilizer = 'FarmAgriculturalSoilReducedFertilizer',
   FarmAgriculturalSoilNoFertilizer = 'FarmAgriculturalSoilNoFertilizer',
-  FarmCroplandManagement = 'FarmCroplandManagement',
   FarmCropBurningReduction = 'FarmCropBurningReduction',
   FarmCropBurningBan = 'FarmCropBurningBan',
+  FarmRenewableEnergyRequirement2050 = 'FarmRenewableEnergyRequirement2050',
+  FarmRenewableEnergyMagic = 'FarmRenewableEnergyMagic',
+  FarmCroplandManagement = 'FarmCroplandManagement',
+  SoilSequestrationMax = 'SoilSequestrationMax',
 
   // Forest tile policies
   ForestDeforestationReduction2050 = 'ForestDeforestationReduction2050',
@@ -143,6 +144,37 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       targetYear: 2050,
     },
   ],
+  [TileOption.AgriculturalSoils]: [
+    {
+      key: TilePolicyKey.FarmAgriculturalSoilReducedFertilizer,
+      target: 50,
+      targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.FarmAgriculturalSoilNoFertilizer,
+      target: 100,
+      targetYear: 2050,
+    }
+  ],
+  [TileOption.CropBurning]: [
+    {
+      key: TilePolicyKey.FarmCropBurningReduction,
+      target: 50,
+      targetYear: 2050,
+    },
+    {
+      key: TilePolicyKey.FarmCropBurningBan,
+      target: 100,
+      targetYear: 2050,
+    }
+  ],
+  [TileOption.SoilSequestration]: [
+    {
+      key: TilePolicyKey.SoilSequestrationMax,
+      target: 100,
+      targetYear: 2050,
+    },
+  ],
   [TileOption.EnergyAgriculture]: [
     {
       key: TilePolicyKey.FarmRenewableEnergyRequirement2050,
@@ -163,54 +195,31 @@ export const TilePolicies: { [opt in TileOption]: Array<IOptionPolicy> } = {
       targetYear: 2050,
     },
   ],
-  [TileOption.CropBurning]: [
-    {
-      key: TilePolicyKey.FarmCropBurningReduction,
-      target: 50,
-      targetYear: 2050,
-    },
-    {
-      key: TilePolicyKey.FarmCropBurningBan,
-      target: 100,
-      targetYear: 2050,
-    }
-  ],
-  [TileOption.AgriculturalSoils]: [
-    {
-      key: TilePolicyKey.FarmAgriculturalSoilReducedFertilizer,
-      target: 50,
-      targetYear: 2050,
-    },
-    {
-      key: TilePolicyKey.FarmAgriculturalSoilNoFertilizer,
-      target: 100,
-      targetYear: 2050,
-    }
-  ],
+
 
   // Forest options
   [TileOption.Reforestation]: [
     {
       key: TilePolicyKey.ForestSomeReforestation2050,
       target: 50,
-      targetYear: 2050,
+      targetYear: 2040,
     },
     {
       key: TilePolicyKey.ForestMaxReforestation2050,
       target: 100,
-      targetYear: 2050,
+      targetYear: 2040,
     },
   ],
   [TileOption.Deforestation]: [
     {
       key: TilePolicyKey.ForestDeforestationReduction2050,
       target: 50,
-      targetYear: 2050,
+      targetYear: 2040,
     },
     {
       key: TilePolicyKey.ForestDeforestationElimination2050,
       target: 100,
-      targetYear: 2050,
+      targetYear: 2040,
     },
   ],
 

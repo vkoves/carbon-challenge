@@ -32,6 +32,9 @@ const DefaultOptionValues = {
  * says "0.82 metric ton CO2/acre/year sequestered annually by one acre of
  * average U.S. forest." Then multiply by the number of acres in a sq. km.,
  * which is 247.1. Thus the value we are looking for is 0.82 * 247.1 = 202.62.
+ *
+ * From "0.82 metric ton CO2/acre/year sequestered annually by one acre of average U.S. forest."
+ * Source; https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
  */
 export const TonnesCO2SequesteredPerSqKmPerYear = 202.62;
 
@@ -43,7 +46,7 @@ export const TonnesToGigatonnesMult = Math.pow(10, -9);
 
 /**
  * 9.5 million sq km comes from the IPPC 1.5 report which lists it as the
- * maximum reforestation they considered
+ * maximum reforestation they considered (9.5 mill square kilometers)
  */
 export const MaxReforestationSqKm = 9.5 * Math.pow(10, 6);
 
@@ -54,6 +57,18 @@ export const MaxReforestationSqKm = 9.5 * Math.pow(10, 6);
 export const MaxReforestationGTCO2SequesteredPerYear
   = MaxReforestationSqKm * TonnesCO2SequesteredPerSqKmPerYear
     * TonnesToGigatonnesMult;
+
+/**
+ * "A recent expert assessment estimates that soil carbon sequestration could be
+ * scaled up to sequester 2–5 GtCO2 per year by 2050"
+ *
+ * Source: https://www.american.edu/sis/centers/carbon-removal/fact-sheet-soil-carbon-sequestration.cfm
+ *
+ * I then use the minimum of that range, since according to the above source the
+ * maximum cumulative potential (due to the limits of the amount of carbon that
+ * can be held in soil) is 104–130 GtCO2, but I can't put that into the system.
+ */
+export const MaxAgricultureGTCO2PerYear = 2;
 
 /** The total weight of emissions by road transport */
 const RoadTransportTotalWeight = 11.9;
@@ -118,6 +133,24 @@ export const TileOptions: { [ type: string ]: IOptions } = {
       weightPrcnt: 5.8,
       policies: getPolicies(TileOption.LivestockAndManure)
     }),
+    [TileOption.AgriculturalSoils]: createOption({
+      tileType: TileType.Farm,
+      optionType: TileOption.AgriculturalSoils,
+      weightPrcnt: 4.1,
+      policies: getPolicies(TileOption.AgriculturalSoils)
+    }),
+    [TileOption.CropBurning]: createOption({
+      tileType: TileType.Farm,
+      optionType: TileOption.CropBurning,
+      weightPrcnt: 3.5,
+      policies: getPolicies(TileOption.CropBurning)
+    }),
+    [TileOption.SoilSequestration]: createOption({
+      tileType: TileType.Farm,
+      optionType: TileOption.SoilSequestration,
+      maxCO2Sequestered: MaxAgricultureGTCO2PerYear,
+      policies: getPolicies(TileOption.SoilSequestration)
+    }),
     // Called "Energy use in agriculture and fishing"
     [TileOption.EnergyAgriculture]: createOption({
       tileType: TileType.Farm,
@@ -130,18 +163,6 @@ export const TileOptions: { [ type: string ]: IOptions } = {
       optionType: TileOption.Cropland,
       weightPrcnt: 1.4,
       policies: getPolicies(TileOption.Cropland)
-    }),
-    [TileOption.CropBurning]: createOption({
-      tileType: TileType.Farm,
-      optionType: TileOption.CropBurning,
-      weightPrcnt: 3.5,
-      policies: getPolicies(TileOption.CropBurning)
-    }),
-    [TileOption.AgriculturalSoils]: createOption({
-      tileType: TileType.Farm,
-      optionType: TileOption.AgriculturalSoils,
-      weightPrcnt: 4.1,
-      policies: getPolicies(TileOption.AgriculturalSoils)
     }),
   },
 
