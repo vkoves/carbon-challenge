@@ -13,7 +13,7 @@
         </div>
 
         <!-- Loop through tiles and fetch their policy via -->
-        <ul>
+        <ul v-if="selectedPolicies.length > 0">
           <li v-for="(policy) in selectedPolicies" v-bind:key="policy.key" class="policy">
             <h2>
                 <img v-if="policy.isMagic"
@@ -33,6 +33,9 @@
             </p>
           </li>
         </ul>
+        <p v-else>
+          You haven't selected any policies yet!
+        </p>
       </div>
     </div>
   </focus-trap>
@@ -137,14 +140,25 @@ export default class PolicyOverlay extends Vue {
 @import './styles/variables/colors';
 @import './styles/variables/spacing';
 
-h1 { margin-bottom: $standard}
+h1 { margin-bottom: $standard; }
+
+ul {
+  max-height: 70vh;
+  overflow-y: scroll;
+  padding-right: $standard;
+  margin-top: $standard;
+  background: $light-grey;
+  padding: $standard;
+}
 
 .policy {
-  box-shadow: 0 0.1rem 0.25rem $shadow-medium;
-  border-radius: 0.25rem;
-  padding: $standard;
-  margin-top: $standard;
+  background-color: $white;
+  padding: $m-large;
   border-left: solid 0.25rem $dark-blue;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.1rem 0.25rem $shadow-medium;
+
+  + .policy { margin-top: $m-large; }
 
   h2 {
     font-size: 1.25rem;
