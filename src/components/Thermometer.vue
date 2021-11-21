@@ -79,7 +79,7 @@ import { Options, Vue } from 'vue-class-component';
     // On tiles changed (likely options updated) recalculate temperature
     tiles: function(newVal) {
       if (!newVal) {
-          return;
+        return;
       }
 
       this.calculateTemperature();

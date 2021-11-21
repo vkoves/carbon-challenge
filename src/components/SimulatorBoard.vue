@@ -4,6 +4,10 @@
       <h1>
         {{ $t('title') }}
 
+        <button @click="currentOverlay = OverlayType.Policy">
+          View Policies
+        </button>
+
         <transition name="fade">
           <img v-if="settings.magicModeEnabled"
             src="@/assets/magic-wand.svg"
@@ -78,6 +82,12 @@
       <WarmingOverlay v-if="currentOverlay === OverlayType.Warming"
         @closed="currentOverlay = undefined"></WarmingOverlay>
     </transition>
+
+    <transition name="fade">
+      <PolicyOverlay v-if="currentOverlay === OverlayType.Policy"
+        :tiles="tiles"
+        @closed="currentOverlay = undefined"></PolicyOverlay>
+    </transition>
   </main>
 </template>
 
@@ -90,26 +100,28 @@ import { TileObj } from '@/classes/tile-obj';
 import { ISimulatorSettings } from '@/interfaces/settings';
 
 import AnalyticsOverlay from './AnalyticsOverlay.vue';
+import PolicyOverlay from './PolicyOverlay.vue';
 import SettingsOverlay from './SettingsOverlay.vue';
 import Thermometer from './Thermometer.vue';
 import Tile from './Tile.vue';
 import TileOverlay from './TileOverlay.vue';
 import WarmingOverlay from './WarmingOverlay.vue';
 
+/* eslint-disable no-unused-vars */
 export enum OverlayType {
-  // eslint-disable-next-line no-unused-vars
   Analytics = 'analytics',
-  // eslint-disable-next-line no-unused-vars
+  Policy = 'policy',
   Settings = 'settings',
-  // eslint-disable-next-line no-unused-vars
   Warming = 'warming',
 }
+/* eslint-enable no-unused-vars */
 
 @Options({
   name: 'SimulatorBoard',
 
   components: {
     AnalyticsOverlay,
+    PolicyOverlay,
     SettingsOverlay,
     Thermometer,
     Tile,
