@@ -4,10 +4,6 @@
       <h1>
         {{ $t('title') }}
 
-        <button @click="currentOverlay = OverlayType.Policy">
-          View Policies
-        </button>
-
         <transition name="fade">
           <img v-if="settings.magicModeEnabled"
             src="@/assets/magic-wand.svg"
@@ -27,15 +23,21 @@
 
       <div class="btn-cont">
         <button class="btn -transparent -small -flex"
+          @click="currentOverlay = OverlayType.Policy">
+          <img src="@/assets/checklist-white.svg" alt="" width="24" height="24">
+          Policies
+        </button>
+
+        <button class="btn -transparent -small -flex"
           @click="currentOverlay = OverlayType.Analytics">
-          {{ $t('simulator.analytics') }}
           <img src="@/assets/graph.svg" alt="" width="24" height="24">
+          {{ $t('simulator.analytics') }}
         </button>
 
         <button class="btn -transparent -small -flex"
           @click="currentOverlay = OverlayType.Settings">
-          {{ $t('simulator.settings') }}
           <img src="@/assets/settings.svg" alt="" width="24" height="24">
+          {{ $t('simulator.settings') }}
         </button>
       </div>
     </div>

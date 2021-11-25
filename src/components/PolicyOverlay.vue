@@ -33,7 +33,7 @@
             </p>
           </li>
         </ul>
-        <p v-else>
+        <p v-else class="empty">
           You haven't selected any policies yet!
         </p>
       </div>
@@ -170,4 +170,6 @@ ul {
   }
   p { margin-top: $small; }
 }
+
+p.empty { margin-top: 0; }
 </style>
