@@ -14,6 +14,11 @@
 
         <h2>Total Warming Calculation</h2>
 
+        <p>
+          Curious about how these calculations were made? Check out
+          <router-link to="/about">Our About Page</router-link>.
+        </p>
+
         <dl>
           <dt>Total Emissions</dt>
           <dd>

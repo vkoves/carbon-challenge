@@ -87,6 +87,7 @@
 
     <transition name="fade">
       <PolicyOverlay v-if="currentOverlay === OverlayType.Policy"
+        :settings="settings"
         :tiles="tiles"
         @closed="currentOverlay = undefined"></PolicyOverlay>
     </transition>
