@@ -66,7 +66,14 @@ import { Options, Vue } from 'vue-class-component';
   }),
 
   emits: {
+    /**
+     * Emits when the help button is clicked, which should show the warming info
+     * overlay
+     */
     helpClick(): void { },
+
+    /** Emits when < 1.5 is reached, which should show the success UI */
+    success(): void { },
   },
 
   methods: {
@@ -79,7 +86,7 @@ import { Options, Vue } from 'vue-class-component';
     // On tiles changed (likely options updated) recalculate temperature
     tiles: function(newVal) {
       if (!newVal) {
-          return;
+        return;
       }
 
       this.calculateTemperature();
@@ -105,6 +112,10 @@ export default class Thermometer extends Vue {
 
     // Convert decimal temperature rise to a %
     this.avgTempAdjusted = (this.avgTempRise / Thermometer.MaxTempRise) * 100;
+
+    if (this.avgTempRise < 1.5) {
+      this.$emit('success');
+    }
   }
 
   // On Thermometer component being mounted, calculate avg. warming

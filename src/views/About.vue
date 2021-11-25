@@ -15,7 +15,7 @@
         <a href="https://github.com/vkoves/carbon-challenge">check it out on GitHub</a>!
       </p>
 
-      <h2>Disclaimers</h2>
+      <h2>Simulator Disclaimers</h2>
 
       <p>
         The Carbon Challenge is a project made by non-scientists, and although
@@ -50,6 +50,13 @@
           policy. Our models assume that a ban on gas cars would mean there are
           zero gas vehicles left on the road at all, but that's extremely
           unlikely in the real world.
+        </li>
+        <li>
+          <strong>Emissions linearly impact global temperatures</strong> - the
+          Earth's climate is very complicated, and there can be events (tipping
+          points) that trigger rapid changes to the Earth's temperature. For
+          the Carbon Challenge, however, we assume each ton of carbon increases
+          the Earth's temperature by the same amount.
         </li>
       </ul>
 

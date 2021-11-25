@@ -23,22 +23,29 @@
 
       <div class="btn-cont">
         <button class="btn -transparent -small -flex"
+          @click="currentOverlay = OverlayType.Policy">
+          <img src="@/assets/checklist-white.svg" alt="" width="24" height="24">
+          Policies
+        </button>
+
+        <button class="btn -transparent -small -flex"
           @click="currentOverlay = OverlayType.Analytics">
-          {{ $t('simulator.analytics') }}
           <img src="@/assets/graph.svg" alt="" width="24" height="24">
+          {{ $t('simulator.analytics') }}
         </button>
 
         <button class="btn -transparent -small -flex"
           @click="currentOverlay = OverlayType.Settings">
-          {{ $t('simulator.settings') }}
           <img src="@/assets/settings.svg" alt="" width="24" height="24">
+          {{ $t('simulator.settings') }}
         </button>
       </div>
     </div>
 
     <div class="main-cont">
       <Thermometer :tiles="tiles"
-        @helpClick="currentOverlay = OverlayType.Warming"></Thermometer>
+        @helpClick="currentOverlay = OverlayType.Warming"
+        @success="showSuccessState()"></Thermometer>
 
       <div class="boards-cont">
         <div class="simulator-board -main">
@@ -65,18 +72,26 @@
     <transition name="fade">
       <AnalyticsOverlay v-if="currentOverlay === OverlayType.Analytics"
         :tiles="tiles"
-        @closed="currentOverlay = undefined"></AnalyticsOverlay>
+        @closed="closeOverlays()"></AnalyticsOverlay>
     </transition>
 
     <transition name="fade">
       <SettingsOverlay v-if="currentOverlay === OverlayType.Settings"
         :settings="settings"
-        @closed="currentOverlay = undefined"></SettingsOverlay>
+        @closed="closeOverlays()"></SettingsOverlay>
     </transition>
 
     <transition name="fade">
       <WarmingOverlay v-if="currentOverlay === OverlayType.Warming"
-        @closed="currentOverlay = undefined"></WarmingOverlay>
+        @closed="closeOverlays()"></WarmingOverlay>
+    </transition>
+
+    <transition name="fade">
+      <PolicyOverlay v-if="currentOverlay === OverlayType.Policy"
+        :settings="settings"
+        :successState="successState"
+        :tiles="tiles"
+        @closed="closeOverlays()"></PolicyOverlay>
     </transition>
   </main>
 </template>
@@ -90,26 +105,28 @@ import { TileObj } from '@/classes/tile-obj';
 import { ISimulatorSettings } from '@/interfaces/settings';
 
 import AnalyticsOverlay from './AnalyticsOverlay.vue';
+import PolicyOverlay from './PolicyOverlay.vue';
 import SettingsOverlay from './SettingsOverlay.vue';
 import Thermometer from './Thermometer.vue';
 import Tile from './Tile.vue';
 import TileOverlay from './TileOverlay.vue';
 import WarmingOverlay from './WarmingOverlay.vue';
 
+/* eslint-disable no-unused-vars */
 export enum OverlayType {
-  // eslint-disable-next-line no-unused-vars
   Analytics = 'analytics',
-  // eslint-disable-next-line no-unused-vars
+  Policy = 'policy',
   Settings = 'settings',
-  // eslint-disable-next-line no-unused-vars
   Warming = 'warming',
 }
+/* eslint-enable no-unused-vars */
 
 @Options({
   name: 'SimulatorBoard',
 
   components: {
     AnalyticsOverlay,
+    PolicyOverlay,
     SettingsOverlay,
     Thermometer,
     Tile,
@@ -130,6 +147,9 @@ export enum OverlayType {
 
     /** The currentOverlay being shown if any. Of type OverlayType. */
     currentOverlay: undefined,
+
+    /** Whether showing the policy overlay upon reaching < 1.5 deg. warming */
+    successState: false,
 
     /** Whether the Escape key was recently pressed, which closes overlay */
     escPressed: false,
@@ -164,10 +184,11 @@ export enum OverlayType {
      * Close all overlays - triggered on press of the Esc key on the document
      */
     closeOverlays(): void {
-      this.showingAnalytics = false;
-      this.showingSettings = false;
-
+      this.currentOverlay = undefined;
       this.escPressed = true;
+
+      // Reset successState on close
+      this.successState = false;
 
       // We only set escPressed very momentarily, as it's basically an event
       // emitter down into child components
@@ -185,6 +206,22 @@ export enum OverlayType {
         this.closeOverlays();
       }
     },
+
+    /**
+     * Show the analytics overlay a short-delay after < 1.5 degrees is reached
+     */
+    showSuccessState(): void {
+      setTimeout(() => {
+        this.closeOverlays();
+
+        // Wait 300ms after closing overlays to show the policy overlay in case
+        // we had to close the tile sidebar
+        setTimeout(() => {
+          this.successState = true;
+          this.currentOverlay = OverlayType.Policy;
+        }, 300);
+      }, 1000);
+    }
   },
 
   mounted(): void {

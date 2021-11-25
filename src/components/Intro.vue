@@ -11,7 +11,7 @@
           {{ $t('intro.slogan2') }}
         </p>
 
-        <router-link to="/simulator" class="btn">
+        <router-link to="/simulator" class="btn -start">
           {{ $t('intro.startBtn') }}
         </router-link>
       </div>
@@ -78,6 +78,11 @@ export default class Intro extends Vue { }
 <style scoped lang="scss">
 @import './styles/variables/colors';
 @import './styles/variables/spacing';
+
+.btn.-start {
+  margin-top: 3rem;
+  font-size: 1.75rem;
+}
 
 .hero {
   display: flex;
