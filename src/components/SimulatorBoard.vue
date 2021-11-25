@@ -44,7 +44,8 @@
 
     <div class="main-cont">
       <Thermometer :tiles="tiles"
-        @helpClick="currentOverlay = OverlayType.Warming"></Thermometer>
+        @helpClick="currentOverlay = OverlayType.Warming"
+        @success="showSuccessState()"></Thermometer>
 
       <div class="boards-cont">
         <div class="simulator-board -main">
@@ -71,25 +72,26 @@
     <transition name="fade">
       <AnalyticsOverlay v-if="currentOverlay === OverlayType.Analytics"
         :tiles="tiles"
-        @closed="currentOverlay = undefined"></AnalyticsOverlay>
+        @closed="closeOverlays()"></AnalyticsOverlay>
     </transition>
 
     <transition name="fade">
       <SettingsOverlay v-if="currentOverlay === OverlayType.Settings"
         :settings="settings"
-        @closed="currentOverlay = undefined"></SettingsOverlay>
+        @closed="closeOverlays()"></SettingsOverlay>
     </transition>
 
     <transition name="fade">
       <WarmingOverlay v-if="currentOverlay === OverlayType.Warming"
-        @closed="currentOverlay = undefined"></WarmingOverlay>
+        @closed="closeOverlays()"></WarmingOverlay>
     </transition>
 
     <transition name="fade">
       <PolicyOverlay v-if="currentOverlay === OverlayType.Policy"
         :settings="settings"
+        :successState="successState"
         :tiles="tiles"
-        @closed="currentOverlay = undefined"></PolicyOverlay>
+        @closed="closeOverlays()"></PolicyOverlay>
     </transition>
   </main>
 </template>
@@ -146,6 +148,9 @@ export enum OverlayType {
     /** The currentOverlay being shown if any. Of type OverlayType. */
     currentOverlay: undefined,
 
+    /** Whether showing the policy overlay upon reaching < 1.5 deg. warming */
+    successState: false,
+
     /** Whether the Escape key was recently pressed, which closes overlay */
     escPressed: false,
 
@@ -179,10 +184,11 @@ export enum OverlayType {
      * Close all overlays - triggered on press of the Esc key on the document
      */
     closeOverlays(): void {
-      this.showingAnalytics = false;
-      this.showingSettings = false;
-
+      this.currentOverlay = undefined;
       this.escPressed = true;
+
+      // Reset successState on close
+      this.successState = false;
 
       // We only set escPressed very momentarily, as it's basically an event
       // emitter down into child components
@@ -200,6 +206,22 @@ export enum OverlayType {
         this.closeOverlays();
       }
     },
+
+    /**
+     * Show the analytics overlay a short-delay after < 1.5 degrees is reached
+     */
+    showSuccessState(): void {
+      setTimeout(() => {
+        this.closeOverlays();
+
+        // Wait 300ms after closing overlays to show the policy overlay in case
+        // we had to close the tile sidebar
+        setTimeout(() => {
+          this.successState = true;
+          this.currentOverlay = OverlayType.Policy;
+        }, 300);
+      }, 1000);
+    }
   },
 
   mounted(): void {

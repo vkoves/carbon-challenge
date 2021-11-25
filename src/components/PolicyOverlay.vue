@@ -4,13 +4,22 @@
       <!-- TODO: Move all text to come from i18n -->
       <div class="overlay-content" @click="absorbClick">
         <div class="title">
-          <h1>Your Policies</h1>
+          <h1 v-if="successState">Great Work, You Did It!</h1>
+          <h1 v-else>Your Policies</h1>
 
           <button id="policy-close" class="btn -blue -light"
             @click="closeOverlay">
             Close
           </button>
         </div>
+
+        <p v-if="successState">
+          <strong>You've reached less than 1.5°C of warming!</strong>
+          The policies you chose will prevent the worst impacts of climate
+          change. Review your selections below, and share what you learned from
+          the Carbon Challenge with your friends and family!
+        </p>
+
 
         <div v-if="selectedPolicies.length > 0" class="temp-info">
           <h2>Outcomes</h2>
@@ -21,8 +30,8 @@
             </strong>
 
             <span v-if="estDegWarming < 1.5" class="temp-info">
-              Great work! Your policy choices will likely avert the largest impacts
-              of
+              Your policy choices will likely avert the largest impacts of
+              climate change. Awesome work!
             </span>
             <span v-else-if="estDegWarming < 2" class="temp-info">
               Almost there! Your policy choices are a great step, but anything
@@ -33,6 +42,12 @@
               That looks like a dangerously hot future! Are there more policies
               you could select to get closer to 1.5°C of warming?
             </span>
+          </p>
+
+          <p v-if="estDegWarming > 1.5">
+            <strong>Tip:</strong> Check out Analytics overlay to learn what
+            tiles are the largest source of emissions - then check out policies
+            available on those tiles!
           </p>
         </div>
 
@@ -53,8 +68,9 @@
           Custom policies are enabled
         </div>
 
-        <!-- Loop through tiles and fetch their policy via -->
-        <ul v-if="selectedPolicies.length > 0">
+        <!-- Loop through tiles and list their selected policies. Uses
+            tabindex="0" to ensure keyboard users can scroll it -->
+        <ul v-if="selectedPolicies.length > 0" tabindex="0">
           <li v-for="(policy) in selectedPolicies" v-bind:key="policy.key" class="policy">
             <h3>
                 <img v-if="policy.isMagic"
@@ -120,6 +136,9 @@ import { Simulator } from '@/classes/simulator';
 
     /** The current simulator settings */
     settings: {} as ISimulatorSettings,
+
+    /** Whether this modal is being shown as the end-game screen */
+    successState: false,
   },
 
   emits: {
@@ -213,7 +232,7 @@ p.temp-info { margin-top: $small; }
 }
 
 ul {
-  max-height: 50vh;
+  max-height: 40vh;
   overflow-y: scroll;
   padding-right: $standard;
   margin-top: $standard;
