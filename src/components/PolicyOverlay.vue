@@ -36,40 +36,40 @@
           </p>
         </div>
 
-        <h2>Policy Selections</h2>
+        <h2 v-if="selectedPolicies.length > 0">Policy Selections</h2>
 
         <!-- Show warnings if magic mode or custom policeis are set -->
         <div v-if="settings.magicModeEnabled" class="warning">
           <img src="@/assets/magic-wand-black.svg"
             class="setting-indicator -magic-mode"
             alt="" width="24" height="24">
-          Magic mode is enabled!
+          Magic mode is enabled
         </div>
 
         <div v-if="settings.customPoliciesEnabled" class="warning">
           <img src="@/assets/graph-black.svg"
             class="setting-indicator -cust-policies"
             alt="" width="24" height="24">
-          Custom Policies Are Enabled!
+          Custom policies are enabled
         </div>
 
         <!-- Loop through tiles and fetch their policy via -->
         <ul v-if="selectedPolicies.length > 0">
           <li v-for="(policy) in selectedPolicies" v-bind:key="policy.key" class="policy">
-            <h2>
+            <h3>
                 <img v-if="policy.isMagic"
                   src="@/assets/magic-wand-black.svg"
                   class="icon -magic-wand"
-                  alt="Magic" width="24" height="24">
+                  alt="Magic" width="18" height="18">
 
                 {{ $t(`simulator.tilePolicies.${policy.key}.name`) }}
-            </h2>
+            </h3>
 
             <div class="emission-change" v-if="policyEmissions[policy.key]">
               {{ policyEmissions[policy.key] }} Gigatonnes CO<sub>2</sub>
             </div>
 
-            <p>
+            <p class="policy-desc">
               {{ $t(`simulator.tilePolicies.${policy.key}.description`) }}
             </p>
           </li>
@@ -187,10 +187,14 @@ export default class PolicyOverlay extends Vue {
 @import './styles/variables/spacing';
 
 // Since this is a very tall modal, make sure it's fully vertically centered
-// rather than skewed to the top
-.overlay-content { margin: 0; }
+// rather than skewed to the top and ensure it never fills the screen
+.overlay-content {
+  margin: 0;
+  max-height: 90vh;
+  overflow-y: auto;
+}
 
-h2 { margin-top: $standard; }
+h2 { margin: $standard 0; }
 
 p.temp {
   font-weight: bold;
@@ -199,7 +203,7 @@ p.temp {
 
 p.temp-info { margin-top: $small; }
 
-p.warning {
+.warning {
   display: inline-flex;
   align-items: center;
   gap: $small;
@@ -220,21 +224,38 @@ ul {
 
 .policy {
   background-color: $white;
-  padding: $m-large;
+  padding: $standard;
   border-left: solid 0.25rem $dark-blue;
   border-radius: 0.25rem;
   box-shadow: 0 0.1rem 0.25rem $shadow-medium;
 
-  + .policy { margin-top: $m-large; }
+  + .policy { margin-top: $standard; }
 
-  h2 {
-    font-size: 1.25rem;
+  h3 {
+    font-size: 1rem;
     margin-bottom: $tiny;
+
+    img { margin-right: $tiny; }
   }
+
   .emission-change {
     font-weight: 500;
     font-size: 0.875rem;
   }
-  p { margin-top: $small; }
+
+  .policy-desc {
+    margin-top: $small;
+    font-size: 0.875rem;
+  }
+}
+
+/**
+ * Mobile styling - make the whole modal scroll rather than the policies list
+ */
+@media (max-width: $mobile-max-width) {
+  ul {
+    max-height: none;
+    overflow-y: hidden;
+  }
 }
 </style>
