@@ -158,6 +158,7 @@ $border-width: 0.375rem;
     overflow: hidden;
     width: $inner-width + $border-width * 2;
     height: 25rem;
+    max-height: 40vh;
     margin: auto;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;

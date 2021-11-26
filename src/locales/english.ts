@@ -151,7 +151,7 @@ export const EnglishLanguageData: ILanguageData = {
       },
       [TilePolicyKey.FarmAgriculturalSoilNoFertilizer]: {
         name: 'Artificial Fertilizer Ban by 2050',
-        description: 'Stop Nitrous Oxide emissions from agriculture by completely banning aritifial fertilizers by 2050.',
+        description: 'Stop Nitrous Oxide emissions from agriculture by completely banning artificial fertilizers by 2050.',
       },
       [TilePolicyKey.FarmCropBurningReduction]: {
         name: 'Reduced Crop Burning',
@@ -175,7 +175,7 @@ export const EnglishLanguageData: ILanguageData = {
       },
       [TilePolicyKey.FarmCroplandManagement]: {
         name: 'Farm Cropland Management',
-        description: 'Improve techniques for manging cropland to ensure soils retain all their carbon by 2050',
+        description: 'Improve techniques for managing cropland to ensure soils retain all their carbon by 2050',
       },
 
 
@@ -190,11 +190,11 @@ export const EnglishLanguageData: ILanguageData = {
       },
       [TilePolicyKey.ForestSomeReforestation2050]: {
         name: 'Moderate Reforestation by 2050',
-        description: 'Reforest 4 million square kilometeres of forest.'
+        description: 'Reforest 4 million square kilometers of forest.'
       },
       [TilePolicyKey.ForestMaxReforestation2050]: {
         name: 'Aggressive Reforestation by 2050',
-        description: 'Reforest 9.5 million square kilometeres of forest.'
+        description: 'Reforest 9.5 million square kilometers of forest.'
       },
       [TilePolicyKey.ForestDirectAirCaptureModerate]: {
         name: 'Moderate Direct Air Capture by 2050',
@@ -240,7 +240,7 @@ export const EnglishLanguageData: ILanguageData = {
       },
       [TilePolicyKey.HomeWasteManagement]: {
         name: 'Greener Waste Management',
-        description: 'Improve management of waste (including landfills and waste water) to reduce emissions 80% by 2050',
+        description: 'Improve management of waste (including landfills and wastewater) to reduce emissions 80% by 2050',
       },
 
       // Office policies
@@ -260,7 +260,7 @@ export const EnglishLanguageData: ILanguageData = {
       // Power policies
       [TilePolicyKey.PowerFugitiveEmissionsClampDown]: {
         name: 'Fugitive Emissions Clampdown',
-        description: 'Clamp down on fugitive emissions from fossil fuel production, halving related emissions by 2050.',
+        description: 'Clamp down on fugitive emissions (methane leakage) from fossil fuel production, halving related emissions by 2050.',
       },
       [TilePolicyKey.PowerFugitiveEmissionsBan2050]: {
         name: 'Fossil Fuel Extraction Ban by 2050',
@@ -268,7 +268,7 @@ export const EnglishLanguageData: ILanguageData = {
       },
       [TilePolicyKey.PowerUnallocatedFuelReduction2050]: {
         name: 'Reduce Unallocated Fuel Emissions',
-        description: 'Use strict laws to reduce emissions from home heating and other unallocated sources 80% by 2050.',
+        description: 'Use strict laws to reduce emissions from home heating, biomass and other unallocated sources 80% by 2050.',
       },
     }
   },

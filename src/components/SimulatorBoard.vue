@@ -241,7 +241,7 @@ export default class SimulatorBoard extends Vue { }
 main {
   // Ensure the simulator always takes up almost the full screen height
   height: calc(100vh - 70px);
-  padding: 6rem;
+  padding: 4rem;
   box-sizing: border-box;
   overflow: hidden;
   color: $white;
@@ -293,6 +293,12 @@ main {
   width: $boardSize;
   height: $boardSize;
   margin: auto;
+}
+
+// Small desktop styling (< 800px tall)
+@media (max-height: 50rem) {
+ main { padding: 1rem 2rem; }
+ .thermometer-cont { margin-top: 0; }
 }
 
 // Mobile styling

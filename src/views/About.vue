@@ -32,7 +32,7 @@
       <ul class="bulleted">
         <li>
           <strong>Without policy, emissions remain constant</strong> - this
-          isn't true in both emission growth and reduction. Even in the abscence
+          isn't true in both emission growth and reduction. Even in the absence
           of any policy, climate change awareness and economic factors will
           likely reduce some types of emissions. However, as economies grow and
           develop, some regions may see increased emissions in the short-term.

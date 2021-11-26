@@ -53,7 +53,7 @@
 
         <h2 v-if="selectedPolicies.length > 0">Policy Selections</h2>
 
-        <!-- Show warnings if magic mode or custom policeis are set -->
+        <!-- Show warnings if magic mode or custom policies are set -->
         <div v-if="settings.magicModeEnabled" class="warning">
           <img src="@/assets/magic-wand-black.svg"
             class="setting-indicator -magic-mode"
