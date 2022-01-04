@@ -138,7 +138,7 @@ export default class Intro extends Vue { }
   }
 
   .img {
-    background-image: url('~@/assets/tile-sheet.png');
+    background-image: url('~@/assets/tile-sheet.webp');
     background-size: 300%;
     padding: 50% 0;
     filter: drop-shadow(1px 2px 0px $shadow-medium);

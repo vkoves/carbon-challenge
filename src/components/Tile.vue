@@ -153,7 +153,7 @@ export default class Tile extends Vue { }
     font-size: 0;
     color: transparent;
     margin: auto;
-    background-image: url('~@/assets/tile-sheet.png');
+    background-image: url('~@/assets/tile-sheet.webp');
     background-size: 300%;
     background-repeat: no-repeat;
     // Default to first tile spot to show rendering error
