@@ -2,57 +2,70 @@
   <a href="#main-content" class="btn -small focus-elem skip-btn">
     Skip to Main Content
   </a>
-  <header :class="{ '-scrolled': isScrolledDown }">
-    <div class="mobile-header" :class="{ '-open': mobileMenuOpen }">
-      <router-link to="/" class="btn -transparent">
-        {{ $t('title') }}
-      </router-link>
 
-      <button class="btn -transparent"
-        :aria-expanded="mobileMenuOpen"
-        @click="mobileMenuOpen = !mobileMenuOpen">
-        <img src="@/assets/menu.svg" alt="Toggle Mobile Menu"
-          width="24" height="24">
-      </button>
+  <header :class="{ '-scrolled': isScrolledDown }">
+    <div class="header-main">
+      <div class="mobile-header" :class="{ '-open': mobileMenuOpen }">
+        <router-link to="/" class="btn -transparent">
+          {{ $t('title') }}
+        </router-link>
+
+        <button class="btn -transparent"
+          :aria-expanded="mobileMenuOpen"
+          @click="mobileMenuOpen = !mobileMenuOpen">
+          <img src="@/assets/menu.svg" alt="Toggle Mobile Menu"
+            width="24" height="24">
+        </button>
+      </div>
+
+      <transition name="vert-slide-fade">
+        <div class="menu-inner" v-show="mobileMenuOpen">
+          <div class="nav-links">
+            <router-link to="/" class="btn -transparent">
+              {{ $t('header.home') }}
+            </router-link>
+            <router-link to="/simulator" class="btn -transparent">
+              {{ $t('header.simulator') }}
+            </router-link>
+            <router-link to="/about" class="btn -transparent">
+              {{ $t('header.about') }}
+            </router-link>
+            <router-link to="/faq" class="btn -transparent">
+              {{ $t('header.faq') }}
+            </router-link>
+            <router-link to="/take-action" class="btn -transparent">
+              {{ $t('header.takeAction') }}
+            </router-link>
+          </div>
+
+          <div class="lang-selector">
+            <label for="lang-select">
+              {{ $t('header.language') }}
+              <img src="@/assets/earth.svg" alt=""
+                width="20" height="20">
+            </label>
+            <select v-model="$i18n.locale" id="lang-select"
+              @change="langagugeChanged">
+              <option v-for="langObj in AvailableLanguages"
+                :key="`${langObj.locale}`"
+                :value="langObj.locale">
+                {{ langObj.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </transition>
     </div>
 
-    <transition name="vert-slide-fade">
-      <div class="menu-inner" v-show="mobileMenuOpen">
-        <div class="nav-links">
-          <router-link to="/" class="btn -transparent">
-            {{ $t('header.home') }}
-          </router-link>
-          <router-link to="/simulator" class="btn -transparent">
-            {{ $t('header.simulator') }}
-          </router-link>
-          <router-link to="/about" class="btn -transparent">
-            {{ $t('header.about') }}
-          </router-link>
-          <router-link to="/faq" class="btn -transparent">
-            {{ $t('header.faq') }}
-          </router-link>
-          <router-link to="/take-action" class="btn -transparent">
-            {{ $t('header.takeAction') }}
-          </router-link>
-        </div>
+    <div class="banner" v-if="showTranslationWarning">
+      {{ $t('translationWarning') }}
 
-        <div class="lang-selector">
-          <label for="lang-select">
-            {{ $t('header.language') }}
-            <img src="@/assets/earth.svg" alt=""
-              width="20" height="20">
-          </label>
-          <select v-model="$i18n.locale" id="lang-select"
-            @change="langagugeChanged">
-            <option v-for="langObj in AvailableLanguages"
-              :key="`${langObj.locale}`"
-              :value="langObj.locale">
-              {{ langObj.name }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </transition>
+      <button class="btn -small -white -dark-focus"
+        @click="dismissTranslationWarning()">
+        <img src="@/assets/close.svg" alt="{{ $t('dismiss') }}"
+          width="20" height="20">
+      </button>
+    </div>
   </header>
 
   <router-view v-slot="{ Component }">
@@ -76,11 +89,22 @@ import { AvailableLanguages } from '@/constants/languages';
     AvailableLanguages: AvailableLanguages,
     mobileMenuOpen: false,
     isScrolledDown: false,
+    showTranslationWarning: false,
   }),
 
   methods: {
     closeMenu(): void {
       this.mobileMenuOpen = false;
+    },
+
+    /**
+     * Dismiss the translation warning and note this in localStorage to make
+     * sure it doesn't show up again
+     */
+    dismissTranslationWarning() {
+      localStorage.setItem(App.DismissTranslationWarningKey, 'true');
+
+      this.showTranslationWarning = false;
     },
 
     /**
@@ -99,7 +123,25 @@ import { AvailableLanguages } from '@/constants/languages';
       App.setTitleFromRoute(this.$route);
 
       localStorage.setItem(App.LocaleStorageKey, this.$i18n.locale);
+
+      this.showTranslationWarning = this.shouldShowTranslationWarning();
+
+      console.log('showTranslationWarning');
     },
+
+    /**
+     * Whether we need to show the translation warning
+     *
+     * Only show translation warning if the locale specifies it should and the \
+     * user hasn't already dismissed it
+     */
+    shouldShowTranslationWarning(): boolean {
+      const cachedDismissedTranslationWarning
+        = localStorage.getItem(App.DismissTranslationWarningKey);
+
+      return JSON.parse(i18n.global.t('showTranslationWarning'))
+        && !cachedDismissedTranslationWarning;
+    }
   },
 
   mounted() {
@@ -107,6 +149,9 @@ import { AvailableLanguages } from '@/constants/languages';
 
     if (cachedLocale) {
       this.$i18n.locale = cachedLocale;
+
+
+      this.showTranslationWarning = this.shouldShowTranslationWarning();
     }
 
     const closeMenuFunc = this.closeMenu;
@@ -124,6 +169,7 @@ import { AvailableLanguages } from '@/constants/languages';
 
 export default class App extends Vue {
   static readonly LocaleStorageKey = 'i18n-locale';
+  static readonly DismissTranslationWarningKey = 'dismissed-translation-warning';
 
   /**
    * Set the document title based on the current route using the i18n library to
@@ -159,14 +205,36 @@ header {
   position: sticky;
   top: 0;
   background-color: $dark-blue;
-  padding: 0.75rem 2rem;
-  width: 100%;
   z-index: 10;
+  width: 100%;
   box-sizing: border-box;
   transition: box-shadow 0.3s;
 
-  &.-scrolled {
-    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.5);
+  // Show a box-shadow if the user is not at the top of the page to distinguish
+  // the header from content
+  &.-scrolled { box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.5); }
+
+  .header-main, .banner {
+    padding: 0.75rem 2rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $light-grey;
+    line-height: 1.25;
+
+    button {
+      display: flex;
+      align-items: center;
+      line-height: 1;
+      padding: 0.3rem;
+      margin: 0;
+      background-color: $white;
+    }
   }
 
   .menu-inner, .mobile-header {

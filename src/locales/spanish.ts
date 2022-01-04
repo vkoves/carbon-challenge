@@ -5,6 +5,13 @@ import { TilePolicyKey } from '@/constants/tile-policies';
 export const SpanishLanguageData: ILanguageData = {
   title: 'El Desafío Del Carbono',
 
+  showTranslationWarning: 'true',
+  translationWarning:
+    'Esta traducción es todavía un trabajo en progreso, ' +
+    'y algunas traducciones pueden faltar o ser incorrectas. ' +
+    '¡Para ayudarnos a mejorar las traducciones, consulte la página Acerca de!',
+  dismiss: 'Despedir',
+
   header: {
     about: 'Sobre',
     faq: 'FAQ',

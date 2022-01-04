@@ -10,6 +10,20 @@ import { TilePolicyKey } from '../constants/tile-policies';
 export interface ILanguageData {
   title: string;
 
+  /**
+   * Whether this language should show a warning for these translations, such
+   * as that they are not done or all auto generated
+   */
+  showTranslationWarning: 'true' | 'false';
+
+  /**
+   * The translation warning to show if showTranslationWarning is true for
+   * this language
+   */
+  translationWarning?: string;
+
+  dismiss: string;
+
   // These are also used for page titles
   header: {
     home: string;
