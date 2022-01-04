@@ -5,6 +5,16 @@ import { TilePolicyKey } from '@/constants/tile-policies';
 export const EnglishLanguageData: ILanguageData = {
   title: 'The Carbon Challenge',
 
+  showTranslationWarning: 'false',
+
+  // The base warning we use for WIP translations that we translate over.
+  // English is not currently showing a warnign
+  translationWarning:
+    'This translation is still a work in progress, ' +
+    'and some translations may be missing or incorrect. ' +
+    'To help us improve translations, checkout the About page!',
+  dismiss: 'Dismiss',
+
   header: {
     about: 'About',
     faq: 'FAQ',

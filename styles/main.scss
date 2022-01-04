@@ -144,6 +144,10 @@ button, a.btn {
     outline-color: transparent;
     outline-width: 0px;
     box-shadow: 0 0 0.125rem 0.3rem $white;
+
+    &.-dark-focus {
+      box-shadow: 0 0 0.125rem 0.3rem $shadow-dark;
+    }
   }
 
   &.-small { font-size: 1rem; }
