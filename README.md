@@ -50,6 +50,10 @@ After setup, run:
 yarn lint
 ```
 
+## Deploys
+
+The Carbon Challenge deploys automatically via Netlify, which will automatically deploy new versions anytime the `main` branch is updated.
+
 ## References
 
 To see reference data, see the About page and the `/reference-data` folder.
